@@ -1,0 +1,114 @@
+.box-sizing {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  margin: 0;
+  position: relative;
+}
+.wbkw-box {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  margin: 0;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+}
+.wbkw-box > .wbk-vflex {
+  flex: 1;
+}
+.wbkw-box.wbk-top {
+  justify-content: flex-start;
+}
+.wbkw-box.wbk-middle {
+  justify-content: center;
+}
+.wbkw-box.wbk-bottom {
+  justify-content: flex-end;
+}
+.wbkw-box.wbk-left {
+  align-items: flex-start;
+}
+.wbkw-box.wbk-center {
+  align-items: center;
+}
+.wbkw-box.wbk-right {
+  align-items: flex-end;
+}
+.wbkw-hlayout {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  margin: 0;
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: flex-start;
+}
+.wbkw-hlayout > .wbkw-hlayout-content {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  margin: 0;
+  position: relative;
+}
+.wbkw-hlayout.wbk-top {
+  align-items: flex-start;
+}
+.wbkw-hlayout.wbk-middle {
+  align-items: center;
+}
+.wbkw-hlayout.wbk-bottom {
+  align-items: flex-end;
+}
+.wbkw-hlayout.wbk-left {
+  justify-content: flex-start;
+}
+.wbkw-hlayout.wbk-center {
+  justify-content: center;
+}
+.wbkw-hlayout.wbk-right {
+  justify-content: flex-end;
+}
+.wbkw-vlayout {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  margin: 0;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+.wbkw-vlayout > .wbkw-vlayout-content {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  margin: 0;
+  position: relative;
+}
+.wbkw-vlayout > .wbkw-vlayout-content > .wbk-vflex {
+  flex: 1;
+}
+.wbkw-vlayout.wbk-top {
+  justify-content: flex-start;
+}
+.wbkw-vlayout.wbk-middle {
+  justify-content: center;
+}
+.wbkw-vlayout.wbk-bottom {
+  justify-content: flex-end;
+}
+.wbkw-vlayout.wbk-left {
+  align-items: flex-start;
+}
+.wbkw-vlayout.wbk-center {
+  align-items: center;
+}
+.wbkw-vlayout.wbk-right {
+  align-items: flex-end;
+}
+
+/*# sourceMappingURL=../srcmap/widget/layout.css.map */
