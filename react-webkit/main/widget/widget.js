@@ -386,16 +386,17 @@ define(["require", "exports", 'react', 'react-dom', 'jquery', 'react-webkit/util
             return str.join(' ');
         };
         Checkbox.prototype.getRenderChildren = function () {
+            var inpid;
+            if (this.props.id) {
+                inpid = this.props.id + '_inp';
+            }
             var label;
             if (this.props.label) {
-                label = React.createElement("span", {key: 'l'}, this.props.label);
-            }
-            else if (this.props.children) {
-                label = React.createElement("span", {key: 'l'}, this.props.children);
+                label = React.createElement("label", {key: 'l', htmlFor: inpid}, this.props.label);
             }
             var onChange = (this.props.onChange || this.props.doCheck) ? this.onChange.bind(this) : undefined;
             var readonly = this.props.checked && !onChange ? true : undefined;
-            return [React.createElement("input", {key: 'i', type: 'checkbox', ref: 'checkbox', onChange: onChange, checked: this.props.checked, readOnly: readonly, disabled: this.props.disabled}), label];
+            return [React.createElement("input", {key: 'i', id: inpid, type: 'checkbox', ref: 'checkbox', onChange: onChange, checked: this.props.checked, readOnly: readonly, disabled: this.props.disabled, name: this.props.name}), label];
         };
         Checkbox.defaultProps = mergeProps({}, Widget.defaultProps);
         return Checkbox;

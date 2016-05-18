@@ -19,19 +19,25 @@
   box-sizing: border-box;
   margin: 0;
   position: relative;
-  display: flex;
-  align-items: center;
+  display: inline-block;
 }
 .wbkw-checkbox > input {
   cursor: pointer;
+  vertical-align: middle;
+  width: 16px;
+  height: 16px;
 }
 .wbkw-checkbox > input[disabled] {
   cursor: default;
 }
-.wbkw-checkbox > span {
+.wbkw-checkbox > label {
   padding-left: 4px;
+  vertical-align: middle;
 }
-.wbkw-checkbox.wbk-disabled > span {
+.wbkw-checkbox > label[for] {
+  cursor: pointer;
+}
+.wbkw-checkbox.wbk-disabled > label {
   color: #606060;
 }
 .wbkw-list {

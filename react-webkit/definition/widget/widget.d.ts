@@ -118,6 +118,7 @@ export interface CheckboxProps extends WidgetProps {
     checked?: boolean;
     disabled?: boolean;
     label?: string;
+    name?: string;
 }
 export declare class Checkbox extends Widget<CheckboxProps, any> {
     static defaultProps: CheckboxProps;

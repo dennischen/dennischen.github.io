@@ -54,17 +54,18 @@ return /******/ (function(modules) { // webpackBootstrap
 /* 0 */
 /***/ function(module, exports, __webpack_require__) {
 
-	'use strict'
+	'use strict';
 	//include css rules
+
 	var css = __webpack_require__(1);
 
-	var Widget = __webpack_require__(5)
-	var Layout = __webpack_require__(10)
+	var Widget = __webpack_require__(5);
+	var Layout = __webpack_require__(10);
 
 	module.exports = {
-	    Widget,
-	    Layout
-	}
+	    Widget: Widget,
+	    Layout: Layout
+	};
 
 /***/ },
 /* 1 */
@@ -101,7 +102,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 	// module
-	exports.push([module.id, ".box-sizing {\n  -webkit-box-sizing: border-box;\n  -moz-box-sizing: border-box;\n  box-sizing: border-box;\n  margin: 0;\n  position: relative;\n}\n.wbk-hflex {\n  width: 100%;\n  overflow-x: hidden;\n}\n.wbk-vflex {\n  height: 100%;\n  overflow-y: hidden;\n}\n.wbkw-checkbox {\n  -webkit-box-sizing: border-box;\n  -moz-box-sizing: border-box;\n  box-sizing: border-box;\n  margin: 0;\n  position: relative;\n  display: flex;\n  align-items: center;\n}\n.wbkw-checkbox > input {\n  cursor: pointer;\n}\n.wbkw-checkbox > input[disabled] {\n  cursor: default;\n}\n.wbkw-checkbox > span {\n  padding-left: 4px;\n}\n.wbkw-checkbox.wbk-disabled > span {\n  color: #606060;\n}\n.wbkw-list {\n  -webkit-box-sizing: border-box;\n  -moz-box-sizing: border-box;\n  box-sizing: border-box;\n  margin: 0;\n  position: relative;\n  overflow-y: auto;\n}\n.wbkw-list > ul {\n  -webkit-box-sizing: border-box;\n  -moz-box-sizing: border-box;\n  box-sizing: border-box;\n  margin: 0;\n  padding: 0;\n  position: relative;\n  list-style: none;\n}\n.wbkw-list > ul > li {\n  -webkit-box-sizing: border-box;\n  -moz-box-sizing: border-box;\n  box-sizing: border-box;\n  margin: 0;\n  position: relative;\n  padding: 3px;\n  cursor: pointer;\n}\n.wbkw-list > ul > li:hover {\n  background-color: rgba(0, 0, 0, 0.03);\n}\n.wbkw-list > ul > li.wbk-selected {\n  background-color: rgba(0, 0, 0, 0.15);\n}\n.wbkw-list > ul > li:active {\n  background-color: rgba(0, 0, 0, 0.2);\n}\n.wbkw-list.wbk-disabled > ul > li {\n  cursor: default;\n  color: #606060;\n}\n.wbkw-list.wbk-disabled > ul > li:hover,\n.wbkw-list.wbk-disabled > ul > li :active {\n  background-color: inherit;\n}\n.wbkw-list.wbk-disabled > ul > li.wbk-selected {\n  background-color: rgba(0, 0, 0, 0.15);\n}\n.wbkw-list.dark-bg > ul > li:hover {\n  background-color: rgba(255, 255, 255, 0.05);\n}\n.wbkw-list.dark-bg > ul > li.wbk-selected {\n  background-color: rgba(255, 255, 255, 0.2);\n}\n.wbkw-list.dark-bg > ul > li:active {\n  background-color: rgba(255, 255, 255, 0.3);\n}\n.wbkw-box {\n  -webkit-box-sizing: border-box;\n  -moz-box-sizing: border-box;\n  box-sizing: border-box;\n  margin: 0;\n  position: relative;\n  display: flex;\n  flex-direction: column;\n  justify-content: flex-start;\n  align-items: flex-start;\n}\n.wbkw-box > .wbk-vflex {\n  flex: 1;\n}\n.wbkw-box.wbk-top {\n  justify-content: flex-start;\n}\n.wbkw-box.wbk-middle {\n  justify-content: center;\n}\n.wbkw-box.wbk-bottom {\n  justify-content: flex-end;\n}\n.wbkw-box.wbk-left {\n  align-items: flex-start;\n}\n.wbkw-box.wbk-center {\n  align-items: center;\n}\n.wbkw-box.wbk-right {\n  align-items: flex-end;\n}\n.wbkw-hlayout {\n  -webkit-box-sizing: border-box;\n  -moz-box-sizing: border-box;\n  box-sizing: border-box;\n  margin: 0;\n  position: relative;\n  display: flex;\n  flex-direction: row;\n  justify-content: flex-start;\n  align-items: flex-start;\n}\n.wbkw-hlayout > .wbkw-hlayout-content {\n  -webkit-box-sizing: border-box;\n  -moz-box-sizing: border-box;\n  box-sizing: border-box;\n  margin: 0;\n  position: relative;\n}\n.wbkw-hlayout.wbk-top {\n  align-items: flex-start;\n}\n.wbkw-hlayout.wbk-middle {\n  align-items: center;\n}\n.wbkw-hlayout.wbk-bottom {\n  align-items: flex-end;\n}\n.wbkw-hlayout.wbk-left {\n  justify-content: flex-start;\n}\n.wbkw-hlayout.wbk-center {\n  justify-content: center;\n}\n.wbkw-hlayout.wbk-right {\n  justify-content: flex-end;\n}\n.wbkw-vlayout {\n  -webkit-box-sizing: border-box;\n  -moz-box-sizing: border-box;\n  box-sizing: border-box;\n  margin: 0;\n  position: relative;\n  display: flex;\n  flex-direction: column;\n}\n.wbkw-vlayout > .wbkw-vlayout-content {\n  -webkit-box-sizing: border-box;\n  -moz-box-sizing: border-box;\n  box-sizing: border-box;\n  margin: 0;\n  position: relative;\n}\n.wbkw-vlayout > .wbkw-vlayout-content > .wbk-vflex {\n  flex: 1;\n}\n.wbkw-vlayout.wbk-top {\n  justify-content: flex-start;\n}\n.wbkw-vlayout.wbk-middle {\n  justify-content: center;\n}\n.wbkw-vlayout.wbk-bottom {\n  justify-content: flex-end;\n}\n.wbkw-vlayout.wbk-left {\n  align-items: flex-start;\n}\n.wbkw-vlayout.wbk-center {\n  align-items: center;\n}\n.wbkw-vlayout.wbk-right {\n  align-items: flex-end;\n}\n\n/*# sourceMappingURL=srcmap/react-webkit.css.map */\n", ""]);
+	exports.push([module.id, ".box-sizing {\n  -webkit-box-sizing: border-box;\n  -moz-box-sizing: border-box;\n  box-sizing: border-box;\n  margin: 0;\n  position: relative;\n}\n.wbk-hflex {\n  width: 100%;\n  overflow-x: hidden;\n}\n.wbk-vflex {\n  height: 100%;\n  overflow-y: hidden;\n}\n.wbkw-checkbox {\n  -webkit-box-sizing: border-box;\n  -moz-box-sizing: border-box;\n  box-sizing: border-box;\n  margin: 0;\n  position: relative;\n  display: inline-block;\n}\n.wbkw-checkbox > input {\n  cursor: pointer;\n  vertical-align: middle;\n  width: 16px;\n  height: 16px;\n}\n.wbkw-checkbox > input[disabled] {\n  cursor: default;\n}\n.wbkw-checkbox > label {\n  padding-left: 4px;\n  vertical-align: middle;\n}\n.wbkw-checkbox > label[for] {\n  cursor: pointer;\n}\n.wbkw-checkbox.wbk-disabled > label {\n  color: #606060;\n}\n.wbkw-list {\n  -webkit-box-sizing: border-box;\n  -moz-box-sizing: border-box;\n  box-sizing: border-box;\n  margin: 0;\n  position: relative;\n  overflow-y: auto;\n}\n.wbkw-list > ul {\n  -webkit-box-sizing: border-box;\n  -moz-box-sizing: border-box;\n  box-sizing: border-box;\n  margin: 0;\n  padding: 0;\n  position: relative;\n  list-style: none;\n}\n.wbkw-list > ul > li {\n  -webkit-box-sizing: border-box;\n  -moz-box-sizing: border-box;\n  box-sizing: border-box;\n  margin: 0;\n  position: relative;\n  padding: 3px;\n  cursor: pointer;\n}\n.wbkw-list > ul > li:hover {\n  background-color: rgba(0, 0, 0, 0.03);\n}\n.wbkw-list > ul > li.wbk-selected {\n  background-color: rgba(0, 0, 0, 0.15);\n}\n.wbkw-list > ul > li:active {\n  background-color: rgba(0, 0, 0, 0.2);\n}\n.wbkw-list.wbk-disabled > ul > li {\n  cursor: default;\n  color: #606060;\n}\n.wbkw-list.wbk-disabled > ul > li:hover,\n.wbkw-list.wbk-disabled > ul > li :active {\n  background-color: inherit;\n}\n.wbkw-list.wbk-disabled > ul > li.wbk-selected {\n  background-color: rgba(0, 0, 0, 0.15);\n}\n.wbkw-list.dark-bg > ul > li:hover {\n  background-color: rgba(255, 255, 255, 0.05);\n}\n.wbkw-list.dark-bg > ul > li.wbk-selected {\n  background-color: rgba(255, 255, 255, 0.2);\n}\n.wbkw-list.dark-bg > ul > li:active {\n  background-color: rgba(255, 255, 255, 0.3);\n}\n.wbkw-box {\n  -webkit-box-sizing: border-box;\n  -moz-box-sizing: border-box;\n  box-sizing: border-box;\n  margin: 0;\n  position: relative;\n  display: flex;\n  flex-direction: column;\n  justify-content: flex-start;\n  align-items: flex-start;\n}\n.wbkw-box > .wbk-vflex {\n  flex: 1;\n}\n.wbkw-box.wbk-top {\n  justify-content: flex-start;\n}\n.wbkw-box.wbk-middle {\n  justify-content: center;\n}\n.wbkw-box.wbk-bottom {\n  justify-content: flex-end;\n}\n.wbkw-box.wbk-left {\n  align-items: flex-start;\n}\n.wbkw-box.wbk-center {\n  align-items: center;\n}\n.wbkw-box.wbk-right {\n  align-items: flex-end;\n}\n.wbkw-hlayout {\n  -webkit-box-sizing: border-box;\n  -moz-box-sizing: border-box;\n  box-sizing: border-box;\n  margin: 0;\n  position: relative;\n  display: flex;\n  flex-direction: row;\n  justify-content: flex-start;\n  align-items: flex-start;\n}\n.wbkw-hlayout > .wbkw-hlayout-content {\n  -webkit-box-sizing: border-box;\n  -moz-box-sizing: border-box;\n  box-sizing: border-box;\n  margin: 0;\n  position: relative;\n}\n.wbkw-hlayout.wbk-top {\n  align-items: flex-start;\n}\n.wbkw-hlayout.wbk-middle {\n  align-items: center;\n}\n.wbkw-hlayout.wbk-bottom {\n  align-items: flex-end;\n}\n.wbkw-hlayout.wbk-left {\n  justify-content: flex-start;\n}\n.wbkw-hlayout.wbk-center {\n  justify-content: center;\n}\n.wbkw-hlayout.wbk-right {\n  justify-content: flex-end;\n}\n.wbkw-vlayout {\n  -webkit-box-sizing: border-box;\n  -moz-box-sizing: border-box;\n  box-sizing: border-box;\n  margin: 0;\n  position: relative;\n  display: flex;\n  flex-direction: column;\n}\n.wbkw-vlayout > .wbkw-vlayout-content {\n  -webkit-box-sizing: border-box;\n  -moz-box-sizing: border-box;\n  box-sizing: border-box;\n  margin: 0;\n  position: relative;\n}\n.wbkw-vlayout > .wbkw-vlayout-content > .wbk-vflex {\n  flex: 1;\n}\n.wbkw-vlayout.wbk-top {\n  justify-content: flex-start;\n}\n.wbkw-vlayout.wbk-middle {\n  justify-content: center;\n}\n.wbkw-vlayout.wbk-bottom {\n  justify-content: flex-end;\n}\n.wbkw-vlayout.wbk-left {\n  align-items: flex-start;\n}\n.wbkw-vlayout.wbk-center {\n  align-items: center;\n}\n.wbkw-vlayout.wbk-right {\n  align-items: flex-end;\n}\n\n/*# sourceMappingURL=srcmap/react-webkit.css.map */\n", ""]);
 
 	// exports
 
@@ -110,20 +111,22 @@ return /******/ (function(modules) { // webpackBootstrap
 /* 3 */
 /***/ function(module, exports) {
 
+	"use strict";
+
 	/*
 		MIT License http://www.opensource.org/licenses/mit-license.php
 		Author Tobias Koppers @sokra
 	*/
 	// css base code, injected by the css-loader
-	module.exports = function() {
+	module.exports = function () {
 		var list = [];
 
 		// return the list of modules as css string
 		list.toString = function toString() {
 			var result = [];
-			for(var i = 0; i < this.length; i++) {
+			for (var i = 0; i < this.length; i++) {
 				var item = this[i];
-				if(item[2]) {
+				if (item[2]) {
 					result.push("@media " + item[2] + "{" + item[1] + "}");
 				} else {
 					result.push(item[1]);
@@ -133,25 +136,23 @@ return /******/ (function(modules) { // webpackBootstrap
 		};
 
 		// import a list of modules into the list
-		list.i = function(modules, mediaQuery) {
-			if(typeof modules === "string")
-				modules = [[null, modules, ""]];
+		list.i = function (modules, mediaQuery) {
+			if (typeof modules === "string") modules = [[null, modules, ""]];
 			var alreadyImportedModules = {};
-			for(var i = 0; i < this.length; i++) {
+			for (var i = 0; i < this.length; i++) {
 				var id = this[i][0];
-				if(typeof id === "number")
-					alreadyImportedModules[id] = true;
+				if (typeof id === "number") alreadyImportedModules[id] = true;
 			}
-			for(i = 0; i < modules.length; i++) {
+			for (i = 0; i < modules.length; i++) {
 				var item = modules[i];
 				// skip already imported module
 				// this implementation is not 100% perfect for weird media query combinations
 				//  when a module is imported multiple times with different media queries.
 				//  I hope this will never occur (Hey this way we have smaller bundles)
-				if(typeof item[0] !== "number" || !alreadyImportedModules[item[0]]) {
-					if(mediaQuery && !item[2]) {
+				if (typeof item[0] !== "number" || !alreadyImportedModules[item[0]]) {
+					if (mediaQuery && !item[2]) {
 						item[2] = mediaQuery;
-					} else if(mediaQuery) {
+					} else if (mediaQuery) {
 						item[2] = "(" + item[2] + ") and (" + mediaQuery + ")";
 					}
 					list.push(item);
@@ -160,7 +161,6 @@ return /******/ (function(modules) { // webpackBootstrap
 		};
 		return list;
 	};
-
 
 /***/ },
 /* 4 */
@@ -418,13 +418,19 @@ return /******/ (function(modules) { // webpackBootstrap
 /* 5 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;var __extends = (this && this.__extends) || function (d, b) {
-	    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-	    function __() { this.constructor = d; }
+	var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;"use strict";
+
+	var __extends = undefined && undefined.__extends || function (d, b) {
+	    for (var p in b) {
+	        if (b.hasOwnProperty(p)) d[p] = b[p];
+	    }function __() {
+	        this.constructor = d;
+	    }
 	    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 	};
 	!(__WEBPACK_AMD_DEFINE_ARRAY__ = [__webpack_require__, exports, __webpack_require__(6), __webpack_require__(7), __webpack_require__(8), __webpack_require__(9)], __WEBPACK_AMD_DEFINE_RESULT__ = function (require, exports, React, ReactDOM, jq, Util) {
 	    "use strict";
+
 	    exports.QUEUE_EVENTS = {
 	        ON_RESIZE: 'onResize'
 	    };
@@ -438,8 +444,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        if (!window[queueName]) {
 	            window[queueName] = queue = new Util.SimpleQueue();
 	            jq(window).bind('resize', sendResize);
-	        }
-	        else {
+	        } else {
 	            queue = window[queueName];
 	        }
 	    }
@@ -461,7 +466,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        AniEffect[AniEffect["slideLeft"] = 3] = "slideLeft";
 	    })(exports.AniEffect || (exports.AniEffect = {}));
 	    var AniEffect = exports.AniEffect;
-	    var IndexSelection = (function () {
+	    var IndexSelection = function () {
 	        function IndexSelection() {
 	            var _this = this;
 	            var selection = [];
@@ -512,9 +517,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	            return this.selection.length == 0 ? undefined : this.selection.slice();
 	        };
 	        return IndexSelection;
-	    }());
+	    }();
 	    exports.IndexSelection = IndexSelection;
-	    var InstanceSelection = (function () {
+	    var InstanceSelection = function () {
 	        function InstanceSelection() {
 	            var _this = this;
 	            var selection = [];
@@ -567,9 +572,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	            return this.selection.length == 0 ? undefined : this.selection.slice();
 	        };
 	        return InstanceSelection;
-	    }());
+	    }();
 	    exports.InstanceSelection = InstanceSelection;
-	    var KeySelection = (function () {
+	    var KeySelection = function () {
 	        function KeySelection(key) {
 	            var _this = this;
 	            var selection = [];
@@ -625,9 +630,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	            return this.selection.length == 0 ? undefined : this.selection.slice();
 	        };
 	        return KeySelection;
-	    }());
+	    }();
 	    exports.KeySelection = KeySelection;
-	    var Widget = (function (_super) {
+	    var Widget = function (_super) {
 	        __extends(Widget, _super);
 	        function Widget(props) {
 	            _super.call(this, props);
@@ -644,14 +649,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	                this._registedQueue = false;
 	            }
 	        };
-	        Widget.prototype.componentWillMount = function () {
-	        };
-	        Widget.prototype.componentDidMount = function () {
-	        };
-	        Widget.prototype.componentWillUnmount = function () {
-	        };
-	        Widget.prototype.componentWillReceiveProps = function (nextProps) {
-	        };
+	        Widget.prototype.componentWillMount = function () {};
+	        Widget.prototype.componentDidMount = function () {};
+	        Widget.prototype.componentWillUnmount = function () {};
+	        Widget.prototype.componentWillReceiveProps = function (nextProps) {};
 	        Widget.prototype.componentWillUpdate = function (nextProps, prevState) {
 	            if (nextProps.animation) {
 	                this._willAnimate = true;
@@ -662,9 +663,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	            var _this = this;
 	            var willAni = this._willAnimate;
 	            delete this._willAnimate;
-	            if (this.props.hidden != prevProps.hidden
-	                || this.props.hflex != prevProps.hflex
-	                || this.props.vflex != prevProps.vflex) {
+	            if (this.props.hidden != prevProps.hidden || this.props.hflex != prevProps.hflex || this.props.vflex != prevProps.vflex) {
 	                if (!willAni) {
 	                    return;
 	                }
@@ -691,16 +690,20 @@ return /******/ (function(modules) { // webpackBootstrap
 	                }
 	            }
 	        };
-	        Widget.prototype.onQueueEvent = function (evt) { };
+	        Widget.prototype.onQueueEvent = function (evt) {};
 	        Widget.prototype.sendQueueEvent = function (name, data) {
-	            if (data === void 0) { data = {}; }
+	            if (data === void 0) {
+	                data = {};
+	            }
 	            queue.send({
 	                name: name,
 	                data: data
 	            });
 	        };
 	        Widget.prototype.postQueueEvent = function (name, data) {
-	            if (data === void 0) { data = {}; }
+	            if (data === void 0) {
+	                data = {};
+	            }
 	            queue.post({
 	                name: name,
 	                data: data
@@ -735,8 +738,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	                if (this._willAnimateHidden) {
 	                    css.display = 'none';
 	                }
-	            }
-	            else if (this.props.hidden) {
+	            } else if (this.props.hidden) {
 	                css.display = 'none';
 	            }
 	            return css;
@@ -761,9 +763,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	        Widget.defaultProps = {};
 	        Widget._widgetMagic = true;
 	        return Widget;
-	    }(React.Component));
+	    }(React.Component);
 	    exports.Widget = Widget;
-	    var Fonticon = (function (_super) {
+	    var Fonticon = function (_super) {
 	        __extends(Fonticon, _super);
 	        function Fonticon() {
 	            _super.apply(this, arguments);
@@ -779,9 +781,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	        };
 	        Fonticon.defaultProps = mergeProps({}, Widget.defaultProps);
 	        return Fonticon;
-	    }(Widget));
+	    }(Widget);
 	    exports.Fonticon = Fonticon;
-	    var Checkbox = (function (_super) {
+	    var Checkbox = function (_super) {
 	        __extends(Checkbox, _super);
 	        function Checkbox() {
 	            _super.apply(this, arguments);
@@ -806,22 +808,23 @@ return /******/ (function(modules) { // webpackBootstrap
 	            return str.join(' ');
 	        };
 	        Checkbox.prototype.getRenderChildren = function () {
+	            var inpid;
+	            if (this.props.id) {
+	                inpid = this.props.id + '_inp';
+	            }
 	            var label;
 	            if (this.props.label) {
-	                label = React.createElement("span", {key: 'l'}, this.props.label);
+	                label = React.createElement("label", { key: 'l', htmlFor: inpid }, this.props.label);
 	            }
-	            else if (this.props.children) {
-	                label = React.createElement("span", {key: 'l'}, this.props.children);
-	            }
-	            var onChange = (this.props.onChange || this.props.doCheck) ? this.onChange.bind(this) : undefined;
+	            var onChange = this.props.onChange || this.props.doCheck ? this.onChange.bind(this) : undefined;
 	            var readonly = this.props.checked && !onChange ? true : undefined;
-	            return [React.createElement("input", {key: 'i', type: 'checkbox', ref: 'checkbox', onChange: onChange, checked: this.props.checked, readOnly: readonly, disabled: this.props.disabled}), label];
+	            return [React.createElement("input", { key: 'i', id: inpid, type: 'checkbox', ref: 'checkbox', onChange: onChange, checked: this.props.checked, readOnly: readonly, disabled: this.props.disabled, name: this.props.name }), label];
 	        };
 	        Checkbox.defaultProps = mergeProps({}, Widget.defaultProps);
 	        return Checkbox;
-	    }(Widget));
+	    }(Widget);
 	    exports.Checkbox = Checkbox;
-	    var List = (function (_super) {
+	    var List = function (_super) {
 	        __extends(List, _super);
 	        function List() {
 	            _super.apply(this, arguments);
@@ -867,11 +870,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	                    var onItemContextMenu = props.onItemContextMenu ? function (evt) {
 	                        props.onItemContextMenu(evt, idx, each);
 	                    } : undefined;
-	                    return React.createElement("li", {key: key, className: selected ? 'wbk-selected' : undefined, onClick: onItemClick, onDoubleClick: onItemDoubleClick, onContentMenu: onItemContextMenu}, templateNode);
+	                    return React.createElement("li", { key: key, className: selected ? 'wbk-selected' : undefined, onClick: onItemClick, onDoubleClick: onItemDoubleClick, onContentMenu: onItemContextMenu }, templateNode);
 	                });
 	                return React.createElement("ul", null, childrenNodes);
-	            }
-	            else if (props.children) {
+	            } else if (props.children) {
 	                var childrenNodes = React.Children.map(props.children, function (child, idx) {
 	                    var selected = selection ? selection.isSelected(idx, undefined) : false;
 	                    var onItemClick = props.onItemClick || props.doSelect ? function (evt) {
@@ -888,21 +890,20 @@ return /******/ (function(modules) { // webpackBootstrap
 	                    var onItemContextMenu = props.onItemContextMenu ? function (evt) {
 	                        props.onItemContextMenu(evt, idx, null);
 	                    } : undefined;
-	                    return React.createElement("li", {className: selected ? 'wbk-selected' : undefined, onClick: onItemClick, onDoubleClick: onItemDoubleClick, onContextMenu: onItemContextMenu}, child);
+	                    return React.createElement("li", { className: selected ? 'wbk-selected' : undefined, onClick: onItemClick, onDoubleClick: onItemDoubleClick, onContextMenu: onItemContextMenu }, child);
 	                });
 	                return React.createElement("ul", null, childrenNodes);
-	            }
-	            else {
+	            } else {
 	                return React.createElement("ul", null);
 	            }
 	        };
 	        List.defaultProps = mergeProps({}, Widget.defaultProps);
 	        return List;
-	    }(Widget));
+	    }(Widget);
 	    exports.List = List;
 	    function isWidgetElemnt(child) {
 	        var casting = child;
-	        return casting ? (casting.type && casting.type._widgetMagic) : false;
+	        return casting ? casting.type && casting.type._widgetMagic : false;
 	    }
 	    exports.isWidgetElemnt = isWidgetElemnt;
 	    function getWidgetProps(child) {
@@ -949,8 +950,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    function toPxNumber(pxvar) {
 	        if ('string' == typeof pxvar) {
 	            return Number(pxvar.replace('px', ''));
-	        }
-	        else if ('number' == typeof pxvar) {
+	        } else if ('number' == typeof pxvar) {
 	            return pxvar;
 	        }
 	        return 0;
@@ -975,7 +975,6 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	//# sourceMappingURL=../srcmap/widget/widget.js.map
 
-
 /***/ },
 /* 6 */
 /***/ function(module, exports) {
@@ -998,9 +997,12 @@ return /******/ (function(modules) { // webpackBootstrap
 /* 9 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;!(__WEBPACK_AMD_DEFINE_ARRAY__ = [__webpack_require__, exports], __WEBPACK_AMD_DEFINE_RESULT__ = function (require, exports) {
+	var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;"use strict";
+
+	!(__WEBPACK_AMD_DEFINE_ARRAY__ = [__webpack_require__, exports], __WEBPACK_AMD_DEFINE_RESULT__ = function (require, exports) {
 	    "use strict";
-	    var SimpleQueue = (function () {
+
+	    var SimpleQueue = function () {
 	        function SimpleQueue() {
 	            this.listeners = [];
 	        }
@@ -1020,28 +1022,35 @@ return /******/ (function(modules) { // webpackBootstrap
 	        };
 	        SimpleQueue.prototype.post = function (evt, timeout) {
 	            var _this = this;
-	            setTimeout(function () { _this.send(evt); }, timeout);
+	            setTimeout(function () {
+	                _this.send(evt);
+	            }, timeout);
 	        };
 	        return SimpleQueue;
-	    }());
+	    }();
 	    exports.SimpleQueue = SimpleQueue;
 	}.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
 
 	//# sourceMappingURL=../srcmap/util/util.js.map
 
-
 /***/ },
 /* 10 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;var __extends = (this && this.__extends) || function (d, b) {
-	    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-	    function __() { this.constructor = d; }
+	var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;"use strict";
+
+	var __extends = undefined && undefined.__extends || function (d, b) {
+	    for (var p in b) {
+	        if (b.hasOwnProperty(p)) d[p] = b[p];
+	    }function __() {
+	        this.constructor = d;
+	    }
 	    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 	};
 	!(__WEBPACK_AMD_DEFINE_ARRAY__ = [__webpack_require__, exports, __webpack_require__(6), __webpack_require__(8), __webpack_require__(5)], __WEBPACK_AMD_DEFINE_RESULT__ = function (require, exports, React, jq, Widget) {
 	    "use strict";
-	    var Box = (function (_super) {
+
+	    var Box = function (_super) {
 	        __extends(Box, _super);
 	        function Box() {
 	            _super.apply(this, arguments);
@@ -1071,9 +1080,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	        };
 	        Box.defaultProps = Widget.mergeProps({}, Widget.Widget.defaultProps);
 	        return Box;
-	    }(Widget.Widget));
+	    }(Widget.Widget);
 	    exports.Box = Box;
-	    var LayoutWidget = (function (_super) {
+	    var LayoutWidget = function (_super) {
 	        __extends(LayoutWidget, _super);
 	        function LayoutWidget() {
 	            _super.apply(this, arguments);
@@ -1097,18 +1106,17 @@ return /******/ (function(modules) { // webpackBootstrap
 	                var css = _this.getRenderContentStyle(child, total, idx);
 	                if ('string' == typeof child) {
 	                    node = React.createElement("span", null, child);
-	                }
-	                else {
+	                } else {
 	                    node = child;
 	                }
-	                return (React.createElement("div", {className: sclass, style: css, ref: 'contentDOM' + idx}, node));
+	                return React.createElement("div", { className: sclass, style: css, ref: 'contentDOM' + idx }, node);
 	            });
 	        };
 	        LayoutWidget.defaultProps = Widget.mergeProps({}, Widget.Widget.defaultProps);
 	        return LayoutWidget;
-	    }(Widget.Widget));
+	    }(Widget.Widget);
 	    exports.LayoutWidget = LayoutWidget;
-	    var Hlayout = (function (_super) {
+	    var Hlayout = function (_super) {
 	        __extends(Hlayout, _super);
 	        function Hlayout() {
 	            _super.apply(this, arguments);
@@ -1159,8 +1167,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	                        css.overflow = 'hidden';
 	                    }
 	                }
-	            }
-	            else {
+	            } else {
 	                if (idx > 0 && this.props.space > 0) {
 	                    css.marginLeft = this.props.space;
 	                }
@@ -1189,9 +1196,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	        };
 	        Hlayout.defaultProps = Widget.mergeProps({}, LayoutWidget.defaultProps);
 	        return Hlayout;
-	    }(LayoutWidget));
+	    }(LayoutWidget);
 	    exports.Hlayout = Hlayout;
-	    var Vlayout = (function (_super) {
+	    var Vlayout = function (_super) {
 	        __extends(Vlayout, _super);
 	        function Vlayout() {
 	            _super.apply(this, arguments);
@@ -1214,8 +1221,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	                        css.flexDirection = 'column';
 	                    }
 	                }
-	            }
-	            else {
+	            } else {
 	                if (idx > 0 && this.props.space > 0) {
 	                    css.marginTop = this.props.space;
 	                }
@@ -1244,12 +1250,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	        };
 	        Vlayout.defaultProps = Widget.mergeProps({}, LayoutWidget.defaultProps);
 	        return Vlayout;
-	    }(LayoutWidget));
+	    }(LayoutWidget);
 	    exports.Vlayout = Vlayout;
 	}.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
 
 	//# sourceMappingURL=../srcmap/widget/layout.js.map
-
 
 /***/ }
 /******/ ])
