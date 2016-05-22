@@ -1,13 +1,14 @@
 <!-- index.html -->
 <!DOCTYPE html>
 <!--
-  This test-case shows to load by a single bunlde js as global variable
+  This test-case shows to load by module js files by require js
   -->
 <html>
 
 <head>
   <meta charset="utf-8" />
   <link rel="stylesheet" type="text/css" href="../test/csslib/font-awesome/font-awesome.min.css" />
+  <link rel="stylesheet" type="text/css" href="../main/react-webkit.css" />
   <style>
     html,
     body {
@@ -17,17 +18,17 @@
       color: #333;
     }
   </style>
-  <script src="../test/jslib/react.js"></script>
-  <script src="../test/jslib/react-dom.js"></script>
-  <script src="../test/jslib/jquery.js"></script>
-  <script src="../main/react-webkit.js"></script>
-  <script src="index-root.js"></script>
+
+  <script src="../test/jslib/require.min.js"></script>
 </head>
 
 <body>
   <div id="content-index" style="width:100%;height:100%"></div>
-  <script >
-    RootApp.render(document.getElementById('content-index') );
+  <script type="text/javascript">
+    //load config sequentially 
+      require(['index-module.config'],function(){
+        require(['index-module']);
+      });
   </script>
 </body>
 

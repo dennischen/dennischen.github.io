@@ -3,10 +3,8 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define(["require", "exports", 'react', 'react-dom', 'react-webkit'], function (require, exports, React, ReactDOM, wbk) {
+define(["require", "exports", 'react', 'react-dom', 'react-webkit/widget', 'react-webkit/layout'], function (require, exports, React, ReactDOM, w, l) {
     "use strict";
-    var w = wbk.Widget;
-    var l = wbk.Layout;
     var App = (function (_super) {
         __extends(App, _super);
         function App(props) {
@@ -35,4 +33,4 @@ define(["require", "exports", 'react', 'react-dom', 'react-webkit'], function (r
     ReactDOM.render(React.createElement(App, null), document.getElementById('content-index'));
 });
 
-//# sourceMappingURL=srcmap/index-require.js.map
+//# sourceMappingURL=srcmap/index-module.js.map

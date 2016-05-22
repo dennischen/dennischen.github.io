@@ -179,7 +179,7 @@ var RootApp = React.createClass({
     }
 });
 
-RootApp.start = function () {
-    ReactDOM.render(React.createElement(RootApp, null), document.getElementById('content-index'));
+RootApp.render = function (dom) {
+    ReactDOM.render(React.createElement(RootApp, null), dom);
 };
 //# sourceMappingURL=srcmap/index-root.js.map

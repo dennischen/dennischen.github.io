@@ -24,7 +24,10 @@ define(["require", "exports", 'react', 'react-dom', 'react-webkit/layout'], func
         };
         return App;
     }(React.Component));
-    ReactDOM.render(React.createElement(App, null), document.getElementById('content'));
+    function render(dom) {
+        ReactDOM.render(React.createElement(App, null), dom);
+    }
+    exports.render = render;
 });
 
 //# sourceMappingURL=srcmap/simple.js.map

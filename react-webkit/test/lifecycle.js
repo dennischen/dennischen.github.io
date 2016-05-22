@@ -133,7 +133,11 @@ define(["require", "exports", 'react', 'react-dom'], function (require, exports,
         };
         return App;
     }(React.Component));
-    ReactDOM.render(React.createElement(App, null), document.getElementById('content'));
+    exports.App = App;
+    function render(dom) {
+        ReactDOM.render(React.createElement(App, null), dom);
+    }
+    exports.render = render;
 });
 
 //# sourceMappingURL=srcmap/lifecycle.js.map

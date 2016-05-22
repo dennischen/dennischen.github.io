@@ -14,7 +14,12 @@ define(["require", "exports", 'react', 'react-dom', 'react-webkit/widget', 'reac
         { name: 'List', module: 'list', html: 'list.html' },
         { name: 'Margin', module: 'margin', html: 'margin.html' },
         { name: 'Vlayout', module: 'vlayout', html: 'vlayout.html' },
+        { name: 'Lifecycle', module: 'lifecycle', html: 'lifecycle.html' },
+        { name: 'Commentbox', module: 'test-commentbox', html: 'test-commentbox.html' },
     ];
+    testCases = testCases.sort(function (a, b) {
+        return a.name.localeCompare(b.name);
+    });
     var App = (function (_super) {
         __extends(App, _super);
         function App(props) {
@@ -57,7 +62,10 @@ define(["require", "exports", 'react', 'react-dom', 'react-webkit/widget', 'reac
         };
         return App;
     }(React.Component));
-    ReactDOM.render(React.createElement(App, null), document.getElementById('content-index'));
+    function render(dom) {
+        ReactDOM.render(React.createElement(App, null), dom);
+    }
+    exports.render = render;
 });
 
 //# sourceMappingURL=srcmap/index.js.map

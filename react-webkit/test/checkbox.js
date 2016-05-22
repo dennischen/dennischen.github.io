@@ -26,10 +26,10 @@ define(["require", "exports", 'react', 'react-dom', 'react-webkit/widget', 'reac
         return App;
     }(React.Component));
     exports.App = App;
-    var content = document.getElementById('content');
-    if (content) {
-        ReactDOM.render(React.createElement(App, null), document.getElementById('content'));
+    function render(dom) {
+        ReactDOM.render(React.createElement(App, null), dom);
     }
+    exports.render = render;
 });
 
 //# sourceMappingURL=srcmap/checkbox.js.map
