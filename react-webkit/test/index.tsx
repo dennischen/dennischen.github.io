@@ -29,6 +29,7 @@ let testCases: TestCase[] = [
     { name: 'Vlayout', module: 'vlayout', html: 'vlayout.html' },
     { name: 'Lifecycle', module: 'lifecycle', html: 'lifecycle.html' },
     { name: 'Commentbox', module: 'test-commentbox', html: 'test-commentbox.html' },
+    { name: 'Sider', module: 'sider', html: 'sider.html' },
 ]
 
 testCases = testCases.sort((a:TestCase,b:TestCase)=>{
@@ -89,7 +90,7 @@ class App extends React.Component<any, State>{
                     <span className='title'>WebKit - Tests</span>
                 </l.Hlayout>
                 <l.Hlayout vflex={1} hflex={1}>
-                    <l.Vlayout id='function' vflex={1}
+                    <l.Hsider id='function' vflex={1} width={200} minWidth={100} maxWidth={300}
                         hidden={!this.state.sidebar} animation={{ effect: w.AniEffect.slideLeft }}>
                         <w.List vflex={1} hflex={1} style={{ paddingTop: 4 }}
                             onItemDoubleClick={this.onCaseDoubleClick.bind(this) }
@@ -98,7 +99,7 @@ class App extends React.Component<any, State>{
                             doSelect={this.doCaseSelect.bind(this) }
                             >
                         </w.List>
-                    </l.Vlayout>
+                    </l.Hsider>
                     <l.Box id='testContent' hflex={1} vflex={1}>
                         {this.state.content}
                     </l.Box>

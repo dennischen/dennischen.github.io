@@ -39,6 +39,24 @@ export declare class Hlayout extends LayoutWidget<HlayoutProps, any> {
     protected getRenderContentStyle(child: React.ReactChild, total: number, idx: number): React.CSSProperties;
     protected getRenderSclass(): string;
 }
+export interface HsiderProps extends Widget.WidgetProps {
+    width?: number;
+    minWidth?: number;
+    maxWidth?: number;
+}
+export interface HsiderState {
+    width?: number;
+    resizing?: boolean;
+}
+export declare class Hsider extends Widget.Widget<HsiderProps, HsiderState> {
+    static defaultProps: HsiderProps;
+    private sizing;
+    constructor(props: HsiderProps);
+    protected onBarMousedown(evt: Event): void;
+    protected getWidgetSclass(): string;
+    protected getRenderStyle(): React.CSSProperties;
+    protected getRenderChildren(): React.ReactNode;
+}
 export interface VlayoutProps extends LayoutWidgetProps {
     valign?: Widget.VPos;
     halign?: Widget.HPos;
@@ -50,4 +68,22 @@ export declare class Vlayout extends LayoutWidget<VlayoutProps, any> {
     protected getWidgetSclass(): string;
     protected getRenderContentStyle(child: React.ReactChild, total: number, idx: number): React.CSSProperties;
     protected getRenderSclass(): string;
+}
+export interface VsiderProps extends Widget.WidgetProps {
+    height?: number;
+    minHeight?: number;
+    maxHeight?: number;
+}
+export interface VsiderState {
+    height?: number;
+    resizing?: boolean;
+}
+export declare class Vsider extends Widget.Widget<VsiderProps, VsiderState> {
+    static defaultProps: VsiderState;
+    private sizing;
+    constructor(props: VsiderState);
+    protected onBarMousedown(evt: Event): void;
+    protected getWidgetSclass(): string;
+    protected getRenderStyle(): React.CSSProperties;
+    protected getRenderChildren(): React.ReactNode;
 }

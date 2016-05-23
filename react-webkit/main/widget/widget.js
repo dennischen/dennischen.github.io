@@ -286,6 +286,9 @@ define(["require", "exports", 'react', 'react-dom', 'jquery', 'react-webkit/util
                 data: data
             }, 5);
         };
+        Widget.prototype.getWidgetSubSclass = function (sub) {
+            return [this.getWidgetSclass(), '-', sub].join('');
+        };
         Widget.prototype.getDOM = function () {
             return ReactDOM.findDOMNode(this);
         };

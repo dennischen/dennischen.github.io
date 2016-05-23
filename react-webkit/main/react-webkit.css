@@ -163,6 +163,54 @@
 .wbkw-hlayout.wbk-right {
   justify-content: flex-end;
 }
+.wbkw-hsider {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  margin: 0;
+  position: relative;
+}
+.wbkw-hsider > .wbkw-box {
+  padding-right: 10px;
+}
+.wbkw-hsider > .wbkw-hsider-bar {
+  position: absolute;
+  width: 10px;
+  height: 100%;
+  top: 0px;
+  right: 0px;
+  cursor: col-resize;
+}
+.wbkw-hsider > .wbkw-hsider-bar:hover {
+  background: rgba(0, 0, 0, 0.05);
+}
+.wbkw-hsider > .wbkw-hsider-bar.wbk-active {
+  background: rgba(0, 0, 0, 0.15);
+}
+.wbkw-vsider {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  margin: 0;
+  position: relative;
+}
+.wbkw-vsider > .wbkw-box {
+  padding-bottom: 10px;
+}
+.wbkw-vsider > .wbkw-vsider-bar {
+  position: absolute;
+  width: 100%;
+  height: 10px;
+  left: 0px;
+  bottom: 0px;
+  cursor: row-resize;
+}
+.wbkw-vsider > .wbkw-vsider-bar:hover {
+  background: rgba(0, 0, 0, 0.05);
+}
+.wbkw-vsider > .wbkw-vsider-bar.wbk-active {
+  background: rgba(0, 0, 0, 0.15);
+}
 .wbkw-vlayout {
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;

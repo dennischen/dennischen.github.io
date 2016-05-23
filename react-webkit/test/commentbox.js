@@ -25,9 +25,11 @@ define(["require", "exports", 'react', 'jquery'], function (require, exports, Re
             });
         };
         CommentBox.prototype.componentDidMount = function () {
-            var _this = this;
             this.loadCommentsFromServer();
-            setInterval(function () { _this.loadCommentsFromServer(); }, this.props.pollInterval);
+            this._interval = setInterval(this.loadCommentsFromServer.bind(this), this.props.pollInterval);
+        };
+        CommentBox.prototype.componentWillUnmount = function () {
+            clearInterval(this._interval);
         };
         CommentBox.prototype.handleCommentSubmit = function (comment) {
             var comments = this.state.data;

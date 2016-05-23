@@ -46,14 +46,13 @@ define(["require", "exports", 'react', 'jquery', 'react-webkit/widget'], functio
             return this.refs['contentDOM' + idx];
         };
         LayoutWidget.prototype.getRenderContentSclass = function (child, total, idx) {
-            return this.getWidgetSclass() + '-content';
+            return this.getWidgetSubSclass('content');
         };
         LayoutWidget.prototype.getRenderContentStyle = function (child, total, idx) {
             return {};
         };
         LayoutWidget.prototype.getRenderChildren = function () {
             var _this = this;
-            var wcls = this.getWidgetSclass();
             var total = React.Children.count(this.props.children);
             return React.Children.map(this.props.children, function (child, idx) {
                 var node;
@@ -155,6 +154,62 @@ define(["require", "exports", 'react', 'jquery', 'react-webkit/widget'], functio
         return Hlayout;
     }(LayoutWidget));
     exports.Hlayout = Hlayout;
+    var Hsider = (function (_super) {
+        __extends(Hsider, _super);
+        function Hsider(props) {
+            _super.call(this, props);
+            this.state = {
+                width: this.props.width
+            };
+        }
+        Hsider.prototype.onBarMousedown = function (evt) {
+            var _this = this;
+            evt.preventDefault();
+            var jqdoc = jq(document);
+            var jqbar = jq(this.getDOM()).find('.' + this.getWidgetSubSclass('bar'));
+            var docMouseMove = function (evt) {
+                evt.preventDefault();
+                var state = _this.state;
+                var props = _this.props;
+                var offsetX = evt.pageX - jqbar.offset().left;
+                var width = state.width + offsetX;
+                if (width > 0 && (!props.minWidth || width >= props.minWidth) && (!props.maxWidth || width <= props.maxWidth)) {
+                    _this.setState({ width: width });
+                }
+            };
+            var docMouseUp = function (evt) {
+                jqdoc.unbind('mousemove', docMouseMove);
+                jqdoc.unbind('mouseup', docMouseUp);
+                _this.setState({ resizing: false });
+            };
+            jqdoc.bind('mousemove', docMouseMove);
+            jqdoc.bind('mouseup', docMouseUp);
+            this.setState({ resizing: true });
+        };
+        Hsider.prototype.getWidgetSclass = function () {
+            return 'wbkw-hsider';
+        };
+        Hsider.prototype.getRenderStyle = function () {
+            var props = this.props;
+            var css = _super.prototype.getRenderStyle.call(this);
+            if (this.state.width > 0) {
+                css.width = this.state.width;
+            }
+            return css;
+        };
+        Hsider.prototype.getRenderChildren = function () {
+            var barcls = [this.getWidgetSubSclass('bar')];
+            if (this.state.resizing) {
+                barcls.push('wbk-active');
+            }
+            var total = React.Children.count(this.props.children);
+            return [React.createElement(Box, {key: 'b', hflex: 1, vflex: 1}, this.props.children),
+                React.createElement("div", {key: 's', className: barcls.join(' '), onMouseDown: this.onBarMousedown.bind(this)})];
+        };
+        Hsider.defaultProps = Widget.mergeProps({}, Widget.Widget.defaultProps);
+        return Hsider;
+    }(Widget.Widget));
+    exports.Hsider = Hsider;
     var Vlayout = (function (_super) {
         __extends(Vlayout, _super);
         function Vlayout() {
@@ -210,6 +265,62 @@ define(["require", "exports", 'react', 'jquery', 'react-webkit/widget'], functio
         return Vlayout;
     }(LayoutWidget));
     exports.Vlayout = Vlayout;
+    var Vsider = (function (_super) {
+        __extends(Vsider, _super);
+        function Vsider(props) {
+            _super.call(this, props);
+            this.state = {
+                height: this.props.height
+            };
+        }
+        Vsider.prototype.onBarMousedown = function (evt) {
+            var _this = this;
+            evt.preventDefault();
+            var jqdoc = jq(document);
+            var jqbar = jq(this.getDOM()).find('.' + this.getWidgetSubSclass('bar'));
+            var docMouseMove = function (evt) {
+                evt.preventDefault();
+                var state = _this.state;
+                var props = _this.props;
+                var offsetX = evt.pageY - jqbar.offset().top;
+                var height = state.height + offsetX;
+                if (height > 0 && (!props.minHeight || height >= props.minHeight) && (!props.maxHeight || height <= props.maxHeight)) {
+                    _this.setState({ height: height });
+                }
+            };
+            var docMouseUp = function (evt) {
+                jqdoc.unbind('mousemove', docMouseMove);
+                jqdoc.unbind('mouseup', docMouseUp);
+                _this.setState({ resizing: false });
+            };
+            jqdoc.bind('mousemove', docMouseMove);
+            jqdoc.bind('mouseup', docMouseUp);
+            this.setState({ resizing: true });
+        };
+        Vsider.prototype.getWidgetSclass = function () {
+            return 'wbkw-vsider';
+        };
+        Vsider.prototype.getRenderStyle = function () {
+            var props = this.props;
+            var css = _super.prototype.getRenderStyle.call(this);
+            if (this.state.height > 0) {
+                css.height = this.state.height;
+            }
+            return css;
+        };
+        Vsider.prototype.getRenderChildren = function () {
+            var barcls = [this.getWidgetSubSclass('bar')];
+            if (this.state.resizing) {
+                barcls.push('wbk-active');
+            }
+            var total = React.Children.count(this.props.children);
+            return [React.createElement(Box, {key: 'b', hflex: 1, vflex: 1}, this.props.children),
+                React.createElement("div", {key: 's', className: barcls.join(' '), onMouseDown: this.onBarMousedown.bind(this)})];
+        };
+        Vsider.defaultProps = Widget.mergeProps({}, Widget.Widget.defaultProps);
+        return Vsider;
+    }(Widget.Widget));
+    exports.Vsider = Vsider;
 });
 
 //# sourceMappingURL=../srcmap/widget/layout.js.map

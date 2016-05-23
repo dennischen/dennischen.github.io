@@ -29,7 +29,7 @@ export interface CommentBoxStates {
 }
 
 export class CommentBox extends React.Component<CommentBoxProps, CommentBoxStates>{
-
+	_interval:any;
 	constructor(props: CommentBoxProps) {
 		super(props);
 		this.state = { data: new Array() };
@@ -50,8 +50,11 @@ export class CommentBox extends React.Component<CommentBoxProps, CommentBoxState
 	componentDidMount() {
 		this.loadCommentsFromServer();
 		//()=>{} for binding this
-		setInterval(() => { this.loadCommentsFromServer() }, this.props.pollInterval);
+		this._interval = setInterval(this.loadCommentsFromServer.bind(this), this.props.pollInterval);
 	}
+	componentWillUnmount() {
+    	clearInterval(this._interval);
+  	}
 	handleCommentSubmit(comment: Comment) {
 		let comments = this.state.data;
 		this.setState({ data: comments.concat([comment]) });

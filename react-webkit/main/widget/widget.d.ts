@@ -97,6 +97,7 @@ export declare abstract class Widget<P extends WidgetProps, S> extends React.Com
     protected sendQueueEvent(name: string, data?: any): void;
     protected postQueueEvent(name: string, data?: any): void;
     protected abstract getWidgetSclass(): string;
+    protected getWidgetSubSclass(sub: string): string;
     protected getDOM(): any;
     protected getRenderType(): string;
     protected getRenderSclass(): string;

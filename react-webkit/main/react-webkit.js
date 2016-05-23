@@ -102,7 +102,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 	// module
-	exports.push([module.id, ".box-sizing {\n  -webkit-box-sizing: border-box;\n  -moz-box-sizing: border-box;\n  box-sizing: border-box;\n  margin: 0;\n  position: relative;\n}\n.wbk-hflex {\n  width: 100%;\n  overflow-x: hidden;\n}\n.wbk-vflex {\n  height: 100%;\n  overflow-y: hidden;\n}\n.wbkw-checkbox {\n  -webkit-box-sizing: border-box;\n  -moz-box-sizing: border-box;\n  box-sizing: border-box;\n  margin: 0;\n  position: relative;\n  display: inline-block;\n}\n.wbkw-checkbox > input {\n  cursor: pointer;\n  vertical-align: middle;\n  width: 16px;\n  height: 16px;\n}\n.wbkw-checkbox > input[disabled] {\n  cursor: default;\n}\n.wbkw-checkbox > label {\n  padding-left: 4px;\n  vertical-align: middle;\n}\n.wbkw-checkbox > label[for] {\n  cursor: pointer;\n}\n.wbkw-checkbox.wbk-disabled > label {\n  color: #606060;\n}\n.wbkw-list {\n  -webkit-box-sizing: border-box;\n  -moz-box-sizing: border-box;\n  box-sizing: border-box;\n  margin: 0;\n  position: relative;\n  overflow-y: auto;\n}\n.wbkw-list > ul {\n  -webkit-box-sizing: border-box;\n  -moz-box-sizing: border-box;\n  box-sizing: border-box;\n  margin: 0;\n  padding: 0;\n  position: relative;\n  list-style: none;\n}\n.wbkw-list > ul > li {\n  -webkit-box-sizing: border-box;\n  -moz-box-sizing: border-box;\n  box-sizing: border-box;\n  margin: 0;\n  position: relative;\n  padding: 3px;\n  cursor: pointer;\n}\n.wbkw-list > ul > li:hover {\n  background-color: rgba(0, 0, 0, 0.03);\n}\n.wbkw-list > ul > li.wbk-selected {\n  background-color: rgba(0, 0, 0, 0.15);\n}\n.wbkw-list > ul > li:active {\n  background-color: rgba(0, 0, 0, 0.2);\n}\n.wbkw-list.wbk-disabled > ul > li {\n  cursor: default;\n  color: #606060;\n}\n.wbkw-list.wbk-disabled > ul > li:hover,\n.wbkw-list.wbk-disabled > ul > li :active {\n  background-color: inherit;\n}\n.wbkw-list.wbk-disabled > ul > li.wbk-selected {\n  background-color: rgba(0, 0, 0, 0.15);\n}\n.wbkw-list.dark-bg > ul > li:hover {\n  background-color: rgba(255, 255, 255, 0.05);\n}\n.wbkw-list.dark-bg > ul > li.wbk-selected {\n  background-color: rgba(255, 255, 255, 0.2);\n}\n.wbkw-list.dark-bg > ul > li:active {\n  background-color: rgba(255, 255, 255, 0.3);\n}\n.wbkw-box {\n  -webkit-box-sizing: border-box;\n  -moz-box-sizing: border-box;\n  box-sizing: border-box;\n  margin: 0;\n  position: relative;\n  display: flex;\n  flex-direction: column;\n  justify-content: flex-start;\n  align-items: flex-start;\n}\n.wbkw-box > .wbk-vflex {\n  flex: 1;\n}\n.wbkw-box.wbk-top {\n  justify-content: flex-start;\n}\n.wbkw-box.wbk-middle {\n  justify-content: center;\n}\n.wbkw-box.wbk-bottom {\n  justify-content: flex-end;\n}\n.wbkw-box.wbk-left {\n  align-items: flex-start;\n}\n.wbkw-box.wbk-center {\n  align-items: center;\n}\n.wbkw-box.wbk-right {\n  align-items: flex-end;\n}\n.wbkw-hlayout {\n  -webkit-box-sizing: border-box;\n  -moz-box-sizing: border-box;\n  box-sizing: border-box;\n  margin: 0;\n  position: relative;\n  display: flex;\n  flex-direction: row;\n  justify-content: flex-start;\n  align-items: flex-start;\n}\n.wbkw-hlayout > .wbkw-hlayout-content {\n  -webkit-box-sizing: border-box;\n  -moz-box-sizing: border-box;\n  box-sizing: border-box;\n  margin: 0;\n  position: relative;\n}\n.wbkw-hlayout.wbk-top {\n  align-items: flex-start;\n}\n.wbkw-hlayout.wbk-middle {\n  align-items: center;\n}\n.wbkw-hlayout.wbk-bottom {\n  align-items: flex-end;\n}\n.wbkw-hlayout.wbk-left {\n  justify-content: flex-start;\n}\n.wbkw-hlayout.wbk-center {\n  justify-content: center;\n}\n.wbkw-hlayout.wbk-right {\n  justify-content: flex-end;\n}\n.wbkw-vlayout {\n  -webkit-box-sizing: border-box;\n  -moz-box-sizing: border-box;\n  box-sizing: border-box;\n  margin: 0;\n  position: relative;\n  display: flex;\n  flex-direction: column;\n}\n.wbkw-vlayout > .wbkw-vlayout-content {\n  -webkit-box-sizing: border-box;\n  -moz-box-sizing: border-box;\n  box-sizing: border-box;\n  margin: 0;\n  position: relative;\n}\n.wbkw-vlayout > .wbkw-vlayout-content > .wbk-vflex {\n  flex: 1;\n}\n.wbkw-vlayout.wbk-top {\n  justify-content: flex-start;\n}\n.wbkw-vlayout.wbk-middle {\n  justify-content: center;\n}\n.wbkw-vlayout.wbk-bottom {\n  justify-content: flex-end;\n}\n.wbkw-vlayout.wbk-left {\n  align-items: flex-start;\n}\n.wbkw-vlayout.wbk-center {\n  align-items: center;\n}\n.wbkw-vlayout.wbk-right {\n  align-items: flex-end;\n}\n\n/*# sourceMappingURL=srcmap/react-webkit.css.map */\n", ""]);
+	exports.push([module.id, ".box-sizing {\n  -webkit-box-sizing: border-box;\n  -moz-box-sizing: border-box;\n  box-sizing: border-box;\n  margin: 0;\n  position: relative;\n}\n.wbk-hflex {\n  width: 100%;\n  overflow-x: hidden;\n}\n.wbk-vflex {\n  height: 100%;\n  overflow-y: hidden;\n}\n.wbkw-checkbox {\n  -webkit-box-sizing: border-box;\n  -moz-box-sizing: border-box;\n  box-sizing: border-box;\n  margin: 0;\n  position: relative;\n  display: inline-block;\n}\n.wbkw-checkbox > input {\n  cursor: pointer;\n  vertical-align: middle;\n  width: 16px;\n  height: 16px;\n}\n.wbkw-checkbox > input[disabled] {\n  cursor: default;\n}\n.wbkw-checkbox > label {\n  padding-left: 4px;\n  vertical-align: middle;\n}\n.wbkw-checkbox > label[for] {\n  cursor: pointer;\n}\n.wbkw-checkbox.wbk-disabled > label {\n  color: #606060;\n}\n.wbkw-list {\n  -webkit-box-sizing: border-box;\n  -moz-box-sizing: border-box;\n  box-sizing: border-box;\n  margin: 0;\n  position: relative;\n  overflow-y: auto;\n}\n.wbkw-list > ul {\n  -webkit-box-sizing: border-box;\n  -moz-box-sizing: border-box;\n  box-sizing: border-box;\n  margin: 0;\n  padding: 0;\n  position: relative;\n  list-style: none;\n}\n.wbkw-list > ul > li {\n  -webkit-box-sizing: border-box;\n  -moz-box-sizing: border-box;\n  box-sizing: border-box;\n  margin: 0;\n  position: relative;\n  padding: 3px;\n  cursor: pointer;\n}\n.wbkw-list > ul > li:hover {\n  background-color: rgba(0, 0, 0, 0.03);\n}\n.wbkw-list > ul > li.wbk-selected {\n  background-color: rgba(0, 0, 0, 0.15);\n}\n.wbkw-list > ul > li:active {\n  background-color: rgba(0, 0, 0, 0.2);\n}\n.wbkw-list.wbk-disabled > ul > li {\n  cursor: default;\n  color: #606060;\n}\n.wbkw-list.wbk-disabled > ul > li:hover,\n.wbkw-list.wbk-disabled > ul > li :active {\n  background-color: inherit;\n}\n.wbkw-list.wbk-disabled > ul > li.wbk-selected {\n  background-color: rgba(0, 0, 0, 0.15);\n}\n.wbkw-list.dark-bg > ul > li:hover {\n  background-color: rgba(255, 255, 255, 0.05);\n}\n.wbkw-list.dark-bg > ul > li.wbk-selected {\n  background-color: rgba(255, 255, 255, 0.2);\n}\n.wbkw-list.dark-bg > ul > li:active {\n  background-color: rgba(255, 255, 255, 0.3);\n}\n.wbkw-box {\n  -webkit-box-sizing: border-box;\n  -moz-box-sizing: border-box;\n  box-sizing: border-box;\n  margin: 0;\n  position: relative;\n  display: flex;\n  flex-direction: column;\n  justify-content: flex-start;\n  align-items: flex-start;\n}\n.wbkw-box > .wbk-vflex {\n  flex: 1;\n}\n.wbkw-box.wbk-top {\n  justify-content: flex-start;\n}\n.wbkw-box.wbk-middle {\n  justify-content: center;\n}\n.wbkw-box.wbk-bottom {\n  justify-content: flex-end;\n}\n.wbkw-box.wbk-left {\n  align-items: flex-start;\n}\n.wbkw-box.wbk-center {\n  align-items: center;\n}\n.wbkw-box.wbk-right {\n  align-items: flex-end;\n}\n.wbkw-hlayout {\n  -webkit-box-sizing: border-box;\n  -moz-box-sizing: border-box;\n  box-sizing: border-box;\n  margin: 0;\n  position: relative;\n  display: flex;\n  flex-direction: row;\n  justify-content: flex-start;\n  align-items: flex-start;\n}\n.wbkw-hlayout > .wbkw-hlayout-content {\n  -webkit-box-sizing: border-box;\n  -moz-box-sizing: border-box;\n  box-sizing: border-box;\n  margin: 0;\n  position: relative;\n}\n.wbkw-hlayout.wbk-top {\n  align-items: flex-start;\n}\n.wbkw-hlayout.wbk-middle {\n  align-items: center;\n}\n.wbkw-hlayout.wbk-bottom {\n  align-items: flex-end;\n}\n.wbkw-hlayout.wbk-left {\n  justify-content: flex-start;\n}\n.wbkw-hlayout.wbk-center {\n  justify-content: center;\n}\n.wbkw-hlayout.wbk-right {\n  justify-content: flex-end;\n}\n.wbkw-hsider {\n  -webkit-box-sizing: border-box;\n  -moz-box-sizing: border-box;\n  box-sizing: border-box;\n  margin: 0;\n  position: relative;\n}\n.wbkw-hsider > .wbkw-box {\n  padding-right: 10px;\n}\n.wbkw-hsider > .wbkw-hsider-bar {\n  position: absolute;\n  width: 10px;\n  height: 100%;\n  top: 0px;\n  right: 0px;\n  cursor: col-resize;\n}\n.wbkw-hsider > .wbkw-hsider-bar:hover {\n  background: rgba(0, 0, 0, 0.05);\n}\n.wbkw-hsider > .wbkw-hsider-bar.wbk-active {\n  background: rgba(0, 0, 0, 0.15);\n}\n.wbkw-vsider {\n  -webkit-box-sizing: border-box;\n  -moz-box-sizing: border-box;\n  box-sizing: border-box;\n  margin: 0;\n  position: relative;\n}\n.wbkw-vsider > .wbkw-box {\n  padding-bottom: 10px;\n}\n.wbkw-vsider > .wbkw-vsider-bar {\n  position: absolute;\n  width: 100%;\n  height: 10px;\n  left: 0px;\n  bottom: 0px;\n  cursor: row-resize;\n}\n.wbkw-vsider > .wbkw-vsider-bar:hover {\n  background: rgba(0, 0, 0, 0.05);\n}\n.wbkw-vsider > .wbkw-vsider-bar.wbk-active {\n  background: rgba(0, 0, 0, 0.15);\n}\n.wbkw-vlayout {\n  -webkit-box-sizing: border-box;\n  -moz-box-sizing: border-box;\n  box-sizing: border-box;\n  margin: 0;\n  position: relative;\n  display: flex;\n  flex-direction: column;\n}\n.wbkw-vlayout > .wbkw-vlayout-content {\n  -webkit-box-sizing: border-box;\n  -moz-box-sizing: border-box;\n  box-sizing: border-box;\n  margin: 0;\n  position: relative;\n}\n.wbkw-vlayout > .wbkw-vlayout-content > .wbk-vflex {\n  flex: 1;\n}\n.wbkw-vlayout.wbk-top {\n  justify-content: flex-start;\n}\n.wbkw-vlayout.wbk-middle {\n  justify-content: center;\n}\n.wbkw-vlayout.wbk-bottom {\n  justify-content: flex-end;\n}\n.wbkw-vlayout.wbk-left {\n  align-items: flex-start;\n}\n.wbkw-vlayout.wbk-center {\n  align-items: center;\n}\n.wbkw-vlayout.wbk-right {\n  align-items: flex-end;\n}\n\n/*# sourceMappingURL=srcmap/react-webkit.css.map */\n", ""]);
 
 	// exports
 
@@ -709,6 +709,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	                data: data
 	            }, 5);
 	        };
+	        Widget.prototype.getWidgetSubSclass = function (sub) {
+	            return [this.getWidgetSclass(), '-', sub].join('');
+	        };
 	        Widget.prototype.getDOM = function () {
 	            return ReactDOM.findDOMNode(this);
 	        };
@@ -1091,14 +1094,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	            return this.refs['contentDOM' + idx];
 	        };
 	        LayoutWidget.prototype.getRenderContentSclass = function (child, total, idx) {
-	            return this.getWidgetSclass() + '-content';
+	            return this.getWidgetSubSclass('content');
 	        };
 	        LayoutWidget.prototype.getRenderContentStyle = function (child, total, idx) {
 	            return {};
 	        };
 	        LayoutWidget.prototype.getRenderChildren = function () {
 	            var _this = this;
-	            var wcls = this.getWidgetSclass();
 	            var total = React.Children.count(this.props.children);
 	            return React.Children.map(this.props.children, function (child, idx) {
 	                var node;
@@ -1198,6 +1200,61 @@ return /******/ (function(modules) { // webpackBootstrap
 	        return Hlayout;
 	    }(LayoutWidget);
 	    exports.Hlayout = Hlayout;
+	    var Hsider = function (_super) {
+	        __extends(Hsider, _super);
+	        function Hsider(props) {
+	            _super.call(this, props);
+	            this.state = {
+	                width: this.props.width
+	            };
+	        }
+	        Hsider.prototype.onBarMousedown = function (evt) {
+	            var _this = this;
+	            evt.preventDefault();
+	            var jqdoc = jq(document);
+	            var jqbar = jq(this.getDOM()).find('.' + this.getWidgetSubSclass('bar'));
+	            var docMouseMove = function docMouseMove(evt) {
+	                evt.preventDefault();
+	                var state = _this.state;
+	                var props = _this.props;
+	                var offsetX = evt.pageX - jqbar.offset().left;
+	                var width = state.width + offsetX;
+	                if (width > 0 && (!props.minWidth || width >= props.minWidth) && (!props.maxWidth || width <= props.maxWidth)) {
+	                    _this.setState({ width: width });
+	                }
+	            };
+	            var docMouseUp = function docMouseUp(evt) {
+	                jqdoc.unbind('mousemove', docMouseMove);
+	                jqdoc.unbind('mouseup', docMouseUp);
+	                _this.setState({ resizing: false });
+	            };
+	            jqdoc.bind('mousemove', docMouseMove);
+	            jqdoc.bind('mouseup', docMouseUp);
+	            this.setState({ resizing: true });
+	        };
+	        Hsider.prototype.getWidgetSclass = function () {
+	            return 'wbkw-hsider';
+	        };
+	        Hsider.prototype.getRenderStyle = function () {
+	            var props = this.props;
+	            var css = _super.prototype.getRenderStyle.call(this);
+	            if (this.state.width > 0) {
+	                css.width = this.state.width;
+	            }
+	            return css;
+	        };
+	        Hsider.prototype.getRenderChildren = function () {
+	            var barcls = [this.getWidgetSubSclass('bar')];
+	            if (this.state.resizing) {
+	                barcls.push('wbk-active');
+	            }
+	            var total = React.Children.count(this.props.children);
+	            return [React.createElement(Box, { key: 'b', hflex: 1, vflex: 1 }, this.props.children), React.createElement("div", { key: 's', className: barcls.join(' '), onMouseDown: this.onBarMousedown.bind(this) })];
+	        };
+	        Hsider.defaultProps = Widget.mergeProps({}, Widget.Widget.defaultProps);
+	        return Hsider;
+	    }(Widget.Widget);
+	    exports.Hsider = Hsider;
 	    var Vlayout = function (_super) {
 	        __extends(Vlayout, _super);
 	        function Vlayout() {
@@ -1252,6 +1309,61 @@ return /******/ (function(modules) { // webpackBootstrap
 	        return Vlayout;
 	    }(LayoutWidget);
 	    exports.Vlayout = Vlayout;
+	    var Vsider = function (_super) {
+	        __extends(Vsider, _super);
+	        function Vsider(props) {
+	            _super.call(this, props);
+	            this.state = {
+	                height: this.props.height
+	            };
+	        }
+	        Vsider.prototype.onBarMousedown = function (evt) {
+	            var _this = this;
+	            evt.preventDefault();
+	            var jqdoc = jq(document);
+	            var jqbar = jq(this.getDOM()).find('.' + this.getWidgetSubSclass('bar'));
+	            var docMouseMove = function docMouseMove(evt) {
+	                evt.preventDefault();
+	                var state = _this.state;
+	                var props = _this.props;
+	                var offsetX = evt.pageY - jqbar.offset().top;
+	                var height = state.height + offsetX;
+	                if (height > 0 && (!props.minHeight || height >= props.minHeight) && (!props.maxHeight || height <= props.maxHeight)) {
+	                    _this.setState({ height: height });
+	                }
+	            };
+	            var docMouseUp = function docMouseUp(evt) {
+	                jqdoc.unbind('mousemove', docMouseMove);
+	                jqdoc.unbind('mouseup', docMouseUp);
+	                _this.setState({ resizing: false });
+	            };
+	            jqdoc.bind('mousemove', docMouseMove);
+	            jqdoc.bind('mouseup', docMouseUp);
+	            this.setState({ resizing: true });
+	        };
+	        Vsider.prototype.getWidgetSclass = function () {
+	            return 'wbkw-vsider';
+	        };
+	        Vsider.prototype.getRenderStyle = function () {
+	            var props = this.props;
+	            var css = _super.prototype.getRenderStyle.call(this);
+	            if (this.state.height > 0) {
+	                css.height = this.state.height;
+	            }
+	            return css;
+	        };
+	        Vsider.prototype.getRenderChildren = function () {
+	            var barcls = [this.getWidgetSubSclass('bar')];
+	            if (this.state.resizing) {
+	                barcls.push('wbk-active');
+	            }
+	            var total = React.Children.count(this.props.children);
+	            return [React.createElement(Box, { key: 'b', hflex: 1, vflex: 1 }, this.props.children), React.createElement("div", { key: 's', className: barcls.join(' '), onMouseDown: this.onBarMousedown.bind(this) })];
+	        };
+	        Vsider.defaultProps = Widget.mergeProps({}, Widget.Widget.defaultProps);
+	        return Vsider;
+	    }(Widget.Widget);
+	    exports.Vsider = Vsider;
 	}.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
 
 	//# sourceMappingURL=../srcmap/widget/layout.js.map
