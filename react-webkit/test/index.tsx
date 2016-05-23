@@ -90,9 +90,9 @@ class App extends React.Component<any, State>{
                     <span className='title'>WebKit - Tests</span>
                 </l.Hlayout>
                 <l.Hlayout vflex={1} hflex={1}>
-                    <l.Hsider id='function' vflex={1} width={200} minWidth={100} maxWidth={300}
+                    <l.Hsider id='siderbar' vflex={1} minWidth={100} maxWidth={300}
                         hidden={!this.state.sidebar} animation={{ effect: w.AniEffect.slideLeft }}>
-                        <w.List vflex={1} hflex={1} style={{ paddingTop: 4 }}
+                        <w.List id='function' vflex={1} hflex={1} style={{ paddingTop: 4 }}
                             onItemDoubleClick={this.onCaseDoubleClick.bind(this) }
                             model={testCases} itemRenderer={this.caseRenderer}
                             selection={{ isSelected: this.isCaseSelected.bind(this) }}

@@ -1161,7 +1161,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	            if (Widget.isWidgetElemnt(child)) {
 	                var props = Widget.getWidgetProps(child);
 	                if (!props.hidden) {
-	                    if (idx > 0 && this.props.space > 0) {
+	                    if (idx > 0 && this.props.space) {
 	                        css.marginLeft = this.props.space;
 	                    }
 	                    if (props.hflex) {
@@ -1170,7 +1170,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	                    }
 	                }
 	            } else {
-	                if (idx > 0 && this.props.space > 0) {
+	                if (idx > 0 && this.props.space) {
 	                    css.marginLeft = this.props.space;
 	                }
 	            }
@@ -1212,13 +1212,15 @@ return /******/ (function(modules) { // webpackBootstrap
 	            var _this = this;
 	            evt.preventDefault();
 	            var jqdoc = jq(document);
-	            var jqbar = jq(this.getDOM()).find('.' + this.getWidgetSubSclass('bar'));
+	            var jqdom = jq(this.getDOM());
+	            var jqbar = jqdom.find('.' + this.getWidgetSubSclass('bar'));
+	            var offset0 = evt.pageX - jqbar.offset().left;
 	            var docMouseMove = function docMouseMove(evt) {
 	                evt.preventDefault();
 	                var state = _this.state;
 	                var props = _this.props;
-	                var offsetX = evt.pageX - jqbar.offset().left;
-	                var width = state.width + offsetX;
+	                var offset = evt.pageX - offset0 - jqbar.offset().left;
+	                var width = (state.width ? state.width : jqdom.width()) + offset;
 	                if (width > 0 && (!props.minWidth || width >= props.minWidth) && (!props.maxWidth || width <= props.maxWidth)) {
 	                    _this.setState({ width: width });
 	                }
@@ -1268,7 +1270,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	            if (Widget.isWidgetElemnt(child)) {
 	                var props = Widget.getWidgetProps(child);
 	                if (!props.hidden) {
-	                    if (idx > 0 && this.props.space > 0) {
+	                    if (idx > 0 && this.props.space) {
 	                        css.marginTop = this.props.space;
 	                    }
 	                    if (props.vflex) {
@@ -1279,7 +1281,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	                    }
 	                }
 	            } else {
-	                if (idx > 0 && this.props.space > 0) {
+	                if (idx > 0 && this.props.space) {
 	                    css.marginTop = this.props.space;
 	                }
 	            }
@@ -1321,13 +1323,15 @@ return /******/ (function(modules) { // webpackBootstrap
 	            var _this = this;
 	            evt.preventDefault();
 	            var jqdoc = jq(document);
-	            var jqbar = jq(this.getDOM()).find('.' + this.getWidgetSubSclass('bar'));
+	            var jqdom = jq(this.getDOM());
+	            var jqbar = jqdom.find('.' + this.getWidgetSubSclass('bar'));
+	            var offset0 = evt.pageY - jqbar.offset().top;
 	            var docMouseMove = function docMouseMove(evt) {
 	                evt.preventDefault();
 	                var state = _this.state;
 	                var props = _this.props;
-	                var offsetX = evt.pageY - jqbar.offset().top;
-	                var height = state.height + offsetX;
+	                var offset = evt.pageY - offset0 - jqbar.offset().top;
+	                var height = (state.height ? state.height : jqdom.height()) + offset;
 	                if (height > 0 && (!props.minHeight || height >= props.minHeight) && (!props.maxHeight || height <= props.maxHeight)) {
 	                    _this.setState({ height: height });
 	                }

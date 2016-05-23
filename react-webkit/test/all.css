@@ -304,21 +304,22 @@ span {
     height: 100px;
   }
 }
+#siderbar {
+  width: 180px;
+}
+@media only screen and (min-resolution: 120dpi) {
+  #siderbar {
+    width: 240px;
+  }
+}
 #function {
   background: rgba(133, 196, 185, 0.7);
   font-weight: bold;
-  width: 180px;
   box-shadow: 2px 2px 5px 0 rgba(0, 0, 0, 0.2);
-}
-@media only screen and (min-resolution: 120dpi) {
-  #function {
-    width: 240px;
-  }
 }
 #testContent {
   padding-left: 6;
   padding-top: 4;
-  background: rgba(191, 206, 198, 0.2);
 }
 #footer {
   background: #008BBA;

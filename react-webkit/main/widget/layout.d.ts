@@ -26,7 +26,7 @@ export interface HlayoutProps extends LayoutWidgetProps {
     valign?: Widget.VPos;
     halign?: Widget.HPos;
     align?: string;
-    space?: number;
+    space?: number | string;
 }
 export declare class Hlayout extends LayoutWidget<HlayoutProps, any> {
     static defaultProps: HlayoutProps;
@@ -52,7 +52,7 @@ export declare class Hsider extends Widget.Widget<HsiderProps, HsiderState> {
     static defaultProps: HsiderProps;
     private sizing;
     constructor(props: HsiderProps);
-    protected onBarMousedown(evt: Event): void;
+    protected onBarMousedown(evt: MouseEvent): void;
     protected getWidgetSclass(): string;
     protected getRenderStyle(): React.CSSProperties;
     protected getRenderChildren(): React.ReactNode;
@@ -61,7 +61,7 @@ export interface VlayoutProps extends LayoutWidgetProps {
     valign?: Widget.VPos;
     halign?: Widget.HPos;
     align?: string;
-    space?: number;
+    space?: number | string;
 }
 export declare class Vlayout extends LayoutWidget<VlayoutProps, any> {
     static defaultProps: VlayoutProps;
@@ -82,7 +82,7 @@ export declare class Vsider extends Widget.Widget<VsiderProps, VsiderState> {
     static defaultProps: VsiderState;
     private sizing;
     constructor(props: VsiderState);
-    protected onBarMousedown(evt: Event): void;
+    protected onBarMousedown(evt: MouseEvent): void;
     protected getWidgetSclass(): string;
     protected getRenderStyle(): React.CSSProperties;
     protected getRenderChildren(): React.ReactNode;
