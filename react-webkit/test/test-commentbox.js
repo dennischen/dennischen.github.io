@@ -1,10 +1,28 @@
+/**
+ * React WebKit - v0.0.2
+ * The react widget kit base on typescript
+ * 
+ * Copyright 2016 - present, Dennis Chen, All rights reserved.
+ * 
+ * Released under MIT license
+ */
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define(["require", "exports", 'react', 'react-dom', './commentbox'], function (require, exports, React, ReactDOM, commentbox) {
+(function (factory) {
+    if (typeof module === 'object' && typeof module.exports === 'object') {
+        var v = factory(require, exports); if (v !== undefined) module.exports = v;
+    }
+    else if (typeof define === 'function' && define.amd) {
+        define(["require", "exports", 'react', 'react-dom', './commentbox'], factory);
+    }
+})(function (require, exports) {
     "use strict";
+    var React = require('react');
+    var ReactDOM = require('react-dom');
+    var commentbox = require('./commentbox');
     var App = (function (_super) {
         __extends(App, _super);
         function App() {

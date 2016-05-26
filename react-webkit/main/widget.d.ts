@@ -1,13 +1,20 @@
-/// <reference path="../../3rd-definition/react.d.ts" />
-/// <reference path="../../3rd-definition/react-dom.d.ts" />
-/// <reference path="../../3rd-definition/jquery.d.ts" />
-/// <reference path="../util/util-alias.d.ts" />
+/**
+ * React WebKit - v0.0.2
+ * The react widget kit base on typescript
+ * 
+ * Copyright 2016 - present, Dennis Chen, All rights reserved.
+ * 
+ * Released under MIT license
+ */
+/// <reference path="../3rd-definition/react.d.ts" />
+/// <reference path="../3rd-definition/react-dom.d.ts" />
+/// <reference path="../3rd-definition/jquery.d.ts" />
 import React = require('react');
-import Util = require('react-webkit/util');
+import Util = require('./util');
 export declare const QUEUE_EVENTS: {
     ON_RESIZE: string;
 };
-export declare function sendResize(): void;
+export declare function sendWidgetResize(): void;
 export interface WidgetQueueEvent extends Util.QueueEvent {
 }
 export declare enum VPos {
@@ -20,15 +27,20 @@ export declare enum HPos {
     center = 2,
     right = 3,
 }
+export declare enum Orient {
+    vertical = 1,
+    horizontal = 2,
+}
 export declare enum AniEffect {
     fade = 1,
     slide = 2,
-    slideLeft = 3,
+    slideWidth = 3,
 }
 export interface Animation {
     effect: AniEffect;
     duration?: number;
 }
+export declare var DEFAULT_ANIMATION_DURATION: number;
 export interface ItemRenderer<D> {
     key(idx: number, each: D): string | number;
     render(idx: number, each: D): React.ReactNode;
@@ -78,12 +90,14 @@ export interface WidgetProps {
     onDoubleClick?: (evt: Event) => void;
     onContextMenu?: (evt: Event) => void;
 }
-export declare abstract class Widget<P extends WidgetProps, S> extends React.Component<P, S> implements Util.QueueListener<WidgetQueueEvent> {
+export interface WidgetState {
+    hidden?: boolean;
+}
+export declare abstract class Widget<P extends WidgetProps, S extends WidgetState> extends React.Component<P, S> implements Util.QueueListener<WidgetQueueEvent> {
     static defaultProps: WidgetProps;
     static _widgetMagic: boolean;
-    private _willAnimate;
-    private _willAnimateHidden;
     private _registedQueue;
+    private _willAnimateHidden;
     constructor(props: P);
     protected registerQueue(): void;
     protected unregisterQueue(): void;
@@ -91,7 +105,7 @@ export declare abstract class Widget<P extends WidgetProps, S> extends React.Com
     componentDidMount(): void;
     componentWillUnmount(): void;
     componentWillReceiveProps(nextProps: P): void;
-    componentWillUpdate(nextProps: P, prevState: any): void;
+    componentWillUpdate(nextProps: P, nextState: any): void;
     componentDidUpdate(prevProps: P, prevState: any): void;
     onQueueEvent(evt: WidgetQueueEvent): void;
     protected sendQueueEvent(name: string, data?: any): void;
@@ -103,6 +117,8 @@ export declare abstract class Widget<P extends WidgetProps, S> extends React.Com
     protected getRenderSclass(): string;
     protected getRenderStyle(): React.CSSProperties;
     protected getRenderChildren(): React.ReactNode;
+    protected show(): void;
+    protected hide(): void;
     render(): JSX.Element;
 }
 export interface FonticonProps extends WidgetProps {
@@ -153,4 +169,3 @@ export declare function getInnerHeight(dom: HTMLElement): number;
 export declare function getOutterWidth(dom: HTMLElement): number;
 export declare function getOutterHeight(dom: HTMLElement): number;
 export declare function toPxNumber(pxvar: any): number;
-export declare function mergeProps(props: any, ...supports: any[]): any;

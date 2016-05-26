@@ -1,12 +1,10 @@
 /// <reference path="../3rd-definition/react.d.ts" />
 /// <reference path="../3rd-definition/react-dom.d.ts" />
-/// <reference path="../main/widget/widget-alias.d.ts" />
-/// <reference path="../main/widget/layout-alias.d.ts" />
 import React = require('react');
 import ReactDOM = require('react-dom');
 
-import w = require('react-webkit/widget');
-import l = require('react-webkit/layout');
+import w = require('../main/widget');
+import l = require('../main/layout');
 
 
 export class App extends React.Component<any, any>{
@@ -70,14 +68,14 @@ export class App extends React.Component<any, any>{
                     <l.Hlayout hflex={1}>
                         <l.Box>Left</l.Box>
                         <l.Box hidden={!this.state.hidden} style={{ background: 'orange', padding: '2px' }}
-                                animation={{ effect: w.AniEffect.slideLeft, duration: 500 }}>AAAA</l.Box>
+                                animation={{ effect: w.AniEffect.slideWidth, duration: 500 }}>AAAA</l.Box>
                         <l.Box hflex={1} style={{ width:'300px', background: 'yellow', padding: '2px' }}>Right 1</l.Box>
                         <l.Box style={{ background: 'yellow', padding: '2px' , textAlign:'right'}}>Right 2</l.Box>
                     </l.Hlayout>
                     <l.Hlayout hflex={1}>
                         <l.Box>Left</l.Box>
                         <l.Box hidden={this.state.hidden} style={{ background: 'orange', padding: '2px' }}
-                                animation={{ effect: w.AniEffect.slideLeft, duration: 500 }}>AAAA</l.Box>
+                                animation={{ effect: w.AniEffect.slideWidth, duration: 500 }}>AAAA</l.Box>
                         <l.Box hflex={1} style={{ width:'300px', background: 'yellow', padding: '2px' }}>Right 1</l.Box>
                         <l.Box style={{ background: 'yellow', padding: '2px' , textAlign:'right'}}>Right 2</l.Box>
                     </l.Hlayout>

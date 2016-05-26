@@ -1,3 +1,13 @@
+/**
+ * React WebKit - v0.0.2
+ * The react widget kit base on typescript
+ * 
+ * Copyright 2016 - present, Dennis Chen, All rights reserved.
+ * 
+ * Released under MIT license
+ */
+export declare function supplyProps(props: any, ...supplies: any[]): any;
+export declare function overrideProps(props: any, ...supplies: any[]): any;
 export interface QueueListener<E extends QueueEvent> {
     onQueueEvent(evt: E): void;
 }

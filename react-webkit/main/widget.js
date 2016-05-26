@@ -1,23 +1,42 @@
+/**
+ * React WebKit - v0.0.2
+ * The react widget kit base on typescript
+ * 
+ * Copyright 2016 - present, Dennis Chen, All rights reserved.
+ * 
+ * Released under MIT license
+ */
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define(["require", "exports", 'react', 'react-dom', 'jquery', 'react-webkit/util'], function (require, exports, React, ReactDOM, jq, Util) {
+(function (factory) {
+    if (typeof module === 'object' && typeof module.exports === 'object') {
+        var v = factory(require, exports); if (v !== undefined) module.exports = v;
+    }
+    else if (typeof define === 'function' && define.amd) {
+        define(["require", "exports", 'react', 'react-dom', 'jquery', './util'], factory);
+    }
+})(function (require, exports) {
     "use strict";
+    var React = require('react');
+    var ReactDOM = require('react-dom');
+    var Jq = require('jquery');
+    var Util = require('./util');
     exports.QUEUE_EVENTS = {
         ON_RESIZE: 'onResize'
     };
-    var queueName = 'wbkWidgetQueue';
+    var queueName = 'wkWidgetQueue';
     var queue;
-    function sendResize() {
+    function sendWidgetResize() {
         queue.send({ name: exports.QUEUE_EVENTS.ON_RESIZE, data: {} });
     }
-    exports.sendResize = sendResize;
-    if (window) {
+    exports.sendWidgetResize = sendWidgetResize;
+    if (undefined !== typeof window) {
         if (!window[queueName]) {
             window[queueName] = queue = new Util.SimpleQueue();
-            jq(window).bind('resize', sendResize);
+            Jq(window).bind('resize', sendWidgetResize);
         }
         else {
             queue = window[queueName];
@@ -35,12 +54,18 @@ define(["require", "exports", 'react', 'react-dom', 'jquery', 'react-webkit/util
         HPos[HPos["right"] = 3] = "right";
     })(exports.HPos || (exports.HPos = {}));
     var HPos = exports.HPos;
+    (function (Orient) {
+        Orient[Orient["vertical"] = 1] = "vertical";
+        Orient[Orient["horizontal"] = 2] = "horizontal";
+    })(exports.Orient || (exports.Orient = {}));
+    var Orient = exports.Orient;
     (function (AniEffect) {
         AniEffect[AniEffect["fade"] = 1] = "fade";
         AniEffect[AniEffect["slide"] = 2] = "slide";
-        AniEffect[AniEffect["slideLeft"] = 3] = "slideLeft";
+        AniEffect[AniEffect["slideWidth"] = 3] = "slideWidth";
     })(exports.AniEffect || (exports.AniEffect = {}));
     var AniEffect = exports.AniEffect;
+    exports.DEFAULT_ANIMATION_DURATION = 300;
     var IndexSelection = (function () {
         function IndexSelection() {
             var _this = this;
@@ -211,6 +236,9 @@ define(["require", "exports", 'react', 'react-dom', 'jquery', 'react-webkit/util
         __extends(Widget, _super);
         function Widget(props) {
             _super.call(this, props);
+            this.state = {
+                hidden: props.hidden
+            };
         }
         Widget.prototype.registerQueue = function () {
             if (!this._registedQueue) {
@@ -221,7 +249,7 @@ define(["require", "exports", 'react', 'react-dom', 'jquery', 'react-webkit/util
         Widget.prototype.unregisterQueue = function () {
             if (this._registedQueue) {
                 queue.remove(this);
-                this._registedQueue = false;
+                delete this._registedQueue;
             }
         };
         Widget.prototype.componentWillMount = function () {
@@ -231,44 +259,47 @@ define(["require", "exports", 'react', 'react-dom', 'jquery', 'react-webkit/util
         Widget.prototype.componentWillUnmount = function () {
         };
         Widget.prototype.componentWillReceiveProps = function (nextProps) {
+            if (this.props.hidden !== nextProps.hidden) {
+                this.setState({ hidden: nextProps.hidden });
+            }
         };
-        Widget.prototype.componentWillUpdate = function (nextProps, prevState) {
-            if (nextProps.animation) {
-                this._willAnimate = true;
-                this._willAnimateHidden = this.props.hidden;
+        Widget.prototype.componentWillUpdate = function (nextProps, nextState) {
+            if (nextProps.animation && this.state.hidden !== nextState.hidden) {
+                this._willAnimateHidden = true;
             }
         };
         Widget.prototype.componentDidUpdate = function (prevProps, prevState) {
             var _this = this;
-            var willAni = this._willAnimate;
-            delete this._willAnimate;
-            if (this.props.hidden != prevProps.hidden
-                || this.props.hflex != prevProps.hflex
-                || this.props.vflex != prevProps.vflex) {
-                if (!willAni) {
-                    return;
-                }
+            var fireResize = false;
+            if (this._willAnimateHidden) {
                 var ani = this.props.animation;
-                var jqd = jq(this.getDOM());
-                var dur = ani.duration ? ani.duration : 300;
-                var hidden = this.props.hidden;
+                var jqd = Jq(this.getDOM());
+                var dur = ani.duration ? ani.duration : exports.DEFAULT_ANIMATION_DURATION;
+                var hidden = this.state.hidden;
                 var done = hidden ? function () {
-                    _this.sendQueueEvent(exports.QUEUE_EVENTS.ON_RESIZE);
-                } : undefined;
+                    _this._willAnimateHidden = false;
+                    sendWidgetResize();
+                } : function () {
+                    _this._willAnimateHidden = false;
+                };
                 switch (ani.effect) {
                     case AniEffect.fade:
-                        jqd.animate({ opacity: 'toggle' }, { duration: dur, done: done });
+                        jqd.animate({ opacity: hidden ? 'hide' : 'show' }, { duration: dur, done: done });
                         break;
                     case AniEffect.slide:
-                        jqd.animate({ height: 'toggle' }, { duration: dur, done: done });
+                        jqd.animate({ height: hidden ? 'hide' : 'show' }, { duration: dur, done: done });
                         break;
-                    case AniEffect.slideLeft:
-                        jqd.animate({ width: 'toggle' }, { duration: dur, done: done });
+                    case AniEffect.slideWidth:
+                        jqd.animate({ width: hidden ? 'hide' : 'show' }, { duration: dur, done: done });
                         break;
                 }
                 if (!hidden) {
-                    this.sendQueueEvent(exports.QUEUE_EVENTS.ON_RESIZE);
+                    fireResize = true;
                 }
+            }
+            if (fireResize || this.props.hflex !== prevProps.hflex
+                || this.props.vflex !== prevProps.vflex) {
+                sendWidgetResize();
             }
         };
         Widget.prototype.onQueueEvent = function (evt) { };
@@ -299,10 +330,10 @@ define(["require", "exports", 'react', 'react-dom', 'jquery', 'react-webkit/util
             var str = [];
             str.push(this.getWidgetSclass());
             if (this.props.hflex) {
-                str.push('wbk-hflex');
+                str.push('wk-hflex');
             }
             if (this.props.vflex) {
-                str.push('wbk-vflex');
+                str.push('wk-vflex');
             }
             if (this.props.className) {
                 str.push(this.props.className);
@@ -312,20 +343,32 @@ define(["require", "exports", 'react', 'react-dom', 'jquery', 'react-webkit/util
         Widget.prototype.getRenderStyle = function () {
             var css = {};
             if (this.props.style) {
-                mergeProps(css, this.props.style);
+                Util.supplyProps(css, this.props.style);
             }
-            if (this._willAnimate) {
-                if (this._willAnimateHidden) {
+            if (this._willAnimateHidden) {
+                if (!this.state.hidden) {
                     css.display = 'none';
                 }
             }
-            else if (this.props.hidden) {
+            else if (this.state.hidden) {
                 css.display = 'none';
             }
             return css;
         };
         Widget.prototype.getRenderChildren = function () {
             return this.props.children;
+        };
+        Widget.prototype.show = function () {
+            if (!this.state.hidden) {
+                return;
+            }
+            this.setState({ hidden: false });
+        };
+        Widget.prototype.hide = function () {
+            if (this.state.hidden) {
+                return;
+            }
+            this.setState({ hidden: true });
         };
         Widget.prototype.render = function () {
             var props = this.props;
@@ -352,7 +395,7 @@ define(["require", "exports", 'react', 'react-dom', 'jquery', 'react-webkit/util
             _super.apply(this, arguments);
         }
         Fonticon.prototype.getWidgetSclass = function () {
-            return 'wbkw-fonticon';
+            return 'wkw-fonticon';
         };
         Fonticon.prototype.getRenderChildren = function () {
             return null;
@@ -360,7 +403,7 @@ define(["require", "exports", 'react', 'react-dom', 'jquery', 'react-webkit/util
         Fonticon.prototype.getRenderType = function () {
             return 'i';
         };
-        Fonticon.defaultProps = mergeProps({}, Widget.defaultProps);
+        Fonticon.defaultProps = Util.supplyProps({}, Widget.defaultProps);
         return Fonticon;
     }(Widget));
     exports.Fonticon = Fonticon;
@@ -370,7 +413,7 @@ define(["require", "exports", 'react', 'react-dom', 'jquery', 'react-webkit/util
             _super.apply(this, arguments);
         }
         Checkbox.prototype.getWidgetSclass = function () {
-            return 'wbkw-checkbox';
+            return 'wkw-checkbox';
         };
         Checkbox.prototype.onChange = function (evt) {
             if (this.props.doCheck) {
@@ -384,7 +427,7 @@ define(["require", "exports", 'react', 'react-dom', 'jquery', 'react-webkit/util
             var str = [];
             str.push(_super.prototype.getRenderSclass.call(this));
             if (this.props.disabled) {
-                str.push('wbk-disabled');
+                str.push('wk-disabled');
             }
             return str.join(' ');
         };
@@ -401,7 +444,7 @@ define(["require", "exports", 'react', 'react-dom', 'jquery', 'react-webkit/util
             var readonly = this.props.checked && !onChange ? true : undefined;
             return [React.createElement("input", {key: 'i', id: inpid, type: 'checkbox', ref: 'checkbox', onChange: onChange, checked: this.props.checked, readOnly: readonly, disabled: this.props.disabled, name: this.props.name}), label];
         };
-        Checkbox.defaultProps = mergeProps({}, Widget.defaultProps);
+        Checkbox.defaultProps = Util.supplyProps({}, Widget.defaultProps);
         return Checkbox;
     }(Widget));
     exports.Checkbox = Checkbox;
@@ -411,13 +454,13 @@ define(["require", "exports", 'react', 'react-dom', 'jquery', 'react-webkit/util
             _super.apply(this, arguments);
         }
         List.prototype.getWidgetSclass = function () {
-            return 'wbkw-list';
+            return 'wkw-list';
         };
         List.prototype.getRenderSclass = function () {
             var str = [];
             str.push(_super.prototype.getRenderSclass.call(this));
             if (this.props.disabled) {
-                str.push('wbk-disabled');
+                str.push('wk-disabled');
             }
             return str.join(' ');
         };
@@ -451,7 +494,7 @@ define(["require", "exports", 'react', 'react-dom', 'jquery', 'react-webkit/util
                     var onItemContextMenu = props.onItemContextMenu ? function (evt) {
                         props.onItemContextMenu(evt, idx, each);
                     } : undefined;
-                    return React.createElement("li", {key: key, className: selected ? 'wbk-selected' : undefined, onClick: onItemClick, onDoubleClick: onItemDoubleClick, onContentMenu: onItemContextMenu}, templateNode);
+                    return React.createElement("li", {key: key, className: selected ? 'wk-selected' : undefined, onClick: onItemClick, onDoubleClick: onItemDoubleClick, onContentMenu: onItemContextMenu}, templateNode);
                 });
                 return React.createElement("ul", null, childrenNodes);
             }
@@ -472,7 +515,7 @@ define(["require", "exports", 'react', 'react-dom', 'jquery', 'react-webkit/util
                     var onItemContextMenu = props.onItemContextMenu ? function (evt) {
                         props.onItemContextMenu(evt, idx, null);
                     } : undefined;
-                    return React.createElement("li", {className: selected ? 'wbk-selected' : undefined, onClick: onItemClick, onDoubleClick: onItemDoubleClick, onContextMenu: onItemContextMenu}, child);
+                    return React.createElement("li", {className: selected ? 'wk-selected' : undefined, onClick: onItemClick, onDoubleClick: onItemDoubleClick, onContextMenu: onItemContextMenu}, child);
                 });
                 return React.createElement("ul", null, childrenNodes);
             }
@@ -480,7 +523,7 @@ define(["require", "exports", 'react', 'react-dom', 'jquery', 'react-webkit/util
                 return React.createElement("ul", null);
             }
         };
-        List.defaultProps = mergeProps({}, Widget.defaultProps);
+        List.defaultProps = Util.supplyProps({}, Widget.defaultProps);
         return List;
     }(Widget));
     exports.List = List;
@@ -540,21 +583,6 @@ define(["require", "exports", 'react', 'react-dom', 'jquery', 'react-webkit/util
         return 0;
     }
     exports.toPxNumber = toPxNumber;
-    function mergeProps(props) {
-        var supports = [];
-        for (var _i = 1; _i < arguments.length; _i++) {
-            supports[_i - 1] = arguments[_i];
-        }
-        supports.forEach(function (each) {
-            for (var prop in each) {
-                if (props[prop] == undefined) {
-                    props[prop] = each[prop];
-                }
-            }
-        });
-        return props;
-    }
-    exports.mergeProps = mergeProps;
 });
 
-//# sourceMappingURL=../srcmap/widget/widget.js.map
+//# sourceMappingURL=srcmap/widget.js.map

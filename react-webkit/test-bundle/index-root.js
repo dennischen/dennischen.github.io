@@ -1,8 +1,8 @@
 'use strict';
 
-var wbk = ReactWebKit;
-var w = wbk.Widget;
-var l = wbk.Layout;
+var wk = ReactWebKit;
+var w = wk.widget;
+var l = wk.layout;
 
 var RootApp = React.createClass({
     getInitialState: function getInitialState() {

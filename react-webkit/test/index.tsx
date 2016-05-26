@@ -1,16 +1,14 @@
 /// <reference path="../3rd-definition/react.d.ts" />
 /// <reference path="../3rd-definition/react-dom.d.ts" />
 /// <reference path="../3rd-definition/require.d.ts" />
-/// <reference path="../main/widget/widget-alias.d.ts" />
-/// <reference path="../main/widget/layout-alias.d.ts" />
 
 import React = require('react');
 import ReactDOM = require('react-dom');
 //for requirejs load callback
 import requirejs = require('module');
 
-import w = require('react-webkit/widget');
-import l = require('react-webkit/layout');
+import w = require('../main/widget');
+import l = require('../main/layout');
 
 interface TestCase {
     name: string
@@ -30,6 +28,7 @@ let testCases: TestCase[] = [
     { name: 'Lifecycle', module: 'lifecycle', html: 'lifecycle.html' },
     { name: 'Commentbox', module: 'test-commentbox', html: 'test-commentbox.html' },
     { name: 'Sider', module: 'sider', html: 'sider.html' },
+    { name: 'Popup', module: 'popup', html: 'popup.html' },
 ]
 
 testCases = testCases.sort((a:TestCase,b:TestCase)=>{
@@ -90,8 +89,8 @@ class App extends React.Component<any, State>{
                     <span className='title'>WebKit - Tests</span>
                 </l.Hlayout>
                 <l.Hlayout vflex={1} hflex={1}>
-                    <l.Hsider id='siderbar' vflex={1} minWidth={100} maxWidth={300}
-                        hidden={!this.state.sidebar} animation={{ effect: w.AniEffect.slideLeft }}>
+                    <l.Sider id='siderbar' vflex={1} minSize={100} maxSize={300}
+                        hidden={!this.state.sidebar} animation={{ effect: w.AniEffect.slideWidth }}>
                         <w.List id='function' vflex={1} hflex={1} style={{ paddingTop: 4 }}
                             onItemDoubleClick={this.onCaseDoubleClick.bind(this) }
                             model={testCases} itemRenderer={this.caseRenderer}
@@ -99,7 +98,7 @@ class App extends React.Component<any, State>{
                             doSelect={this.doCaseSelect.bind(this) }
                             >
                         </w.List>
-                    </l.Hsider>
+                    </l.Sider>
                     <l.Box id='testContent' hflex={1} vflex={1}>
                         {this.state.content}
                     </l.Box>

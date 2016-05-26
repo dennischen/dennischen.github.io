@@ -1,0 +1,105 @@
+/**
+ * React WebKit - v0.0.2
+ * The react widget kit base on typescript
+ * 
+ * Copyright 2016 - present, Dennis Chen, All rights reserved.
+ * 
+ * Released under MIT license
+ */
+
+@import "_variable.less";
+@import "_function.less";
+
+//status rules
+.wk-hflex{
+	width: 100%;
+	//user could override to auto if he want to auto-scroll bar when content is large the parent
+	overflow-x: hidden;
+}
+.wk-vflex{
+	height:100%;
+	//user could override to auto if he want to auto-scroll bar when content is large the parent
+	overflow-y: hidden;
+}
+
+//widget rules
+.wkw-checkbox{
+	.box-sizing;
+	position:relative;
+	display: inline-block;
+	> input {
+		cursor: pointer;
+		vertical-align: middle;
+		width: 16px;
+		height: 16px;
+		&[disabled]{
+			cursor: default;
+		}
+	}
+	> label{
+		&[for]{
+			cursor: pointer;	
+		}
+		padding-left:4px;
+		vertical-align: middle;
+	}
+	&.wk-disabled{
+		> label{
+			color: @disabledText;
+		}
+	}
+}
+
+
+.wkw-list{
+	.box-sizing;
+	position:relative;
+	overflow-y:auto;
+	> ul{
+		.box-sizing;
+		padding:0;
+		position:relative;
+		list-style: none;
+		> li {
+			.box-sizing;
+			position:relative;
+			padding:3px;
+			cursor: pointer;
+			&:hover{
+				background-color: @list-hover;
+			}
+			&.wk-selected{
+				background-color: @list-selected
+			}
+			&:active{
+				background-color: @list-active;
+			}
+		}
+	}
+	&.wk-disabled{
+		> ul{
+			> li {
+				cursor:default;
+				color: @disabledText;
+				&:hover,:active{
+					background-color:inherit;
+				}
+				&.wk-selected{
+					background-color: @list-selected
+				}
+			}
+		}
+	}
+	&.dark-bg > ul > li{
+		&:hover{
+			background-color: @list-hover-dark-bg;
+		}
+		&.wk-selected{
+			background-color: @list-selected-dark-bg
+		}
+		&:active{
+			background-color: @list-active-dark-bg;
+		}
+	}
+}
+

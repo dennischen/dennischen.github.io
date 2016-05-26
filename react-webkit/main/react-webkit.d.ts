@@ -1,8 +1,18 @@
+/**
+ * React WebKit - v0.0.2
+ * The react widget kit base on typescript
+ * 
+ * Copyright 2016 - present, Dennis Chen, All rights reserved.
+ * 
+ * Released under MIT license
+ */
 declare module "react-webkit" {
-    import Widget = require('widget/widget');
-    import Layout = require('widget/layout');
+    import widget = require('widget');
+    import layout = require('layout');
+    import popup = require('popup');
     export{
-        Widget,
-        Layout
+        widget,
+        layout,
+        popup
     };
 }

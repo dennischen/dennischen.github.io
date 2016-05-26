@@ -4,9 +4,9 @@
 import React = require('react');
 import ReactDOM = require('react-dom');
 
-import wbk = require('react-webkit');
-let w = wbk.Widget;
-let l = wbk.Layout;
+import wk = require('react-webkit');
+let w = wk.widget;
+let l = wk.layout;
 
 export class App extends React.Component<any, any>{
     constructor(props: any) {

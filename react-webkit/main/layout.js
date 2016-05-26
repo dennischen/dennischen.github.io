@@ -1,17 +1,36 @@
+/**
+ * React WebKit - v0.0.2
+ * The react widget kit base on typescript
+ * 
+ * Copyright 2016 - present, Dennis Chen, All rights reserved.
+ * 
+ * Released under MIT license
+ */
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define(["require", "exports", 'react', 'jquery', 'react-webkit/widget'], function (require, exports, React, jq, Widget) {
+(function (factory) {
+    if (typeof module === 'object' && typeof module.exports === 'object') {
+        var v = factory(require, exports); if (v !== undefined) module.exports = v;
+    }
+    else if (typeof define === 'function' && define.amd) {
+        define(["require", "exports", 'react', 'jquery', './widget', './util'], factory);
+    }
+})(function (require, exports) {
     "use strict";
+    var React = require('react');
+    var Jq = require('jquery');
+    var Widget = require('./widget');
+    var Util = require('./util');
     var Box = (function (_super) {
         __extends(Box, _super);
         function Box() {
             _super.apply(this, arguments);
         }
         Box.prototype.getWidgetSclass = function () {
-            return 'wbkw-box';
+            return 'wkw-box';
         };
         Box.prototype.getRenderSclass = function () {
             var sclass = [_super.prototype.getRenderSclass.call(this)];
@@ -21,43 +40,43 @@ define(["require", "exports", 'react', 'jquery', 'react-webkit/widget'], functio
             if (align) {
                 align.split(' ').forEach(function (each) {
                     if (each = each.trim()) {
-                        sclass.push('wbk-' + each);
+                        sclass.push('wk-' + each);
                     }
                 });
             }
             if (valign) {
-                sclass.push('wbk-' + Widget.VPos[valign]);
+                sclass.push('wk-' + Widget.VPos[valign]);
             }
             if (halign) {
-                sclass.push('wbk-' + Widget.VPos[halign]);
+                sclass.push('wk-' + Widget.VPos[halign]);
             }
             return sclass.join(' ');
         };
-        Box.defaultProps = Widget.mergeProps({}, Widget.Widget.defaultProps);
+        Box.defaultProps = Util.supplyProps({}, Widget.Widget.defaultProps);
         return Box;
     }(Widget.Widget));
     exports.Box = Box;
-    var LayoutWidget = (function (_super) {
-        __extends(LayoutWidget, _super);
-        function LayoutWidget() {
+    var Layout = (function (_super) {
+        __extends(Layout, _super);
+        function Layout() {
             _super.apply(this, arguments);
         }
-        LayoutWidget.prototype.getContentDOM = function (idx) {
+        Layout.prototype.getContentDOM = function (idx) {
             return this.refs['contentDOM' + idx];
         };
-        LayoutWidget.prototype.getRenderContentSclass = function (child, total, idx) {
+        Layout.prototype.getRenderContentSclass = function (child, idx, ctx) {
             return this.getWidgetSubSclass('content');
         };
-        LayoutWidget.prototype.getRenderContentStyle = function (child, total, idx) {
+        Layout.prototype.getRenderContentStyle = function (child, idx, ctx) {
             return {};
         };
-        LayoutWidget.prototype.getRenderChildren = function () {
+        Layout.prototype.getRenderChildren = function () {
             var _this = this;
-            var total = React.Children.count(this.props.children);
+            var ctx = { total: React.Children.count(this.props.children) };
             return React.Children.map(this.props.children, function (child, idx) {
                 var node;
-                var sclass = _this.getRenderContentSclass(child, total, idx);
-                var css = _this.getRenderContentStyle(child, total, idx);
+                var sclass = _this.getRenderContentSclass(child, idx, ctx);
+                var css = _this.getRenderContentStyle(child, idx, ctx);
                 if ('string' == typeof child) {
                     node = React.createElement("span", null, child);
                 }
@@ -67,17 +86,17 @@ define(["require", "exports", 'react', 'jquery', 'react-webkit/widget'], functio
                 return (React.createElement("div", {className: sclass, style: css, ref: 'contentDOM' + idx}, node));
             });
         };
-        LayoutWidget.defaultProps = Widget.mergeProps({}, Widget.Widget.defaultProps);
-        return LayoutWidget;
+        Layout.defaultProps = Util.supplyProps({}, Widget.Widget.defaultProps);
+        return Layout;
     }(Widget.Widget));
-    exports.LayoutWidget = LayoutWidget;
+    exports.Layout = Layout;
     var Hlayout = (function (_super) {
         __extends(Hlayout, _super);
         function Hlayout() {
             _super.apply(this, arguments);
         }
         Hlayout.prototype.getWidgetSclass = function () {
-            return 'wbkw-hlayout';
+            return 'wkw-hlayout';
         };
         Hlayout.prototype.componentDidMount = function () {
             _super.prototype.componentDidMount.call(this);
@@ -103,30 +122,32 @@ define(["require", "exports", 'react', 'jquery', 'react-webkit/widget'], functio
                 if (Widget.isWidgetElemnt(each)) {
                     var props = Widget.getWidgetProps(each);
                     if (!props.hidden && props.vflex) {
-                        var jqcon = jq(_this.getContentDOM(idx));
+                        var jqcon = Jq(_this.getContentDOM(idx));
                         jqcon.css({ height: height });
                     }
                 }
             });
         };
-        Hlayout.prototype.getRenderContentStyle = function (child, total, idx) {
-            var css = _super.prototype.getRenderContentStyle.call(this, child, total, idx);
+        Hlayout.prototype.getRenderContentStyle = function (child, idx, ctx) {
+            var css = _super.prototype.getRenderContentStyle.call(this, child, idx, ctx);
             if (Widget.isWidgetElemnt(child)) {
                 var props = Widget.getWidgetProps(child);
                 if (!props.hidden) {
-                    if (idx > 0 && this.props.space) {
+                    if (this.props.space && ctx.anyVisible) {
                         css.marginLeft = this.props.space;
                     }
                     if (props.hflex) {
                         css.flex = props.hflex;
                         css.overflow = 'hidden';
                     }
+                    ctx.anyVisible = true;
                 }
             }
             else {
-                if (idx > 0 && this.props.space) {
+                if (this.props.space && ctx.anyVisible) {
                     css.marginLeft = this.props.space;
                 }
+                ctx.anyVisible = true;
             }
             return css;
         };
@@ -138,94 +159,36 @@ define(["require", "exports", 'react', 'jquery', 'react-webkit/widget'], functio
             if (align) {
                 align.split(' ').forEach(function (each) {
                     if (each = each.trim()) {
-                        sclass.push('wbk-' + each);
+                        sclass.push('wk-' + each);
                     }
                 });
             }
             if (valign) {
-                sclass.push('wbk-' + Widget.VPos[valign]);
+                sclass.push('wk-' + Widget.VPos[valign]);
             }
             if (halign) {
-                sclass.push('wbk-' + Widget.VPos[halign]);
+                sclass.push('wk-' + Widget.VPos[halign]);
             }
             return sclass.join(' ');
         };
-        Hlayout.defaultProps = Widget.mergeProps({}, LayoutWidget.defaultProps);
+        Hlayout.defaultProps = Util.supplyProps({}, Layout.defaultProps);
         return Hlayout;
-    }(LayoutWidget));
+    }(Layout));
     exports.Hlayout = Hlayout;
-    var Hsider = (function (_super) {
-        __extends(Hsider, _super);
-        function Hsider(props) {
-            _super.call(this, props);
-            this.state = {
-                width: this.props.width
-            };
-        }
-        Hsider.prototype.onBarMousedown = function (evt) {
-            var _this = this;
-            evt.preventDefault();
-            var jqdoc = jq(document);
-            var jqdom = jq(this.getDOM());
-            var jqbar = jqdom.find('.' + this.getWidgetSubSclass('bar'));
-            var offset0 = evt.pageX - jqbar.offset().left;
-            var docMouseMove = function (evt) {
-                evt.preventDefault();
-                var state = _this.state;
-                var props = _this.props;
-                var offset = evt.pageX - offset0 - jqbar.offset().left;
-                var width = (state.width ? state.width : jqdom.width()) + offset;
-                if (width > 0 && (!props.minWidth || width >= props.minWidth) && (!props.maxWidth || width <= props.maxWidth)) {
-                    _this.setState({ width: width });
-                }
-            };
-            var docMouseUp = function (evt) {
-                jqdoc.unbind('mousemove', docMouseMove);
-                jqdoc.unbind('mouseup', docMouseUp);
-                _this.setState({ resizing: false });
-            };
-            jqdoc.bind('mousemove', docMouseMove);
-            jqdoc.bind('mouseup', docMouseUp);
-            this.setState({ resizing: true });
-        };
-        Hsider.prototype.getWidgetSclass = function () {
-            return 'wbkw-hsider';
-        };
-        Hsider.prototype.getRenderStyle = function () {
-            var props = this.props;
-            var css = _super.prototype.getRenderStyle.call(this);
-            if (this.state.width > 0) {
-                css.width = this.state.width;
-            }
-            return css;
-        };
-        Hsider.prototype.getRenderChildren = function () {
-            var barcls = [this.getWidgetSubSclass('bar')];
-            if (this.state.resizing) {
-                barcls.push('wbk-active');
-            }
-            var total = React.Children.count(this.props.children);
-            return [React.createElement(Box, {key: 'b', hflex: 1, vflex: 1}, this.props.children),
-                React.createElement("div", {key: 's', className: barcls.join(' '), onMouseDown: this.onBarMousedown.bind(this)})];
-        };
-        Hsider.defaultProps = Widget.mergeProps({}, Widget.Widget.defaultProps);
-        return Hsider;
-    }(Widget.Widget));
-    exports.Hsider = Hsider;
     var Vlayout = (function (_super) {
         __extends(Vlayout, _super);
         function Vlayout() {
             _super.apply(this, arguments);
         }
         Vlayout.prototype.getWidgetSclass = function () {
-            return 'wbkw-vlayout';
+            return 'wkw-vlayout';
         };
-        Vlayout.prototype.getRenderContentStyle = function (child, total, idx) {
-            var css = _super.prototype.getRenderContentStyle.call(this, child, total, idx);
+        Vlayout.prototype.getRenderContentStyle = function (child, idx, ctx) {
+            var css = _super.prototype.getRenderContentStyle.call(this, child, idx, ctx);
             if (Widget.isWidgetElemnt(child)) {
                 var props = Widget.getWidgetProps(child);
                 if (!props.hidden) {
-                    if (idx > 0 && this.props.space) {
+                    if (this.props.space && ctx.anyVisible) {
                         css.marginTop = this.props.space;
                     }
                     if (props.vflex) {
@@ -234,12 +197,14 @@ define(["require", "exports", 'react', 'jquery', 'react-webkit/widget'], functio
                         css.display = 'flex';
                         css.flexDirection = 'column';
                     }
+                    ctx.anyVisible = true;
                 }
             }
             else {
-                if (idx > 0 && this.props.space) {
+                if (this.props.space && ctx.anyVisible) {
                     css.marginTop = this.props.space;
                 }
+                ctx.anyVisible = true;
             }
             return css;
         };
@@ -251,45 +216,60 @@ define(["require", "exports", 'react', 'jquery', 'react-webkit/widget'], functio
             if (align) {
                 align.split(' ').forEach(function (each) {
                     if (each = each.trim()) {
-                        sclass.push('wbk-' + each);
+                        sclass.push('wk-' + each);
                     }
                 });
             }
             if (valign) {
-                sclass.push('wbk-' + Widget.VPos[valign]);
+                sclass.push('wk-' + Widget.VPos[valign]);
             }
             if (halign) {
-                sclass.push('wbk-' + Widget.VPos[halign]);
+                sclass.push('wk-' + Widget.VPos[halign]);
             }
             return sclass.join(' ');
         };
-        Vlayout.defaultProps = Widget.mergeProps({}, LayoutWidget.defaultProps);
+        Vlayout.defaultProps = Util.supplyProps({}, Layout.defaultProps);
         return Vlayout;
-    }(LayoutWidget));
+    }(Layout));
     exports.Vlayout = Vlayout;
-    var Vsider = (function (_super) {
-        __extends(Vsider, _super);
-        function Vsider(props) {
+    var Sider = (function (_super) {
+        __extends(Sider, _super);
+        function Sider(props) {
             _super.call(this, props);
             this.state = {
-                height: this.props.height
+                size: this.props.size
             };
         }
-        Vsider.prototype.onBarMousedown = function (evt) {
+        Sider.prototype.onBarMousedown = function (evt) {
             var _this = this;
             evt.preventDefault();
-            var jqdoc = jq(document);
-            var jqdom = jq(this.getDOM());
+            var props = this.props;
+            var jqdoc = Jq(document);
+            var jqdom = Jq(this.getDOM());
             var jqbar = jqdom.find('.' + this.getWidgetSubSclass('bar'));
-            var offset0 = evt.pageY - jqbar.offset().top;
+            var offset0;
+            if (props.orient == Widget.Orient.vertical) {
+                offset0 = evt.pageY - jqbar.offset().top;
+            }
+            else {
+                offset0 = evt.pageX - jqbar.offset().left;
+            }
             var docMouseMove = function (evt) {
                 evt.preventDefault();
                 var state = _this.state;
                 var props = _this.props;
-                var offset = evt.pageY - offset0 - jqbar.offset().top;
-                var height = (state.height ? state.height : jqdom.height()) + offset;
-                if (height > 0 && (!props.minHeight || height >= props.minHeight) && (!props.maxHeight || height <= props.maxHeight)) {
-                    _this.setState({ height: height });
+                var size;
+                if (props.orient == Widget.Orient.vertical) {
+                    var offset = evt.pageY - offset0 - jqbar.offset().top;
+                    size = (state.size ? state.size : jqdom.height()) + offset;
+                }
+                else {
+                    var offset = evt.pageX - offset0 - jqbar.offset().left;
+                    size = (state.size ? state.size : jqdom.width()) + offset;
+                }
+                if (size > 0 && (!props.minSize || size >= props.minSize)
+                    && (!props.maxSize || size <= props.maxSize)) {
+                    _this.setState({ size: size });
                 }
             };
             var docMouseUp = function (evt) {
@@ -301,30 +281,44 @@ define(["require", "exports", 'react', 'jquery', 'react-webkit/widget'], functio
             jqdoc.bind('mouseup', docMouseUp);
             this.setState({ resizing: true });
         };
-        Vsider.prototype.getWidgetSclass = function () {
-            return 'wbkw-vsider';
+        Sider.prototype.getWidgetSclass = function () {
+            return 'wkw-sider';
         };
-        Vsider.prototype.getRenderStyle = function () {
+        Sider.prototype.getRenderSclass = function () {
+            var sclass = [_super.prototype.getRenderSclass.call(this)];
+            if (this.props.orient == Widget.Orient.vertical) {
+                sclass.push('wk-vertical');
+            }
+            else {
+                sclass.push('wk-horizontal');
+            }
+            return sclass.join(' ');
+        };
+        Sider.prototype.getRenderStyle = function () {
             var props = this.props;
             var css = _super.prototype.getRenderStyle.call(this);
-            if (this.state.height > 0) {
-                css.height = this.state.height;
+            if (this.state.size > 0) {
+                if (props.orient == Widget.Orient.vertical) {
+                    css.height = this.state.size;
+                }
+                else {
+                    css.width = this.state.size;
+                }
             }
             return css;
         };
-        Vsider.prototype.getRenderChildren = function () {
+        Sider.prototype.getRenderChildren = function () {
             var barcls = [this.getWidgetSubSclass('bar')];
             if (this.state.resizing) {
-                barcls.push('wbk-active');
+                barcls.push('wk-active');
             }
-            var total = React.Children.count(this.props.children);
             return [React.createElement(Box, {key: 'b', hflex: 1, vflex: 1}, this.props.children),
                 React.createElement("div", {key: 's', className: barcls.join(' '), onMouseDown: this.onBarMousedown.bind(this)})];
         };
-        Vsider.defaultProps = Widget.mergeProps({}, Widget.Widget.defaultProps);
-        return Vsider;
+        Sider.defaultProps = Util.supplyProps({}, Widget.Widget.defaultProps);
+        return Sider;
     }(Widget.Widget));
-    exports.Vsider = Vsider;
+    exports.Sider = Sider;
 });
 
-//# sourceMappingURL=../srcmap/widget/layout.js.map
+//# sourceMappingURL=srcmap/layout.js.map

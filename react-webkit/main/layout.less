@@ -1,0 +1,148 @@
+/**
+ * React WebKit - v0.0.2
+ * The react widget kit base on typescript
+ * 
+ * Copyright 2016 - present, Dennis Chen, All rights reserved.
+ * 
+ * Released under MIT license
+ */
+
+@import "_variable.less";
+@import "_function.less";
+
+//status rules
+
+
+//widget rules
+
+.wkw-box{
+	.box-sizing;
+	position: relative;
+	display: flex;
+	flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+	
+	> .wk-vflex{
+		flex:1;
+	}
+	&.wk-top{
+		justify-content: flex-start;
+	}
+	&.wk-middle{
+		justify-content: center;
+	}
+	&.wk-bottom{
+		justify-content: flex-end;
+	}
+	&.wk-left{
+		align-items: flex-start;
+	}
+	&.wk-center{
+		align-items: center;
+	}
+	&.wk-right{
+		align-items: flex-end;
+	}	
+}
+
+.wkw-hlayout{
+	.box-sizing;
+	position: relative;
+	display: flex;
+	flex-direction: row;
+    justify-content: flex-start;
+    align-items: flex-start;
+	> .wkw-hlayout-content{
+		.box-sizing;
+	}
+	&.wk-top{
+		align-items: flex-start;
+	}
+	&.wk-middle{
+		align-items: center;
+	}
+	&.wk-bottom{
+		align-items: flex-end;
+	}
+	&.wk-left{
+		justify-content: flex-start;
+	}
+	&.wk-center{
+		justify-content: center;
+	}
+	&.wk-right{
+		justify-content: flex-end;
+	}
+}
+
+.wkw-vlayout{
+	.box-sizing;
+	position: relative;
+	display: flex;
+	flex-direction: column;
+	> .wkw-vlayout-content{
+		.box-sizing;
+		// display: block;
+		> .wk-vflex{
+			flex:1;
+		}
+	}
+	&.wk-top{
+		justify-content: flex-start;
+	}
+	&.wk-middle{
+		justify-content: center;
+	}
+	&.wk-bottom{
+		justify-content: flex-end;
+	}
+	&.wk-left{
+		align-items: flex-start;
+	}
+	&.wk-center{
+		align-items: center;
+	}
+	&.wk-right{
+		align-items: flex-end;
+	}	
+}
+
+.wkw-sider{
+	.box-sizing;
+	position: relative;
+	.wkw-sider-bar {
+		position:absolute;
+		&:hover{
+			background: @siderHover;
+		}
+		&.wk-active{
+			background: @siderActive;
+		}
+	}	
+	&.wk-horizontal{
+		> .wkw-box {
+			padding-right: 10px;
+		}
+		> .wkw-sider-bar{
+			position:absolute;
+			width:10px;
+			height:100%;
+			top:0px;
+			right:0px;
+			cursor: col-resize;
+		}
+	}
+	&.wk-vertical{
+		> .wkw-box {
+			padding-bottom: 10px;
+		}
+		> .wkw-sider-bar{
+			width:100%;
+			height:10px;
+			left:0px;
+			bottom:0px;
+			cursor: row-resize;
+		}
+	}
+}

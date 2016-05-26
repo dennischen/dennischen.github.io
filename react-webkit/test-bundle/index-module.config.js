@@ -5,8 +5,8 @@ requirejs.config({
         "react-dom": libPath + "react-dom",
         "jquery": libPath + "jquery",
         //built by webpack
-        "react-webkit/util":"../main/util/util",
-        "react-webkit/widget":"../main/widget/widget",
-        "react-webkit/layout":"../main/widget/layout"
+        "react-webkit/util":"../main/util",
+        "react-webkit/widget":"../main/widget",
+        "react-webkit/layout":"../main/layout"
     },
 });

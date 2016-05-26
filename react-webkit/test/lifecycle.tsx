@@ -17,7 +17,7 @@ class Base extends React.Component<any, any>{
     componentWillReceiveProps(nextProps:any) {
         console.log('componentWillReceiveProps', this.props.name);
     }
-    componentWillUpdate(nextProps:any, prevState:any) {
+    componentWillUpdate(nextProps:any, nextState:any) {
         console.log('componentWillUpdate', this.props.name);
     }
     componentDidUpdate(prevProps:any, prevState:any) {
