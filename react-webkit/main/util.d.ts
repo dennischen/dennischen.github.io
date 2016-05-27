@@ -28,3 +28,13 @@ export declare class SimpleQueue<E extends QueueEvent> implements Queue<E> {
     send(evt: E): void;
     post(evt: E, timeout: number): void;
 }
+export declare class ShortId {
+    private prefix;
+    private alphabet;
+    private count;
+    private reused;
+    constructor(prefix?: string, salt?: string, alphabet?: string);
+    reuse(id: string): void;
+    next(): string;
+    private hash(input);
+}

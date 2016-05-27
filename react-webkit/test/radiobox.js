@@ -28,7 +28,7 @@ var __extends = (this && this.__extends) || function (d, b) {
         __extends(App, _super);
         function App(props) {
             _super.call(this, props);
-            this.state = { msg: 'start to operation', checked: true };
+            this.state = { msg: 'start to operation', checked: false };
         }
         App.prototype.componentDidMount = function () {
         };
@@ -41,7 +41,7 @@ var __extends = (this && this.__extends) || function (d, b) {
             this.setState({ msg: 'Checked ' + checked, checked: checked });
         };
         App.prototype.render = function () {
-            return (React.createElement(l.Vlayout, {vflex: 1, style: { padding: 10, background: 'lightblue' }, space: 10}, React.createElement(l.Hlayout, null, this.state.msg), React.createElement(w.Checkbox, {id: 'cb1', label: 'Label checkable', style: { fontSize: 40, background: 'lightpink' }, doCheck: this.doCheck.bind(this), value: { text: 'one' }}), React.createElement(w.Checkbox, {doCheck: this.doCheck.bind(this)}), React.createElement(w.Checkbox, {doCheck: this.doCheck.bind(this), value: 'two'}), "---------", React.createElement(w.Checkbox, {checked: this.state.checked, label: 'You can\' check this, the status follow the last checking'}), "---------", React.createElement(w.Checkbox, {label: 'Free checkbox'}), React.createElement(w.Checkbox, {label: 'Disabled checkbox', disabled: true})));
+            return (React.createElement(l.Vlayout, {vflex: 1, style: { padding: 10, background: 'lightblue' }, space: 10}, React.createElement(l.Hlayout, null, this.state.msg), React.createElement(l.Hlayout, {align: 'top', space: 20}, React.createElement(w.Radiobox, {id: 'cb1', label: 'Option 3', name: 'group1', doCheck: this.doCheck.bind(this), value: 'one'}), React.createElement(w.Radiobox, {label: 'Option 2', name: 'group1', doCheck: this.doCheck.bind(this), value: 'two'}), React.createElement(w.Radiobox, {label: 'Option 3', name: 'group1', doCheck: this.doCheck.bind(this), value: 'tree'})), React.createElement(w.Radiobox, {doCheck: this.doCheck.bind(this)}), "---------", React.createElement(w.Radiobox, {checked: this.state.checked, label: 'You can\' check this, the status follow the last checking'}), "---------", React.createElement(w.Radiobox, {label: 'Free radiobox'}), React.createElement(w.Radiobox, {label: 'Disabled radiobox', disabled: true})));
         };
         return App;
     }(React.Component));
@@ -52,4 +52,4 @@ var __extends = (this && this.__extends) || function (d, b) {
     exports.render = render;
 });
 
-//# sourceMappingURL=srcmap/checkbox.js.map
+//# sourceMappingURL=srcmap/radiobox.js.map

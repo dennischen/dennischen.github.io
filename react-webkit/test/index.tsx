@@ -29,6 +29,7 @@ let testCases: TestCase[] = [
     { name: 'Commentbox', module: 'test-commentbox', html: 'test-commentbox.html' },
     { name: 'Sider', module: 'sider', html: 'sider.html' },
     { name: 'Popup', module: 'popup', html: 'popup.html' },
+    { name: 'Radiobox', module: 'radiobox', html: 'radiobox.html' },
 ]
 
 testCases = testCases.sort((a:TestCase,b:TestCase)=>{

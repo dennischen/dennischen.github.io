@@ -68,5 +68,5 @@ export class App extends React.Component<any, any>{
 ReactDOM.render(
     <App />
     ,
-    document.getElementById('content-index')
+    document.getElementById('content')
 );

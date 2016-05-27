@@ -23,15 +23,14 @@
 }
 
 //widget rules
-.wkw-checkbox{
+.wkw-checkbox, .wkw-radiobox{
 	.box-sizing;
 	position:relative;
 	display: inline-block;
 	> input {
+		margin:0;
 		cursor: pointer;
 		vertical-align: middle;
-		width: 16px;
-		height: 16px;
 		&[disabled]{
 			cursor: default;
 		}
@@ -40,7 +39,7 @@
 		&[for]{
 			cursor: pointer;	
 		}
-		padding-left:4px;
+		padding-left:2px;
 		vertical-align: middle;
 	}
 	&.wk-disabled{

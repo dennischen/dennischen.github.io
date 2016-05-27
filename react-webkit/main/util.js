@@ -68,6 +68,53 @@
         return SimpleQueue;
     }());
     exports.SimpleQueue = SimpleQueue;
+    function addSalt(alphabet, salt) {
+        var integer, j, i, v, p;
+        var temp;
+        if (!salt.length) {
+            return alphabet;
+        }
+        for (i = alphabet.length - 1, v = 0, p = 0; i > 0; i--, v++) {
+            v %= salt.length;
+            p += integer = salt.charAt(v).charCodeAt(0);
+            j = (integer + v + p) % i;
+            temp = alphabet.charAt(j);
+            alphabet = alphabet.substr(0, j) + alphabet.charAt(i) + alphabet.substr(j + 1);
+            alphabet = alphabet.substr(0, i) + temp + alphabet.substr(i + 1);
+        }
+        return alphabet;
+    }
+    var ShortId = (function () {
+        function ShortId(prefix, salt, alphabet) {
+            if (prefix === void 0) { prefix = ''; }
+            if (salt === void 0) { salt = 'betterthannever'; }
+            if (alphabet === void 0) { alphabet = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890'; }
+            this.count = 0;
+            this.reused = [];
+            this.prefix = prefix;
+            this.alphabet = addSalt(alphabet, salt);
+        }
+        ShortId.prototype.reuse = function (id) {
+            this.reused.push(id);
+        };
+        ShortId.prototype.next = function () {
+            if (this.reused.length > 0) {
+                return this.reused.shift();
+            }
+            return this.hash(this.count++);
+        };
+        ShortId.prototype.hash = function (input) {
+            var hash = [], length = this.alphabet.length;
+            do {
+                hash.unshift(this.alphabet[input % length]);
+                input = Math.floor(input / length) - 1;
+            } while (input >= 0);
+            hash.unshift(this.prefix);
+            return hash.join('');
+        };
+        return ShortId;
+    }());
+    exports.ShortId = ShortId;
 });
 
 //# sourceMappingURL=srcmap/util.js.map

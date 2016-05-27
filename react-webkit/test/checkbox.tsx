@@ -17,8 +17,9 @@ export class App extends React.Component<any, State>{
     }
     componentDidMount(): void {
     }
-    doCheck(checked: boolean) {
-        this.setState({msg:'Checked '+checked, checked:checked});
+    doCheck(checked: boolean,value:any) {
+        console.log(value);
+        this.setState({msg:'Checked '+checked+', value: '+value, checked:checked});
     }
     onChange(evt:Event) {
         let checked = (evt.target as any).checked;
@@ -31,8 +32,9 @@ export class App extends React.Component<any, State>{
                     {this.state.msg}
                 </l.Hlayout>
                 <w.Checkbox id='cb1' label='Label checkable' style={{fontSize:40,background:'lightpink'}} 
-                    doCheck={this.doCheck.bind(this)} ></w.Checkbox>
+                    doCheck={this.doCheck.bind(this)} value={{text:'one'}}></w.Checkbox>
                 <w.Checkbox doCheck={this.doCheck.bind(this)}/>
+                <w.Checkbox doCheck={this.doCheck.bind(this)} value='two'/>
                 ---------
                 <w.Checkbox checked={this.state.checked} label='You can\' check this, the status follow the last checking' />
                 ---------

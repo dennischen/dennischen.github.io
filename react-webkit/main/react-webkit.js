@@ -110,7 +110,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 	// module
-	exports.push([module.id, "/**\n * React WebKit - v0.0.2\n * The react widget kit base on typescript\n * \n * Copyright 2016 - present, Dennis Chen, All rights reserved.\n * \n * Released under MIT license\n */\n.box-sizing {\n  -webkit-box-sizing: border-box;\n  -moz-box-sizing: border-box;\n  box-sizing: border-box;\n  margin: 0;\n  position: relative;\n}\n.wk-hflex {\n  width: 100%;\n  overflow-x: hidden;\n}\n.wk-vflex {\n  height: 100%;\n  overflow-y: hidden;\n}\n.wkw-checkbox {\n  -webkit-box-sizing: border-box;\n  -moz-box-sizing: border-box;\n  box-sizing: border-box;\n  margin: 0;\n  position: relative;\n  display: inline-block;\n}\n.wkw-checkbox > input {\n  cursor: pointer;\n  vertical-align: middle;\n  width: 16px;\n  height: 16px;\n}\n.wkw-checkbox > input[disabled] {\n  cursor: default;\n}\n.wkw-checkbox > label {\n  padding-left: 4px;\n  vertical-align: middle;\n}\n.wkw-checkbox > label[for] {\n  cursor: pointer;\n}\n.wkw-checkbox.wk-disabled > label {\n  color: #606060;\n}\n.wkw-list {\n  -webkit-box-sizing: border-box;\n  -moz-box-sizing: border-box;\n  box-sizing: border-box;\n  margin: 0;\n  position: relative;\n  overflow-y: auto;\n}\n.wkw-list > ul {\n  -webkit-box-sizing: border-box;\n  -moz-box-sizing: border-box;\n  box-sizing: border-box;\n  margin: 0;\n  padding: 0;\n  position: relative;\n  list-style: none;\n}\n.wkw-list > ul > li {\n  -webkit-box-sizing: border-box;\n  -moz-box-sizing: border-box;\n  box-sizing: border-box;\n  margin: 0;\n  position: relative;\n  padding: 3px;\n  cursor: pointer;\n}\n.wkw-list > ul > li:hover {\n  background-color: rgba(0, 0, 0, 0.03);\n}\n.wkw-list > ul > li.wk-selected {\n  background-color: rgba(0, 0, 0, 0.15);\n}\n.wkw-list > ul > li:active {\n  background-color: rgba(0, 0, 0, 0.2);\n}\n.wkw-list.wk-disabled > ul > li {\n  cursor: default;\n  color: #606060;\n}\n.wkw-list.wk-disabled > ul > li:hover,\n.wkw-list.wk-disabled > ul > li :active {\n  background-color: inherit;\n}\n.wkw-list.wk-disabled > ul > li.wk-selected {\n  background-color: rgba(0, 0, 0, 0.15);\n}\n.wkw-list.dark-bg > ul > li:hover {\n  background-color: rgba(255, 255, 255, 0.05);\n}\n.wkw-list.dark-bg > ul > li.wk-selected {\n  background-color: rgba(255, 255, 255, 0.2);\n}\n.wkw-list.dark-bg > ul > li:active {\n  background-color: rgba(255, 255, 255, 0.3);\n}\n.wkw-box {\n  -webkit-box-sizing: border-box;\n  -moz-box-sizing: border-box;\n  box-sizing: border-box;\n  margin: 0;\n  position: relative;\n  display: flex;\n  flex-direction: column;\n  justify-content: flex-start;\n  align-items: flex-start;\n}\n.wkw-box > .wk-vflex {\n  flex: 1;\n}\n.wkw-box.wk-top {\n  justify-content: flex-start;\n}\n.wkw-box.wk-middle {\n  justify-content: center;\n}\n.wkw-box.wk-bottom {\n  justify-content: flex-end;\n}\n.wkw-box.wk-left {\n  align-items: flex-start;\n}\n.wkw-box.wk-center {\n  align-items: center;\n}\n.wkw-box.wk-right {\n  align-items: flex-end;\n}\n.wkw-hlayout {\n  -webkit-box-sizing: border-box;\n  -moz-box-sizing: border-box;\n  box-sizing: border-box;\n  margin: 0;\n  position: relative;\n  display: flex;\n  flex-direction: row;\n  justify-content: flex-start;\n  align-items: flex-start;\n}\n.wkw-hlayout > .wkw-hlayout-content {\n  -webkit-box-sizing: border-box;\n  -moz-box-sizing: border-box;\n  box-sizing: border-box;\n  margin: 0;\n  position: relative;\n}\n.wkw-hlayout.wk-top {\n  align-items: flex-start;\n}\n.wkw-hlayout.wk-middle {\n  align-items: center;\n}\n.wkw-hlayout.wk-bottom {\n  align-items: flex-end;\n}\n.wkw-hlayout.wk-left {\n  justify-content: flex-start;\n}\n.wkw-hlayout.wk-center {\n  justify-content: center;\n}\n.wkw-hlayout.wk-right {\n  justify-content: flex-end;\n}\n.wkw-vlayout {\n  -webkit-box-sizing: border-box;\n  -moz-box-sizing: border-box;\n  box-sizing: border-box;\n  margin: 0;\n  position: relative;\n  display: flex;\n  flex-direction: column;\n}\n.wkw-vlayout > .wkw-vlayout-content {\n  -webkit-box-sizing: border-box;\n  -moz-box-sizing: border-box;\n  box-sizing: border-box;\n  margin: 0;\n  position: relative;\n}\n.wkw-vlayout > .wkw-vlayout-content > .wk-vflex {\n  flex: 1;\n}\n.wkw-vlayout.wk-top {\n  justify-content: flex-start;\n}\n.wkw-vlayout.wk-middle {\n  justify-content: center;\n}\n.wkw-vlayout.wk-bottom {\n  justify-content: flex-end;\n}\n.wkw-vlayout.wk-left {\n  align-items: flex-start;\n}\n.wkw-vlayout.wk-center {\n  align-items: center;\n}\n.wkw-vlayout.wk-right {\n  align-items: flex-end;\n}\n.wkw-sider {\n  -webkit-box-sizing: border-box;\n  -moz-box-sizing: border-box;\n  box-sizing: border-box;\n  margin: 0;\n  position: relative;\n}\n.wkw-sider .wkw-sider-bar {\n  position: absolute;\n}\n.wkw-sider .wkw-sider-bar:hover {\n  background: rgba(0, 0, 0, 0.05);\n}\n.wkw-sider .wkw-sider-bar.wk-active {\n  background: rgba(0, 0, 0, 0.15);\n}\n.wkw-sider.wk-horizontal > .wkw-box {\n  padding-right: 10px;\n}\n.wkw-sider.wk-horizontal > .wkw-sider-bar {\n  position: absolute;\n  width: 10px;\n  height: 100%;\n  top: 0px;\n  right: 0px;\n  cursor: col-resize;\n}\n.wkw-sider.wk-vertical > .wkw-box {\n  padding-bottom: 10px;\n}\n.wkw-sider.wk-vertical > .wkw-sider-bar {\n  width: 100%;\n  height: 10px;\n  left: 0px;\n  bottom: 0px;\n  cursor: row-resize;\n}\n.wkw-popup {\n  -webkit-box-sizing: border-box;\n  -moz-box-sizing: border-box;\n  box-sizing: border-box;\n  margin: 0;\n  position: relative;\n  position: absolute;\n  top: 0;\n  left: 0;\n}\n\n/*# sourceMappingURL=srcmap/react-webkit.css.map */\n", ""]);
+	exports.push([module.id, "/**\n * React WebKit - v0.0.2\n * The react widget kit base on typescript\n * \n * Copyright 2016 - present, Dennis Chen, All rights reserved.\n * \n * Released under MIT license\n */\n.box-sizing {\n  -webkit-box-sizing: border-box;\n  -moz-box-sizing: border-box;\n  box-sizing: border-box;\n  margin: 0;\n  position: relative;\n}\n.wk-hflex {\n  width: 100%;\n  overflow-x: hidden;\n}\n.wk-vflex {\n  height: 100%;\n  overflow-y: hidden;\n}\n.wkw-checkbox,\n.wkw-radiobox {\n  -webkit-box-sizing: border-box;\n  -moz-box-sizing: border-box;\n  box-sizing: border-box;\n  margin: 0;\n  position: relative;\n  display: inline-block;\n}\n.wkw-checkbox > input,\n.wkw-radiobox > input {\n  margin: 0;\n  cursor: pointer;\n  vertical-align: middle;\n}\n.wkw-checkbox > input[disabled],\n.wkw-radiobox > input[disabled] {\n  cursor: default;\n}\n.wkw-checkbox > label,\n.wkw-radiobox > label {\n  padding-left: 2px;\n  vertical-align: middle;\n}\n.wkw-checkbox > label[for],\n.wkw-radiobox > label[for] {\n  cursor: pointer;\n}\n.wkw-checkbox.wk-disabled > label,\n.wkw-radiobox.wk-disabled > label {\n  color: #606060;\n}\n.wkw-list {\n  -webkit-box-sizing: border-box;\n  -moz-box-sizing: border-box;\n  box-sizing: border-box;\n  margin: 0;\n  position: relative;\n  overflow-y: auto;\n}\n.wkw-list > ul {\n  -webkit-box-sizing: border-box;\n  -moz-box-sizing: border-box;\n  box-sizing: border-box;\n  margin: 0;\n  padding: 0;\n  position: relative;\n  list-style: none;\n}\n.wkw-list > ul > li {\n  -webkit-box-sizing: border-box;\n  -moz-box-sizing: border-box;\n  box-sizing: border-box;\n  margin: 0;\n  position: relative;\n  padding: 3px;\n  cursor: pointer;\n}\n.wkw-list > ul > li:hover {\n  background-color: rgba(0, 0, 0, 0.03);\n}\n.wkw-list > ul > li.wk-selected {\n  background-color: rgba(0, 0, 0, 0.15);\n}\n.wkw-list > ul > li:active {\n  background-color: rgba(0, 0, 0, 0.2);\n}\n.wkw-list.wk-disabled > ul > li {\n  cursor: default;\n  color: #606060;\n}\n.wkw-list.wk-disabled > ul > li:hover,\n.wkw-list.wk-disabled > ul > li :active {\n  background-color: inherit;\n}\n.wkw-list.wk-disabled > ul > li.wk-selected {\n  background-color: rgba(0, 0, 0, 0.15);\n}\n.wkw-list.dark-bg > ul > li:hover {\n  background-color: rgba(255, 255, 255, 0.05);\n}\n.wkw-list.dark-bg > ul > li.wk-selected {\n  background-color: rgba(255, 255, 255, 0.2);\n}\n.wkw-list.dark-bg > ul > li:active {\n  background-color: rgba(255, 255, 255, 0.3);\n}\n.wkw-box {\n  -webkit-box-sizing: border-box;\n  -moz-box-sizing: border-box;\n  box-sizing: border-box;\n  margin: 0;\n  position: relative;\n  display: flex;\n  flex-direction: column;\n  justify-content: flex-start;\n  align-items: flex-start;\n}\n.wkw-box > .wk-vflex {\n  flex: 1;\n}\n.wkw-box.wk-top {\n  justify-content: flex-start;\n}\n.wkw-box.wk-middle {\n  justify-content: center;\n}\n.wkw-box.wk-bottom {\n  justify-content: flex-end;\n}\n.wkw-box.wk-left {\n  align-items: flex-start;\n}\n.wkw-box.wk-center {\n  align-items: center;\n}\n.wkw-box.wk-right {\n  align-items: flex-end;\n}\n.wkw-hlayout {\n  -webkit-box-sizing: border-box;\n  -moz-box-sizing: border-box;\n  box-sizing: border-box;\n  margin: 0;\n  position: relative;\n  display: flex;\n  flex-direction: row;\n  justify-content: flex-start;\n  align-items: flex-start;\n}\n.wkw-hlayout > .wkw-hlayout-content {\n  -webkit-box-sizing: border-box;\n  -moz-box-sizing: border-box;\n  box-sizing: border-box;\n  margin: 0;\n  position: relative;\n}\n.wkw-hlayout.wk-top {\n  align-items: flex-start;\n}\n.wkw-hlayout.wk-middle {\n  align-items: center;\n}\n.wkw-hlayout.wk-bottom {\n  align-items: flex-end;\n}\n.wkw-hlayout.wk-left {\n  justify-content: flex-start;\n}\n.wkw-hlayout.wk-center {\n  justify-content: center;\n}\n.wkw-hlayout.wk-right {\n  justify-content: flex-end;\n}\n.wkw-vlayout {\n  -webkit-box-sizing: border-box;\n  -moz-box-sizing: border-box;\n  box-sizing: border-box;\n  margin: 0;\n  position: relative;\n  display: flex;\n  flex-direction: column;\n}\n.wkw-vlayout > .wkw-vlayout-content {\n  -webkit-box-sizing: border-box;\n  -moz-box-sizing: border-box;\n  box-sizing: border-box;\n  margin: 0;\n  position: relative;\n}\n.wkw-vlayout > .wkw-vlayout-content > .wk-vflex {\n  flex: 1;\n}\n.wkw-vlayout.wk-top {\n  justify-content: flex-start;\n}\n.wkw-vlayout.wk-middle {\n  justify-content: center;\n}\n.wkw-vlayout.wk-bottom {\n  justify-content: flex-end;\n}\n.wkw-vlayout.wk-left {\n  align-items: flex-start;\n}\n.wkw-vlayout.wk-center {\n  align-items: center;\n}\n.wkw-vlayout.wk-right {\n  align-items: flex-end;\n}\n.wkw-sider {\n  -webkit-box-sizing: border-box;\n  -moz-box-sizing: border-box;\n  box-sizing: border-box;\n  margin: 0;\n  position: relative;\n}\n.wkw-sider .wkw-sider-bar {\n  position: absolute;\n}\n.wkw-sider .wkw-sider-bar:hover {\n  background: rgba(0, 0, 0, 0.05);\n}\n.wkw-sider .wkw-sider-bar.wk-active {\n  background: rgba(0, 0, 0, 0.15);\n}\n.wkw-sider.wk-horizontal > .wkw-box {\n  padding-right: 10px;\n}\n.wkw-sider.wk-horizontal > .wkw-sider-bar {\n  position: absolute;\n  width: 10px;\n  height: 100%;\n  top: 0px;\n  right: 0px;\n  cursor: col-resize;\n}\n.wkw-sider.wk-vertical > .wkw-box {\n  padding-bottom: 10px;\n}\n.wkw-sider.wk-vertical > .wkw-sider-bar {\n  width: 100%;\n  height: 10px;\n  left: 0px;\n  bottom: 0px;\n  cursor: row-resize;\n}\n.wkw-popup {\n  -webkit-box-sizing: border-box;\n  -moz-box-sizing: border-box;\n  box-sizing: border-box;\n  margin: 0;\n  position: relative;\n  position: absolute;\n  top: 0;\n  left: 0;\n}\n\n/*# sourceMappingURL=srcmap/react-webkit.css.map */\n", ""]);
 
 	// exports
 
@@ -657,6 +657,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    return KeySelection;
 	}();
 	exports.KeySelection = KeySelection;
+	var pseudoIdGenerator = new Util.ShortId('wk_', 'webkit');
 	var Widget = function (_super) {
 	    __extends(Widget, _super);
 	    function Widget(props) {
@@ -665,6 +666,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	            hidden: props.hidden
 	        };
 	    }
+	    Widget.prototype.getPseudoId = function () {
+	        if (!this.pseudoId) {
+	            this.pseudoId = pseudoIdGenerator.next();
+	        }
+	        return this.pseudoId;
+	    };
 	    Widget.prototype.registerQueue = function () {
 	        if (!this._registedQueue) {
 	            queue.add(this);
@@ -679,7 +686,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	    };
 	    Widget.prototype.componentWillMount = function () {};
 	    Widget.prototype.componentDidMount = function () {};
-	    Widget.prototype.componentWillUnmount = function () {};
+	    Widget.prototype.componentWillUnmount = function () {
+	        if (this.pseudoId) {
+	            pseudoIdGenerator.reuse(this.pseudoId);
+	            delete this.pseudoId;
+	        }
+	    };
 	    Widget.prototype.componentWillReceiveProps = function (nextProps) {
 	        if (this.props.hidden !== nextProps.hidden) {
 	            this.setState({ hidden: nextProps.hidden });
@@ -831,6 +843,31 @@ return /******/ (function(modules) { // webpackBootstrap
 	    return Fonticon;
 	}(Widget);
 	exports.Fonticon = Fonticon;
+	var Input = function (_super) {
+	    __extends(Input, _super);
+	    function Input() {
+	        _super.apply(this, arguments);
+	    }
+	    Input.prototype.onChange = function (evt) {
+	        if (this.props.onChange) {
+	            this.props.onChange(evt);
+	        }
+	    };
+	    Input.prototype.getRenderSclass = function () {
+	        var str = [];
+	        str.push(_super.prototype.getRenderSclass.call(this));
+	        if (this.props.disabled) {
+	            str.push('wk-disabled');
+	        }
+	        return str.join(' ');
+	    };
+	    Input.prototype.getInputDOM = function () {
+	        return this.refs['input'];
+	    };
+	    Input.defaultProps = Util.supplyProps({}, Widget.defaultProps);
+	    return Input;
+	}(Widget);
+	exports.Input = Input;
 	var Checkbox = function (_super) {
 	    __extends(Checkbox, _super);
 	    function Checkbox() {
@@ -840,38 +877,49 @@ return /******/ (function(modules) { // webpackBootstrap
 	        return 'wkw-checkbox';
 	    };
 	    Checkbox.prototype.onChange = function (evt) {
+	        _super.prototype.onChange.call(this, evt);
 	        if (this.props.doCheck) {
-	            this.props.doCheck(evt.target.checked);
-	        }
-	        if (this.props.onChange) {
-	            this.props.onChange(evt);
+	            this.props.doCheck(evt.target.checked, this.props.value);
 	        }
 	    };
-	    Checkbox.prototype.getRenderSclass = function () {
-	        var str = [];
-	        str.push(_super.prototype.getRenderSclass.call(this));
-	        if (this.props.disabled) {
-	            str.push('wk-disabled');
-	        }
-	        return str.join(' ');
+	    Checkbox.prototype.getInputType = function () {
+	        return 'checkbox';
 	    };
 	    Checkbox.prototype.getRenderChildren = function () {
 	        var inpid;
 	        if (this.props.id) {
-	            inpid = this.props.id + '_inp';
+	            inpid = [this.props.id, '_inp'].join('');
+	        } else {
+	            inpid = [this.getPseudoId(), '_inp'].join('');
 	        }
 	        var label;
 	        if (this.props.label) {
 	            label = React.createElement("label", { key: 'l', htmlFor: inpid }, this.props.label);
 	        }
+	        var inputType = this.getInputType();
 	        var onChange = this.props.onChange || this.props.doCheck ? this.onChange.bind(this) : undefined;
 	        var readonly = this.props.checked && !onChange ? true : undefined;
-	        return [React.createElement("input", { key: 'i', id: inpid, type: 'checkbox', ref: 'checkbox', onChange: onChange, checked: this.props.checked, readOnly: readonly, disabled: this.props.disabled, name: this.props.name }), label];
+	        var value = 'string' == typeof this.props.value ? this.props.value : undefined;
+	        return [React.createElement("input", { key: 'i', id: inpid, type: inputType, ref: 'input', onChange: onChange, checked: this.props.checked, readOnly: readonly, disabled: this.props.disabled, name: this.props.name, value: value }), label];
 	    };
-	    Checkbox.defaultProps = Util.supplyProps({}, Widget.defaultProps);
+	    Checkbox.defaultProps = Util.supplyProps({}, Input.defaultProps);
 	    return Checkbox;
-	}(Widget);
+	}(Input);
 	exports.Checkbox = Checkbox;
+	var Radiobox = function (_super) {
+	    __extends(Radiobox, _super);
+	    function Radiobox() {
+	        _super.apply(this, arguments);
+	    }
+	    Radiobox.prototype.getWidgetSclass = function () {
+	        return 'wkw-radiobox';
+	    };
+	    Radiobox.prototype.getInputType = function () {
+	        return 'radio';
+	    };
+	    return Radiobox;
+	}(Checkbox);
+	exports.Radiobox = Radiobox;
 	var List = function (_super) {
 	    __extends(List, _super);
 	    function List() {
@@ -1094,6 +1142,60 @@ return /******/ (function(modules) { // webpackBootstrap
 	    return SimpleQueue;
 	}();
 	exports.SimpleQueue = SimpleQueue;
+	function addSalt(alphabet, salt) {
+	    var integer, j, i, v, p;
+	    var temp;
+	    if (!salt.length) {
+	        return alphabet;
+	    }
+	    for (i = alphabet.length - 1, v = 0, p = 0; i > 0; i--, v++) {
+	        v %= salt.length;
+	        p += integer = salt.charAt(v).charCodeAt(0);
+	        j = (integer + v + p) % i;
+	        temp = alphabet.charAt(j);
+	        alphabet = alphabet.substr(0, j) + alphabet.charAt(i) + alphabet.substr(j + 1);
+	        alphabet = alphabet.substr(0, i) + temp + alphabet.substr(i + 1);
+	    }
+	    return alphabet;
+	}
+	var ShortId = function () {
+	    function ShortId(prefix, salt, alphabet) {
+	        if (prefix === void 0) {
+	            prefix = '';
+	        }
+	        if (salt === void 0) {
+	            salt = 'betterthannever';
+	        }
+	        if (alphabet === void 0) {
+	            alphabet = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890';
+	        }
+	        this.count = 0;
+	        this.reused = [];
+	        this.prefix = prefix;
+	        this.alphabet = addSalt(alphabet, salt);
+	    }
+	    ShortId.prototype.reuse = function (id) {
+	        this.reused.push(id);
+	    };
+	    ShortId.prototype.next = function () {
+	        if (this.reused.length > 0) {
+	            return this.reused.shift();
+	        }
+	        return this.hash(this.count++);
+	    };
+	    ShortId.prototype.hash = function (input) {
+	        var hash = [],
+	            length = this.alphabet.length;
+	        do {
+	            hash.unshift(this.alphabet[input % length]);
+	            input = Math.floor(input / length) - 1;
+	        } while (input >= 0);
+	        hash.unshift(this.prefix);
+	        return hash.join('');
+	    };
+	    return ShortId;
+	}();
+	exports.ShortId = ShortId;
 
 	//# sourceMappingURL=srcmap/util.js.map
 

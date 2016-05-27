@@ -232,6 +232,7 @@ var __extends = (this && this.__extends) || function (d, b) {
         return KeySelection;
     }());
     exports.KeySelection = KeySelection;
+    var pseudoIdGenerator = new Util.ShortId('wk_', 'webkit');
     var Widget = (function (_super) {
         __extends(Widget, _super);
         function Widget(props) {
@@ -240,6 +241,12 @@ var __extends = (this && this.__extends) || function (d, b) {
                 hidden: props.hidden
             };
         }
+        Widget.prototype.getPseudoId = function () {
+            if (!this.pseudoId) {
+                this.pseudoId = pseudoIdGenerator.next();
+            }
+            return this.pseudoId;
+        };
         Widget.prototype.registerQueue = function () {
             if (!this._registedQueue) {
                 queue.add(this);
@@ -257,6 +264,10 @@ var __extends = (this && this.__extends) || function (d, b) {
         Widget.prototype.componentDidMount = function () {
         };
         Widget.prototype.componentWillUnmount = function () {
+            if (this.pseudoId) {
+                pseudoIdGenerator.reuse(this.pseudoId);
+                delete this.pseudoId;
+            }
         };
         Widget.prototype.componentWillReceiveProps = function (nextProps) {
             if (this.props.hidden !== nextProps.hidden) {
@@ -407,6 +418,31 @@ var __extends = (this && this.__extends) || function (d, b) {
         return Fonticon;
     }(Widget));
     exports.Fonticon = Fonticon;
+    var Input = (function (_super) {
+        __extends(Input, _super);
+        function Input() {
+            _super.apply(this, arguments);
+        }
+        Input.prototype.onChange = function (evt) {
+            if (this.props.onChange) {
+                this.props.onChange(evt);
+            }
+        };
+        Input.prototype.getRenderSclass = function () {
+            var str = [];
+            str.push(_super.prototype.getRenderSclass.call(this));
+            if (this.props.disabled) {
+                str.push('wk-disabled');
+            }
+            return str.join(' ');
+        };
+        Input.prototype.getInputDOM = function () {
+            return this.refs['input'];
+        };
+        Input.defaultProps = Util.supplyProps({}, Widget.defaultProps);
+        return Input;
+    }(Widget));
+    exports.Input = Input;
     var Checkbox = (function (_super) {
         __extends(Checkbox, _super);
         function Checkbox() {
@@ -416,38 +452,50 @@ var __extends = (this && this.__extends) || function (d, b) {
             return 'wkw-checkbox';
         };
         Checkbox.prototype.onChange = function (evt) {
+            _super.prototype.onChange.call(this, evt);
             if (this.props.doCheck) {
-                this.props.doCheck(evt.target.checked);
-            }
-            if (this.props.onChange) {
-                this.props.onChange(evt);
+                this.props.doCheck(evt.target.checked, this.props.value);
             }
         };
-        Checkbox.prototype.getRenderSclass = function () {
-            var str = [];
-            str.push(_super.prototype.getRenderSclass.call(this));
-            if (this.props.disabled) {
-                str.push('wk-disabled');
-            }
-            return str.join(' ');
+        Checkbox.prototype.getInputType = function () {
+            return 'checkbox';
         };
         Checkbox.prototype.getRenderChildren = function () {
             var inpid;
             if (this.props.id) {
-                inpid = this.props.id + '_inp';
+                inpid = [this.props.id, '_inp'].join('');
+            }
+            else {
+                inpid = [this.getPseudoId(), '_inp'].join('');
             }
             var label;
             if (this.props.label) {
                 label = React.createElement("label", {key: 'l', htmlFor: inpid}, this.props.label);
             }
+            var inputType = this.getInputType();
             var onChange = (this.props.onChange || this.props.doCheck) ? this.onChange.bind(this) : undefined;
             var readonly = this.props.checked && !onChange ? true : undefined;
-            return [React.createElement("input", {key: 'i', id: inpid, type: 'checkbox', ref: 'checkbox', onChange: onChange, checked: this.props.checked, readOnly: readonly, disabled: this.props.disabled, name: this.props.name}), label];
+            var value = 'string' == typeof this.props.value ? this.props.value : undefined;
+            return [React.createElement("input", {key: 'i', id: inpid, type: inputType, ref: 'input', onChange: onChange, checked: this.props.checked, readOnly: readonly, disabled: this.props.disabled, name: this.props.name, value: value}), label];
         };
-        Checkbox.defaultProps = Util.supplyProps({}, Widget.defaultProps);
+        Checkbox.defaultProps = Util.supplyProps({}, Input.defaultProps);
         return Checkbox;
-    }(Widget));
+    }(Input));
     exports.Checkbox = Checkbox;
+    var Radiobox = (function (_super) {
+        __extends(Radiobox, _super);
+        function Radiobox() {
+            _super.apply(this, arguments);
+        }
+        Radiobox.prototype.getWidgetSclass = function () {
+            return 'wkw-radiobox';
+        };
+        Radiobox.prototype.getInputType = function () {
+            return 'radio';
+        };
+        return Radiobox;
+    }(Checkbox));
+    exports.Radiobox = Radiobox;
     var List = (function (_super) {
         __extends(List, _super);
         function List() {

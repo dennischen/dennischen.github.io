@@ -37,6 +37,7 @@ var __extends = (this && this.__extends) || function (d, b) {
         { name: 'Commentbox', module: 'test-commentbox', html: 'test-commentbox.html' },
         { name: 'Sider', module: 'sider', html: 'sider.html' },
         { name: 'Popup', module: 'popup', html: 'popup.html' },
+        { name: 'Radiobox', module: 'radiobox', html: 'radiobox.html' },
     ];
     testCases = testCases.sort(function (a, b) {
         return a.name.localeCompare(b.name);

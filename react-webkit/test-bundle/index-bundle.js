@@ -50,7 +50,7 @@ var __extends = (this && this.__extends) || function (d, b) {
         return App;
     }(React.Component));
     exports.App = App;
-    ReactDOM.render(React.createElement(App, null), document.getElementById('content-index'));
+    ReactDOM.render(React.createElement(App, null), document.getElementById('content'));
 });
 
 //# sourceMappingURL=srcmap/index-bundle.js.map

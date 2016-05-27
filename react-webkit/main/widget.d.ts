@@ -98,7 +98,9 @@ export declare abstract class Widget<P extends WidgetProps, S extends WidgetStat
     static _widgetMagic: boolean;
     private _registedQueue;
     private _willAnimateHidden;
+    private pseudoId;
     constructor(props: P);
+    getPseudoId(): string;
     protected registerQueue(): void;
     protected unregisterQueue(): void;
     componentWillMount(): void;
@@ -129,20 +131,33 @@ export declare class Fonticon extends Widget<FonticonProps, any> {
     protected getRenderChildren(): React.ReactNode;
     protected getRenderType(): string;
 }
-export interface CheckboxProps extends WidgetProps {
-    doCheck?: (checked: boolean) => void;
+export interface InputProps extends WidgetProps {
     onChange?: (evt: Event) => void;
-    checked?: boolean;
     disabled?: boolean;
-    label?: string;
     name?: string;
 }
-export declare class Checkbox extends Widget<CheckboxProps, any> {
+export declare abstract class Input<P extends InputProps, S> extends Widget<P, S> {
+    static defaultProps: InputProps;
+    protected onChange(evt: Event): void;
+    protected getRenderSclass(): string;
+    getInputDOM(): Element;
+}
+export interface CheckboxProps extends InputProps {
+    doCheck?: (checked: boolean, value: any) => void;
+    checked?: boolean;
+    label?: string;
+    value?: any;
+}
+export declare class Checkbox extends Input<CheckboxProps, any> {
     static defaultProps: CheckboxProps;
     protected getWidgetSclass(): string;
-    private onChange(evt);
-    protected getRenderSclass(): string;
+    protected onChange(evt: Event): void;
+    protected getInputType(): string;
     protected getRenderChildren(): React.ReactNode;
+}
+export declare class Radiobox extends Checkbox {
+    protected getWidgetSclass(): string;
+    protected getInputType(): string;
 }
 export interface ListProps extends WidgetProps {
     disabled?: boolean;
