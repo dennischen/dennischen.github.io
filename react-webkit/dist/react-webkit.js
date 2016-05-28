@@ -1,6 +1,6 @@
 /**
- * React WebKit - v0.0.2
- * The react widget kit base on typescript
+ * React WebKit - v0.0.5
+ * The react web widget kit base on typescript
  * 
  * Copyright 2016 - present, Dennis Chen, All rights reserved.
  * 
@@ -15,7 +15,7 @@
 		exports["ReactWebKit"] = factory(require("react"), require("react-dom"), require("jquery"));
 	else
 		root["ReactWebKit"] = factory(root["React"], root["ReactDOM"], root["jQuery"]);
-})(this, function(__WEBPACK_EXTERNAL_MODULE_6__, __WEBPACK_EXTERNAL_MODULE_7__, __WEBPACK_EXTERNAL_MODULE_8__) {
+})(this, function(__WEBPACK_EXTERNAL_MODULE_2__, __WEBPACK_EXTERNAL_MODULE_3__, __WEBPACK_EXTERNAL_MODULE_4__) {
 return /******/ (function(modules) { // webpackBootstrap
 /******/ 	// The module cache
 /******/ 	var installedModules = {};
@@ -63,380 +63,38 @@ return /******/ (function(modules) { // webpackBootstrap
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
-	//include css rules
 
-	var css = __webpack_require__(1);
+	/**
+	 * To avoid my IDE (i.e. VS Code) be conflicted by sub-module name,
+	 * the exported sub-module name has to different from the original name.
+	 * I simply uppercase sub-module.
+	 */
 
-	var widget = __webpack_require__(5);
-	var layout = __webpack_require__(10);
+	var Widget = __webpack_require__(1);
+	var Input = __webpack_require__(6);
+	var Layout = __webpack_require__(7);
+	var Popup = __webpack_require__(8);
 
 	module.exports = {
-	    widget: widget,
-	    layout: layout
+	  Widget: Widget,
+	  Input: Input,
+	  Layout: Layout,
+	  Popup: Popup
 	};
 
 /***/ },
 /* 1 */
 /***/ function(module, exports, __webpack_require__) {
 
-	// style-loader: Adds some css to the DOM by adding a <style> tag
-
-	// load the styles
-	var content = __webpack_require__(2);
-	if(typeof content === 'string') content = [[module.id, content, '']];
-	// add the styles to the DOM
-	var update = __webpack_require__(4)(content, {});
-	if(content.locals) module.exports = content.locals;
-	// Hot Module Replacement
-	if(false) {
-		// When the styles change, update the <style> tags
-		if(!content.locals) {
-			module.hot.accept("!!./../../node_modules/css-loader/index.js!./react-webkit.css", function() {
-				var newContent = require("!!./../../node_modules/css-loader/index.js!./react-webkit.css");
-				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
-				update(newContent);
-			});
-		}
-		// When the module is disposed, remove the <style> tags
-		module.hot.dispose(function() { update(); });
-	}
-
-/***/ },
-/* 2 */
-/***/ function(module, exports, __webpack_require__) {
-
-	exports = module.exports = __webpack_require__(3)();
-	// imports
-
-
-	// module
-	exports.push([module.id, "/**\n * React WebKit - v0.0.2\n * The react widget kit base on typescript\n * \n * Copyright 2016 - present, Dennis Chen, All rights reserved.\n * \n * Released under MIT license\n */\n.box-sizing {\n  -webkit-box-sizing: border-box;\n  -moz-box-sizing: border-box;\n  box-sizing: border-box;\n  margin: 0;\n  position: relative;\n}\n.wk-hflex {\n  width: 100%;\n  overflow-x: hidden;\n}\n.wk-vflex {\n  height: 100%;\n  overflow-y: hidden;\n}\n.wkw-checkbox,\n.wkw-radiobox {\n  -webkit-box-sizing: border-box;\n  -moz-box-sizing: border-box;\n  box-sizing: border-box;\n  margin: 0;\n  position: relative;\n  display: inline-block;\n}\n.wkw-checkbox > input,\n.wkw-radiobox > input {\n  margin: 0;\n  cursor: pointer;\n  vertical-align: middle;\n}\n.wkw-checkbox > input[disabled],\n.wkw-radiobox > input[disabled] {\n  cursor: default;\n}\n.wkw-checkbox > label,\n.wkw-radiobox > label {\n  padding-left: 2px;\n  vertical-align: middle;\n}\n.wkw-checkbox > label[for],\n.wkw-radiobox > label[for] {\n  cursor: pointer;\n}\n.wkw-checkbox.wk-disabled > label,\n.wkw-radiobox.wk-disabled > label {\n  color: #606060;\n}\n.wkw-list {\n  -webkit-box-sizing: border-box;\n  -moz-box-sizing: border-box;\n  box-sizing: border-box;\n  margin: 0;\n  position: relative;\n  overflow-y: auto;\n}\n.wkw-list > ul {\n  -webkit-box-sizing: border-box;\n  -moz-box-sizing: border-box;\n  box-sizing: border-box;\n  margin: 0;\n  padding: 0;\n  position: relative;\n  list-style: none;\n}\n.wkw-list > ul > li {\n  -webkit-box-sizing: border-box;\n  -moz-box-sizing: border-box;\n  box-sizing: border-box;\n  margin: 0;\n  position: relative;\n  padding: 3px;\n  cursor: pointer;\n}\n.wkw-list > ul > li:hover {\n  background-color: rgba(0, 0, 0, 0.03);\n}\n.wkw-list > ul > li.wk-selected {\n  background-color: rgba(0, 0, 0, 0.15);\n}\n.wkw-list > ul > li:active {\n  background-color: rgba(0, 0, 0, 0.2);\n}\n.wkw-list.wk-disabled > ul > li {\n  cursor: default;\n  color: #606060;\n}\n.wkw-list.wk-disabled > ul > li:hover,\n.wkw-list.wk-disabled > ul > li :active {\n  background-color: inherit;\n}\n.wkw-list.wk-disabled > ul > li.wk-selected {\n  background-color: rgba(0, 0, 0, 0.15);\n}\n.wkw-list.dark-bg > ul > li:hover {\n  background-color: rgba(255, 255, 255, 0.05);\n}\n.wkw-list.dark-bg > ul > li.wk-selected {\n  background-color: rgba(255, 255, 255, 0.2);\n}\n.wkw-list.dark-bg > ul > li:active {\n  background-color: rgba(255, 255, 255, 0.3);\n}\n.wkw-box {\n  -webkit-box-sizing: border-box;\n  -moz-box-sizing: border-box;\n  box-sizing: border-box;\n  margin: 0;\n  position: relative;\n  display: flex;\n  flex-direction: column;\n  justify-content: flex-start;\n  align-items: flex-start;\n}\n.wkw-box > .wk-vflex {\n  flex: 1;\n}\n.wkw-box.wk-top {\n  justify-content: flex-start;\n}\n.wkw-box.wk-middle {\n  justify-content: center;\n}\n.wkw-box.wk-bottom {\n  justify-content: flex-end;\n}\n.wkw-box.wk-left {\n  align-items: flex-start;\n}\n.wkw-box.wk-center {\n  align-items: center;\n}\n.wkw-box.wk-right {\n  align-items: flex-end;\n}\n.wkw-hlayout {\n  -webkit-box-sizing: border-box;\n  -moz-box-sizing: border-box;\n  box-sizing: border-box;\n  margin: 0;\n  position: relative;\n  display: flex;\n  flex-direction: row;\n  justify-content: flex-start;\n  align-items: flex-start;\n}\n.wkw-hlayout > .wkw-hlayout-content {\n  -webkit-box-sizing: border-box;\n  -moz-box-sizing: border-box;\n  box-sizing: border-box;\n  margin: 0;\n  position: relative;\n}\n.wkw-hlayout.wk-top {\n  align-items: flex-start;\n}\n.wkw-hlayout.wk-middle {\n  align-items: center;\n}\n.wkw-hlayout.wk-bottom {\n  align-items: flex-end;\n}\n.wkw-hlayout.wk-left {\n  justify-content: flex-start;\n}\n.wkw-hlayout.wk-center {\n  justify-content: center;\n}\n.wkw-hlayout.wk-right {\n  justify-content: flex-end;\n}\n.wkw-vlayout {\n  -webkit-box-sizing: border-box;\n  -moz-box-sizing: border-box;\n  box-sizing: border-box;\n  margin: 0;\n  position: relative;\n  display: flex;\n  flex-direction: column;\n}\n.wkw-vlayout > .wkw-vlayout-content {\n  -webkit-box-sizing: border-box;\n  -moz-box-sizing: border-box;\n  box-sizing: border-box;\n  margin: 0;\n  position: relative;\n}\n.wkw-vlayout > .wkw-vlayout-content > .wk-vflex {\n  flex: 1;\n}\n.wkw-vlayout.wk-top {\n  justify-content: flex-start;\n}\n.wkw-vlayout.wk-middle {\n  justify-content: center;\n}\n.wkw-vlayout.wk-bottom {\n  justify-content: flex-end;\n}\n.wkw-vlayout.wk-left {\n  align-items: flex-start;\n}\n.wkw-vlayout.wk-center {\n  align-items: center;\n}\n.wkw-vlayout.wk-right {\n  align-items: flex-end;\n}\n.wkw-sider {\n  -webkit-box-sizing: border-box;\n  -moz-box-sizing: border-box;\n  box-sizing: border-box;\n  margin: 0;\n  position: relative;\n}\n.wkw-sider .wkw-sider-bar {\n  position: absolute;\n}\n.wkw-sider .wkw-sider-bar:hover {\n  background: rgba(0, 0, 0, 0.05);\n}\n.wkw-sider .wkw-sider-bar.wk-active {\n  background: rgba(0, 0, 0, 0.15);\n}\n.wkw-sider.wk-horizontal > .wkw-box {\n  padding-right: 10px;\n}\n.wkw-sider.wk-horizontal > .wkw-sider-bar {\n  position: absolute;\n  width: 10px;\n  height: 100%;\n  top: 0px;\n  right: 0px;\n  cursor: col-resize;\n}\n.wkw-sider.wk-vertical > .wkw-box {\n  padding-bottom: 10px;\n}\n.wkw-sider.wk-vertical > .wkw-sider-bar {\n  width: 100%;\n  height: 10px;\n  left: 0px;\n  bottom: 0px;\n  cursor: row-resize;\n}\n.wkw-popup {\n  -webkit-box-sizing: border-box;\n  -moz-box-sizing: border-box;\n  box-sizing: border-box;\n  margin: 0;\n  position: relative;\n  position: absolute;\n  top: 0;\n  left: 0;\n}\n\n/*# sourceMappingURL=srcmap/react-webkit.css.map */\n", ""]);
-
-	// exports
-
-
-/***/ },
-/* 3 */
-/***/ function(module, exports) {
-
-	"use strict";
-
-	/*
-		MIT License http://www.opensource.org/licenses/mit-license.php
-		Author Tobias Koppers @sokra
-	*/
-	// css base code, injected by the css-loader
-	module.exports = function () {
-		var list = [];
-
-		// return the list of modules as css string
-		list.toString = function toString() {
-			var result = [];
-			for (var i = 0; i < this.length; i++) {
-				var item = this[i];
-				if (item[2]) {
-					result.push("@media " + item[2] + "{" + item[1] + "}");
-				} else {
-					result.push(item[1]);
-				}
-			}
-			return result.join("");
-		};
-
-		// import a list of modules into the list
-		list.i = function (modules, mediaQuery) {
-			if (typeof modules === "string") modules = [[null, modules, ""]];
-			var alreadyImportedModules = {};
-			for (var i = 0; i < this.length; i++) {
-				var id = this[i][0];
-				if (typeof id === "number") alreadyImportedModules[id] = true;
-			}
-			for (i = 0; i < modules.length; i++) {
-				var item = modules[i];
-				// skip already imported module
-				// this implementation is not 100% perfect for weird media query combinations
-				//  when a module is imported multiple times with different media queries.
-				//  I hope this will never occur (Hey this way we have smaller bundles)
-				if (typeof item[0] !== "number" || !alreadyImportedModules[item[0]]) {
-					if (mediaQuery && !item[2]) {
-						item[2] = mediaQuery;
-					} else if (mediaQuery) {
-						item[2] = "(" + item[2] + ") and (" + mediaQuery + ")";
-					}
-					list.push(item);
-				}
-			}
-		};
-		return list;
-	};
-
-/***/ },
-/* 4 */
-/***/ function(module, exports, __webpack_require__) {
-
-	/*
-		MIT License http://www.opensource.org/licenses/mit-license.php
-		Author Tobias Koppers @sokra
-	*/
-	var stylesInDom = {},
-		memoize = function(fn) {
-			var memo;
-			return function () {
-				if (typeof memo === "undefined") memo = fn.apply(this, arguments);
-				return memo;
-			};
-		},
-		isOldIE = memoize(function() {
-			return /msie [6-9]\b/.test(window.navigator.userAgent.toLowerCase());
-		}),
-		getHeadElement = memoize(function () {
-			return document.head || document.getElementsByTagName("head")[0];
-		}),
-		singletonElement = null,
-		singletonCounter = 0,
-		styleElementsInsertedAtTop = [];
-
-	module.exports = function(list, options) {
-		if(false) {
-			if(typeof document !== "object") throw new Error("The style-loader cannot be used in a non-browser environment");
-		}
-
-		options = options || {};
-		// Force single-tag solution on IE6-9, which has a hard limit on the # of <style>
-		// tags it will allow on a page
-		if (typeof options.singleton === "undefined") options.singleton = isOldIE();
-
-		// By default, add <style> tags to the bottom of <head>.
-		if (typeof options.insertAt === "undefined") options.insertAt = "bottom";
-
-		var styles = listToStyles(list);
-		addStylesToDom(styles, options);
-
-		return function update(newList) {
-			var mayRemove = [];
-			for(var i = 0; i < styles.length; i++) {
-				var item = styles[i];
-				var domStyle = stylesInDom[item.id];
-				domStyle.refs--;
-				mayRemove.push(domStyle);
-			}
-			if(newList) {
-				var newStyles = listToStyles(newList);
-				addStylesToDom(newStyles, options);
-			}
-			for(var i = 0; i < mayRemove.length; i++) {
-				var domStyle = mayRemove[i];
-				if(domStyle.refs === 0) {
-					for(var j = 0; j < domStyle.parts.length; j++)
-						domStyle.parts[j]();
-					delete stylesInDom[domStyle.id];
-				}
-			}
-		};
-	}
-
-	function addStylesToDom(styles, options) {
-		for(var i = 0; i < styles.length; i++) {
-			var item = styles[i];
-			var domStyle = stylesInDom[item.id];
-			if(domStyle) {
-				domStyle.refs++;
-				for(var j = 0; j < domStyle.parts.length; j++) {
-					domStyle.parts[j](item.parts[j]);
-				}
-				for(; j < item.parts.length; j++) {
-					domStyle.parts.push(addStyle(item.parts[j], options));
-				}
-			} else {
-				var parts = [];
-				for(var j = 0; j < item.parts.length; j++) {
-					parts.push(addStyle(item.parts[j], options));
-				}
-				stylesInDom[item.id] = {id: item.id, refs: 1, parts: parts};
-			}
-		}
-	}
-
-	function listToStyles(list) {
-		var styles = [];
-		var newStyles = {};
-		for(var i = 0; i < list.length; i++) {
-			var item = list[i];
-			var id = item[0];
-			var css = item[1];
-			var media = item[2];
-			var sourceMap = item[3];
-			var part = {css: css, media: media, sourceMap: sourceMap};
-			if(!newStyles[id])
-				styles.push(newStyles[id] = {id: id, parts: [part]});
-			else
-				newStyles[id].parts.push(part);
-		}
-		return styles;
-	}
-
-	function insertStyleElement(options, styleElement) {
-		var head = getHeadElement();
-		var lastStyleElementInsertedAtTop = styleElementsInsertedAtTop[styleElementsInsertedAtTop.length - 1];
-		if (options.insertAt === "top") {
-			if(!lastStyleElementInsertedAtTop) {
-				head.insertBefore(styleElement, head.firstChild);
-			} else if(lastStyleElementInsertedAtTop.nextSibling) {
-				head.insertBefore(styleElement, lastStyleElementInsertedAtTop.nextSibling);
-			} else {
-				head.appendChild(styleElement);
-			}
-			styleElementsInsertedAtTop.push(styleElement);
-		} else if (options.insertAt === "bottom") {
-			head.appendChild(styleElement);
-		} else {
-			throw new Error("Invalid value for parameter 'insertAt'. Must be 'top' or 'bottom'.");
-		}
-	}
-
-	function removeStyleElement(styleElement) {
-		styleElement.parentNode.removeChild(styleElement);
-		var idx = styleElementsInsertedAtTop.indexOf(styleElement);
-		if(idx >= 0) {
-			styleElementsInsertedAtTop.splice(idx, 1);
-		}
-	}
-
-	function createStyleElement(options) {
-		var styleElement = document.createElement("style");
-		styleElement.type = "text/css";
-		insertStyleElement(options, styleElement);
-		return styleElement;
-	}
-
-	function createLinkElement(options) {
-		var linkElement = document.createElement("link");
-		linkElement.rel = "stylesheet";
-		insertStyleElement(options, linkElement);
-		return linkElement;
-	}
-
-	function addStyle(obj, options) {
-		var styleElement, update, remove;
-
-		if (options.singleton) {
-			var styleIndex = singletonCounter++;
-			styleElement = singletonElement || (singletonElement = createStyleElement(options));
-			update = applyToSingletonTag.bind(null, styleElement, styleIndex, false);
-			remove = applyToSingletonTag.bind(null, styleElement, styleIndex, true);
-		} else if(obj.sourceMap &&
-			typeof URL === "function" &&
-			typeof URL.createObjectURL === "function" &&
-			typeof URL.revokeObjectURL === "function" &&
-			typeof Blob === "function" &&
-			typeof btoa === "function") {
-			styleElement = createLinkElement(options);
-			update = updateLink.bind(null, styleElement);
-			remove = function() {
-				removeStyleElement(styleElement);
-				if(styleElement.href)
-					URL.revokeObjectURL(styleElement.href);
-			};
-		} else {
-			styleElement = createStyleElement(options);
-			update = applyToTag.bind(null, styleElement);
-			remove = function() {
-				removeStyleElement(styleElement);
-			};
-		}
-
-		update(obj);
-
-		return function updateStyle(newObj) {
-			if(newObj) {
-				if(newObj.css === obj.css && newObj.media === obj.media && newObj.sourceMap === obj.sourceMap)
-					return;
-				update(obj = newObj);
-			} else {
-				remove();
-			}
-		};
-	}
-
-	var replaceText = (function () {
-		var textStore = [];
-
-		return function (index, replacement) {
-			textStore[index] = replacement;
-			return textStore.filter(Boolean).join('\n');
-		};
-	})();
-
-	function applyToSingletonTag(styleElement, index, remove, obj) {
-		var css = remove ? "" : obj.css;
-
-		if (styleElement.styleSheet) {
-			styleElement.styleSheet.cssText = replaceText(index, css);
-		} else {
-			var cssNode = document.createTextNode(css);
-			var childNodes = styleElement.childNodes;
-			if (childNodes[index]) styleElement.removeChild(childNodes[index]);
-			if (childNodes.length) {
-				styleElement.insertBefore(cssNode, childNodes[index]);
-			} else {
-				styleElement.appendChild(cssNode);
-			}
-		}
-	}
-
-	function applyToTag(styleElement, obj) {
-		var css = obj.css;
-		var media = obj.media;
-
-		if(media) {
-			styleElement.setAttribute("media", media)
-		}
-
-		if(styleElement.styleSheet) {
-			styleElement.styleSheet.cssText = css;
-		} else {
-			while(styleElement.firstChild) {
-				styleElement.removeChild(styleElement.firstChild);
-			}
-			styleElement.appendChild(document.createTextNode(css));
-		}
-	}
-
-	function updateLink(linkElement, obj) {
-		var css = obj.css;
-		var sourceMap = obj.sourceMap;
-
-		if(sourceMap) {
-			// http://stackoverflow.com/a/26603875
-			css += "\n/*# sourceMappingURL=data:application/json;base64," + btoa(unescape(encodeURIComponent(JSON.stringify(sourceMap)))) + " */";
-		}
-
-		var blob = new Blob([css], { type: "text/css" });
-
-		var oldSrc = linkElement.href;
-
-		linkElement.href = URL.createObjectURL(blob);
-
-		if(oldSrc)
-			URL.revokeObjectURL(oldSrc);
-	}
-
-
-/***/ },
-/* 5 */
-/***/ function(module, exports, __webpack_require__) {
-
 	/**
-	 * React WebKit - v0.0.2
-	 * The react widget kit base on typescript
+	 * React WebKit - v0.0.5
+	 * The react web widget kit base on typescript
 	 * 
 	 * Copyright 2016 - present, Dennis Chen, All rights reserved.
 	 * 
 	 * Released under MIT license
 	 */
 	"use strict";
-
-	var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; };
 
 	var __extends = undefined && undefined.__extends || function (d, b) {
 	    for (var p in b) {
@@ -446,10 +104,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	    }
 	    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 	};
-	var React = __webpack_require__(6);
-	var ReactDOM = __webpack_require__(7);
-	var Jq = __webpack_require__(8);
-	var Util = __webpack_require__(9);
+	var React = __webpack_require__(2);
+	var ReactDOM = __webpack_require__(3);
+	var Jq = __webpack_require__(4);
+	var Util = __webpack_require__(5);
 	exports.QUEUE_EVENTS = {
 	    ON_RESIZE: 'onResize'
 	};
@@ -459,7 +117,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    queue.send({ name: exports.QUEUE_EVENTS.ON_RESIZE, data: {} });
 	}
 	exports.sendWidgetResize = sendWidgetResize;
-	if (undefined !== (typeof window === 'undefined' ? 'undefined' : _typeof(window))) {
+	if ('undefined' !== typeof window) {
 	    if (!window[queueName]) {
 	        window[queueName] = queue = new Util.SimpleQueue();
 	        Jq(window).bind('resize', sendWidgetResize);
@@ -821,7 +479,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        return React.createElement(t, p, this.getRenderChildren());
 	    };
 	    Widget.defaultProps = {};
-	    Widget._widgetMagic = true;
+	    Widget.__wgtmgc = true;
 	    return Widget;
 	}(React.Component);
 	exports.Widget = Widget;
@@ -843,83 +501,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	    return Fonticon;
 	}(Widget);
 	exports.Fonticon = Fonticon;
-	var Input = function (_super) {
-	    __extends(Input, _super);
-	    function Input() {
-	        _super.apply(this, arguments);
-	    }
-	    Input.prototype.onChange = function (evt) {
-	        if (this.props.onChange) {
-	            this.props.onChange(evt);
-	        }
-	    };
-	    Input.prototype.getRenderSclass = function () {
-	        var str = [];
-	        str.push(_super.prototype.getRenderSclass.call(this));
-	        if (this.props.disabled) {
-	            str.push('wk-disabled');
-	        }
-	        return str.join(' ');
-	    };
-	    Input.prototype.getInputDOM = function () {
-	        return this.refs['input'];
-	    };
-	    Input.defaultProps = Util.supplyProps({}, Widget.defaultProps);
-	    return Input;
-	}(Widget);
-	exports.Input = Input;
-	var Checkbox = function (_super) {
-	    __extends(Checkbox, _super);
-	    function Checkbox() {
-	        _super.apply(this, arguments);
-	    }
-	    Checkbox.prototype.getWidgetSclass = function () {
-	        return 'wkw-checkbox';
-	    };
-	    Checkbox.prototype.onChange = function (evt) {
-	        _super.prototype.onChange.call(this, evt);
-	        if (this.props.doCheck) {
-	            this.props.doCheck(evt.target.checked, this.props.value);
-	        }
-	    };
-	    Checkbox.prototype.getInputType = function () {
-	        return 'checkbox';
-	    };
-	    Checkbox.prototype.getRenderChildren = function () {
-	        var inpid;
-	        if (this.props.id) {
-	            inpid = [this.props.id, '_inp'].join('');
-	        } else {
-	            inpid = [this.getPseudoId(), '_inp'].join('');
-	        }
-	        var label;
-	        if (this.props.label) {
-	            label = React.createElement("label", { key: 'l', htmlFor: inpid }, this.props.label);
-	        }
-	        var inputType = this.getInputType();
-	        var onChange = this.props.onChange || this.props.doCheck ? this.onChange.bind(this) : undefined;
-	        var readonly = this.props.checked && !onChange ? true : undefined;
-	        var value = 'string' == typeof this.props.value ? this.props.value : undefined;
-	        return [React.createElement("input", { key: 'i', id: inpid, type: inputType, ref: 'input', onChange: onChange, checked: this.props.checked, readOnly: readonly, disabled: this.props.disabled, name: this.props.name, value: value }), label];
-	    };
-	    Checkbox.defaultProps = Util.supplyProps({}, Input.defaultProps);
-	    return Checkbox;
-	}(Input);
-	exports.Checkbox = Checkbox;
-	var Radiobox = function (_super) {
-	    __extends(Radiobox, _super);
-	    function Radiobox() {
-	        _super.apply(this, arguments);
-	    }
-	    Radiobox.prototype.getWidgetSclass = function () {
-	        return 'wkw-radiobox';
-	    };
-	    Radiobox.prototype.getInputType = function () {
-	        return 'radio';
-	    };
-	    return Radiobox;
-	}(Checkbox);
-	exports.Radiobox = Radiobox;
 	var List = function (_super) {
 	    __extends(List, _super);
 	    function List() {
@@ -999,7 +580,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	exports.List = List;
 	function isWidgetElemnt(child) {
 	    var casting = child;
-	    return casting ? casting.type && casting.type._widgetMagic : false;
+	    return casting ? casting.type && casting.type.__wgtmgc : false;
 	}
 	exports.isWidgetElemnt = isWidgetElemnt;
 	function getWidgetProps(child) {
@@ -1056,30 +637,30 @@ return /******/ (function(modules) { // webpackBootstrap
 	//# sourceMappingURL=srcmap/widget.js.map
 
 /***/ },
-/* 6 */
+/* 2 */
 /***/ function(module, exports) {
 
-	module.exports = __WEBPACK_EXTERNAL_MODULE_6__;
+	module.exports = __WEBPACK_EXTERNAL_MODULE_2__;
 
 /***/ },
-/* 7 */
+/* 3 */
 /***/ function(module, exports) {
 
-	module.exports = __WEBPACK_EXTERNAL_MODULE_7__;
+	module.exports = __WEBPACK_EXTERNAL_MODULE_3__;
 
 /***/ },
-/* 8 */
+/* 4 */
 /***/ function(module, exports) {
 
-	module.exports = __WEBPACK_EXTERNAL_MODULE_8__;
+	module.exports = __WEBPACK_EXTERNAL_MODULE_4__;
 
 /***/ },
-/* 9 */
+/* 5 */
 /***/ function(module, exports) {
 
 	/**
-	 * React WebKit - v0.0.2
-	 * The react widget kit base on typescript
+	 * React WebKit - v0.0.5
+	 * The react web widget kit base on typescript
 	 * 
 	 * Copyright 2016 - present, Dennis Chen, All rights reserved.
 	 * 
@@ -1200,12 +781,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	//# sourceMappingURL=srcmap/util.js.map
 
 /***/ },
-/* 10 */
+/* 6 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
-	 * React WebKit - v0.0.2
-	 * The react widget kit base on typescript
+	 * React WebKit - v0.0.5
+	 * The react web widget kit base on typescript
 	 * 
 	 * Copyright 2016 - present, Dennis Chen, All rights reserved.
 	 * 
@@ -1221,10 +802,115 @@ return /******/ (function(modules) { // webpackBootstrap
 	    }
 	    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 	};
-	var React = __webpack_require__(6);
-	var Jq = __webpack_require__(8);
-	var Widget = __webpack_require__(5);
-	var Util = __webpack_require__(9);
+	var React = __webpack_require__(2);
+	var Widget = __webpack_require__(1);
+	var Util = __webpack_require__(5);
+	var Input = function (_super) {
+	    __extends(Input, _super);
+	    function Input() {
+	        _super.apply(this, arguments);
+	    }
+	    Input.prototype.onChange = function (evt) {
+	        if (this.props.onChange) {
+	            this.props.onChange(evt);
+	        }
+	    };
+	    Input.prototype.getRenderSclass = function () {
+	        var str = [];
+	        str.push(_super.prototype.getRenderSclass.call(this));
+	        if (this.props.disabled) {
+	            str.push('wk-disabled');
+	        }
+	        return str.join(' ');
+	    };
+	    Input.prototype.getInputDOM = function () {
+	        return this.refs['input'];
+	    };
+	    Input.defaultProps = Util.supplyProps({}, Widget.Widget.defaultProps);
+	    return Input;
+	}(Widget.Widget);
+	exports.Input = Input;
+	var Checkbox = function (_super) {
+	    __extends(Checkbox, _super);
+	    function Checkbox() {
+	        _super.apply(this, arguments);
+	    }
+	    Checkbox.prototype.getWidgetSclass = function () {
+	        return 'wkw-checkbox';
+	    };
+	    Checkbox.prototype.onChange = function (evt) {
+	        _super.prototype.onChange.call(this, evt);
+	        if (this.props.doCheck) {
+	            this.props.doCheck(evt.target.checked, this.props.value);
+	        }
+	    };
+	    Checkbox.prototype.getInputType = function () {
+	        return 'checkbox';
+	    };
+	    Checkbox.prototype.getRenderChildren = function () {
+	        var props = this.props;
+	        var inpid;
+	        if (props.id) {
+	            inpid = [props.id, '_inp'].join('');
+	        } else {
+	            inpid = [this.getPseudoId(), '_inp'].join('');
+	        }
+	        var label;
+	        if (props.label) {
+	            label = React.createElement("label", { key: 'l', htmlFor: inpid }, props.label);
+	        }
+	        var inputType = this.getInputType();
+	        var onChange = props.onChange || props.doCheck ? this.onChange.bind(this) : undefined;
+	        var value = 'string' == typeof props.value ? props.value : undefined;
+	        return [React.createElement("input", { key: 'i', id: inpid, type: inputType, ref: 'input', onChange: onChange, checked: props.checked, disabled: props.disabled, readOnly: props.readOnly, name: props.name, value: value }), label];
+	    };
+	    Checkbox.defaultProps = Util.supplyProps({}, Input.defaultProps);
+	    return Checkbox;
+	}(Input);
+	exports.Checkbox = Checkbox;
+	var Radiobox = function (_super) {
+	    __extends(Radiobox, _super);
+	    function Radiobox() {
+	        _super.apply(this, arguments);
+	    }
+	    Radiobox.prototype.getWidgetSclass = function () {
+	        return 'wkw-radiobox';
+	    };
+	    Radiobox.prototype.getInputType = function () {
+	        return 'radio';
+	    };
+	    return Radiobox;
+	}(Checkbox);
+	exports.Radiobox = Radiobox;
+
+	//# sourceMappingURL=srcmap/input.js.map
+
+/***/ },
+/* 7 */
+/***/ function(module, exports, __webpack_require__) {
+
+	/**
+	 * React WebKit - v0.0.5
+	 * The react web widget kit base on typescript
+	 * 
+	 * Copyright 2016 - present, Dennis Chen, All rights reserved.
+	 * 
+	 * Released under MIT license
+	 */
+	"use strict";
+
+	var __extends = undefined && undefined.__extends || function (d, b) {
+	    for (var p in b) {
+	        if (b.hasOwnProperty(p)) d[p] = b[p];
+	    }function __() {
+	        this.constructor = d;
+	    }
+	    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+	};
+	var React = __webpack_require__(2);
+	var Jq = __webpack_require__(4);
+	var Widget = __webpack_require__(1);
+	var Util = __webpack_require__(5);
 	var Box = function (_super) {
 	    __extends(Box, _super);
 	    function Box() {
@@ -1513,6 +1199,163 @@ return /******/ (function(modules) { // webpackBootstrap
 	exports.Sider = Sider;
 
 	//# sourceMappingURL=srcmap/layout.js.map
+
+/***/ },
+/* 8 */
+/***/ function(module, exports, __webpack_require__) {
+
+	/**
+	 * React WebKit - v0.0.5
+	 * The react web widget kit base on typescript
+	 * 
+	 * Copyright 2016 - present, Dennis Chen, All rights reserved.
+	 * 
+	 * Released under MIT license
+	 */
+	"use strict";
+
+	var __extends = undefined && undefined.__extends || function (d, b) {
+	    for (var p in b) {
+	        if (b.hasOwnProperty(p)) d[p] = b[p];
+	    }function __() {
+	        this.constructor = d;
+	    }
+	    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+	};
+	var Jq = __webpack_require__(4);
+	var Widget = __webpack_require__(1);
+	var Util = __webpack_require__(5);
+	(function (AdjustMethod) {
+	    AdjustMethod[AdjustMethod["shift"] = 1] = "shift";
+	    AdjustMethod[AdjustMethod["flip"] = 2] = "flip";
+	    AdjustMethod[AdjustMethod["flipinvert"] = 3] = "flipinvert";
+	})(exports.AdjustMethod || (exports.AdjustMethod = {}));
+	var AdjustMethod = exports.AdjustMethod;
+	var Popup = function (_super) {
+	    __extends(Popup, _super);
+	    function Popup(props) {
+	        _super.call(this, props);
+	        this._adc = 0;
+	        this.state.hidden = undefined === props.hidden ? true : props.hidden;
+	    }
+	    Popup.prototype.show = function (target, opt) {
+	        var _this = this;
+	        if (target === void 0) {
+	            target = undefined;
+	        }
+	        if (opt === void 0) {
+	            opt = {};
+	        }
+	        var props = this.props;
+	        this.reposition(target, opt);
+	        _super.prototype.show.call(this);
+	        if (opt.autoDismiss > 0) {
+	            this._adc++;
+	            var dismiss = opt.autoDismiss;
+	            if (props.animation) {
+	                dismiss += props.animation.duration || Widget.DEFAULT_ANIMATION_DURATION;
+	            }
+	            setTimeout(function () {
+	                _this._adc--;
+	                if (_this._adc == 0) {
+	                    _this.hide();
+	                }
+	            }, dismiss);
+	        }
+	    };
+	    Popup.prototype.reposition = function (target, opt) {
+	        if (target === void 0) {
+	            target = undefined;
+	        }
+	        if (opt === void 0) {
+	            opt = {};
+	        }
+	        var props = this.props;
+	        var jqdom = Jq(this.getDOM());
+	        var jqp = jqdom.parent();
+	        var top = 0,
+	            left = 0;
+	        if (target) {
+	            var jqt = Jq(target);
+	            var ost = jqt.offset();
+	            var osp = jqp.offset();
+	            top = ost.top - osp.top + jqp.scrollTop();
+	            left = ost.left - osp.left + jqp.scrollLeft();
+	            var tgtw = Widget.getOutterWidth(jqt[0]);
+	            var tgth = Widget.getOutterHeight(jqt[0]);
+	            switch (opt.targetHPos) {
+	                case Widget.HPos.right:
+	                    left += tgtw;
+	                    break;
+	                case Widget.HPos.center:
+	                    left += tgtw / 2;
+	                    break;
+	            }
+	            switch (opt.targetVPos) {
+	                case Widget.VPos.bottom:
+	                    top += tgth;
+	                    break;
+	                case Widget.VPos.middle:
+	                    top += tgth / 2;
+	                    break;
+	            }
+	        }
+	        var visible = jqdom.is(":visible");
+	        if (!visible) {
+	            jqdom.show();
+	        }
+	        var slfw = Widget.getOutterWidth(jqdom[0]);
+	        var slfh = Widget.getOutterHeight(jqdom[0]);
+	        if (!visible) {
+	            jqdom.hide();
+	        }
+	        switch (opt.selfHPos) {
+	            case Widget.HPos.right:
+	                left -= slfw;
+	                break;
+	            case Widget.HPos.center:
+	                left -= slfw / 2;
+	                break;
+	        }
+	        switch (opt.selfVPos) {
+	            case Widget.VPos.bottom:
+	                top -= slfh;
+	                break;
+	            case Widget.VPos.middle:
+	                top -= slfh / 2;
+	                break;
+	        }
+	        left += opt.adjustX | 0;
+	        top += opt.adjustY | 0;
+	        switch (opt.adjust) {
+	            case AdjustMethod.shift:
+	                break;
+	            case AdjustMethod.flip:
+	                break;
+	            case AdjustMethod.flipinvert:
+	                break;
+	        }
+	        this.setState({ left: left, top: top });
+	    };
+	    Popup.prototype.hide = function () {
+	        _super.prototype.hide.call(this);
+	    };
+	    Popup.prototype.getWidgetSclass = function () {
+	        return 'wkw-popup';
+	    };
+	    Popup.prototype.getRenderStyle = function () {
+	        var css = _super.prototype.getRenderStyle.call(this);
+	        var state = this.state;
+	        css.top = state.top;
+	        css.left = state.left;
+	        return css;
+	    };
+	    Popup.defaultProps = Util.supplyProps({}, Widget.Widget.defaultProps);
+	    return Popup;
+	}(Widget.Widget);
+	exports.Popup = Popup;
+
+	//# sourceMappingURL=srcmap/popup.js.map
 
 /***/ }
 /******/ ])

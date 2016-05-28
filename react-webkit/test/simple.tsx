@@ -23,8 +23,9 @@ class App extends React.Component<any, any>{
     render() {
         return (
 
-            <l.Hlayout vflex={1} style={{ background: 'lightgreen', width: 600.65, marginLeft: 60.6, paddingLeft: 40.2, borderLeft: 'blue solid 20px', borderLeftWidth: 20 }} >
-                
+            <l.Hlayout vflex={1} style={{ padding: 20 }} >
+                <l.Box hflex={1} >A</l.Box>
+                <l.Box hflex={2} >B</l.Box>
             </l.Hlayout>
 
 

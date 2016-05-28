@@ -1,6 +1,6 @@
 /**
- * React WebKit - v0.0.2
- * The react widget kit base on typescript
+ * React WebKit - v0.0.5
+ * The react web widget kit base on typescript
  * 
  * Copyright 2016 - present, Dennis Chen, All rights reserved.
  * 
@@ -33,7 +33,7 @@ var __extends = (this && this.__extends) || function (d, b) {
         queue.send({ name: exports.QUEUE_EVENTS.ON_RESIZE, data: {} });
     }
     exports.sendWidgetResize = sendWidgetResize;
-    if (undefined !== typeof window) {
+    if ('undefined' !== typeof window) {
         if (!window[queueName]) {
             window[queueName] = queue = new Util.SimpleQueue();
             Jq(window).bind('resize', sendWidgetResize);
@@ -396,7 +396,7 @@ var __extends = (this && this.__extends) || function (d, b) {
             return React.createElement(t, p, this.getRenderChildren());
         };
         Widget.defaultProps = {};
-        Widget._widgetMagic = true;
+        Widget.__wgtmgc = true;
         return Widget;
     }(React.Component));
     exports.Widget = Widget;
@@ -418,84 +418,6 @@ var __extends = (this && this.__extends) || function (d, b) {
         return Fonticon;
     }(Widget));
     exports.Fonticon = Fonticon;
-    var Input = (function (_super) {
-        __extends(Input, _super);
-        function Input() {
-            _super.apply(this, arguments);
-        }
-        Input.prototype.onChange = function (evt) {
-            if (this.props.onChange) {
-                this.props.onChange(evt);
-            }
-        };
-        Input.prototype.getRenderSclass = function () {
-            var str = [];
-            str.push(_super.prototype.getRenderSclass.call(this));
-            if (this.props.disabled) {
-                str.push('wk-disabled');
-            }
-            return str.join(' ');
-        };
-        Input.prototype.getInputDOM = function () {
-            return this.refs['input'];
-        };
-        Input.defaultProps = Util.supplyProps({}, Widget.defaultProps);
-        return Input;
-    }(Widget));
-    exports.Input = Input;
-    var Checkbox = (function (_super) {
-        __extends(Checkbox, _super);
-        function Checkbox() {
-            _super.apply(this, arguments);
-        }
-        Checkbox.prototype.getWidgetSclass = function () {
-            return 'wkw-checkbox';
-        };
-        Checkbox.prototype.onChange = function (evt) {
-            _super.prototype.onChange.call(this, evt);
-            if (this.props.doCheck) {
-                this.props.doCheck(evt.target.checked, this.props.value);
-            }
-        };
-        Checkbox.prototype.getInputType = function () {
-            return 'checkbox';
-        };
-        Checkbox.prototype.getRenderChildren = function () {
-            var inpid;
-            if (this.props.id) {
-                inpid = [this.props.id, '_inp'].join('');
-            }
-            else {
-                inpid = [this.getPseudoId(), '_inp'].join('');
-            }
-            var label;
-            if (this.props.label) {
-                label = React.createElement("label", {key: 'l', htmlFor: inpid}, this.props.label);
-            }
-            var inputType = this.getInputType();
-            var onChange = (this.props.onChange || this.props.doCheck) ? this.onChange.bind(this) : undefined;
-            var readonly = this.props.checked && !onChange ? true : undefined;
-            var value = 'string' == typeof this.props.value ? this.props.value : undefined;
-            return [React.createElement("input", {key: 'i', id: inpid, type: inputType, ref: 'input', onChange: onChange, checked: this.props.checked, readOnly: readonly, disabled: this.props.disabled, name: this.props.name, value: value}), label];
-        };
-        Checkbox.defaultProps = Util.supplyProps({}, Input.defaultProps);
-        return Checkbox;
-    }(Input));
-    exports.Checkbox = Checkbox;
-    var Radiobox = (function (_super) {
-        __extends(Radiobox, _super);
-        function Radiobox() {
-            _super.apply(this, arguments);
-        }
-        Radiobox.prototype.getWidgetSclass = function () {
-            return 'wkw-radiobox';
-        };
-        Radiobox.prototype.getInputType = function () {
-            return 'radio';
-        };
-        return Radiobox;
-    }(Checkbox));
-    exports.Radiobox = Radiobox;
     var List = (function (_super) {
         __extends(List, _super);
         function List() {
@@ -577,7 +499,7 @@ var __extends = (this && this.__extends) || function (d, b) {
     exports.List = List;
     function isWidgetElemnt(child) {
         var casting = child;
-        return casting ? (casting.type && casting.type._widgetMagic) : false;
+        return casting ? (casting.type && casting.type.__wgtmgc) : false;
     }
     exports.isWidgetElemnt = isWidgetElemnt;
     function getWidgetProps(child) {

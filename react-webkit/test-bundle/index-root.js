@@ -1,8 +1,9 @@
 'use strict';
 
 var wk = ReactWebKit;
-var w = wk.widget;
-var l = wk.layout;
+var w = wk.Widget;
+var i = wk.Input;
+var l = wk.Layout;
 
 var RootApp = React.createClass({
     getInitialState: function getInitialState() {
@@ -174,7 +175,12 @@ var RootApp = React.createClass({
                     'XYZ'
                 )
             ),
-            React.createElement(w.Checkbox, { label: 'A Checkbox' })
+            React.createElement(
+                l.Hlayout,
+                null,
+                React.createElement(i.Checkbox, { label: 'A Checkbox' }),
+                React.createElement(i.Radiobox, { label: 'A Radio' })
+            )
         );
     }
 });

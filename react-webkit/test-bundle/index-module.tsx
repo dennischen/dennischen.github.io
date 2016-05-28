@@ -4,6 +4,7 @@ import React = require('react');
 import ReactDOM = require('react-dom');
 
 import w = require('../main/widget');
+import i = require('../main/input');
 import l = require('../main/layout');
 
 export class App extends React.Component<any, any>{
@@ -57,7 +58,10 @@ export class App extends React.Component<any, any>{
                     <span>LMN</span>
                     <span>XYZ</span>
                 </w.List>
-                <w.Checkbox label='A Checkbox'></w.Checkbox>
+               <l.Hlayout>
+                    <i.Checkbox label='A Checkbox'/>
+                    <i.Radiobox label='A Radio'/>
+                </l.Hlayout>
             </l.Vlayout>
         )
     }

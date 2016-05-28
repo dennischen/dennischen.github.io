@@ -1,6 +1,6 @@
 /**
- * React WebKit - v0.0.2
- * The react widget kit base on typescript
+ * React WebKit - v0.0.5
+ * The react web widget kit base on typescript
  * 
  * Copyright 2016 - present, Dennis Chen, All rights reserved.
  * 
@@ -16,13 +16,13 @@ var __extends = (this && this.__extends) || function (d, b) {
         var v = factory(require, exports); if (v !== undefined) module.exports = v;
     }
     else if (typeof define === 'function' && define.amd) {
-        define(["require", "exports", 'react', 'react-dom', '../main/widget', '../main/layout'], factory);
+        define(["require", "exports", 'react', 'react-dom', '../main/input', '../main/layout'], factory);
     }
 })(function (require, exports) {
     "use strict";
     var React = require('react');
     var ReactDOM = require('react-dom');
-    var w = require('../main/widget');
+    var i = require('../main/input');
     var l = require('../main/layout');
     var App = (function (_super) {
         __extends(App, _super);
@@ -41,7 +41,7 @@ var __extends = (this && this.__extends) || function (d, b) {
             this.setState({ msg: 'Checked ' + checked, checked: checked });
         };
         App.prototype.render = function () {
-            return (React.createElement(l.Vlayout, {vflex: 1, style: { padding: 10, background: 'lightblue' }, space: 10}, React.createElement(l.Hlayout, null, this.state.msg), React.createElement(l.Hlayout, {align: 'top', space: 20}, React.createElement(w.Radiobox, {id: 'cb1', label: 'Option 3', name: 'group1', doCheck: this.doCheck.bind(this), value: 'one'}), React.createElement(w.Radiobox, {label: 'Option 2', name: 'group1', doCheck: this.doCheck.bind(this), value: 'two'}), React.createElement(w.Radiobox, {label: 'Option 3', name: 'group1', doCheck: this.doCheck.bind(this), value: 'tree'})), React.createElement(w.Radiobox, {doCheck: this.doCheck.bind(this)}), "---------", React.createElement(w.Radiobox, {checked: this.state.checked, label: 'You can\' check this, the status follow the last checking'}), "---------", React.createElement(w.Radiobox, {label: 'Free radiobox'}), React.createElement(w.Radiobox, {label: 'Disabled radiobox', disabled: true})));
+            return (React.createElement(l.Vlayout, {vflex: 1, style: { padding: 10, background: 'lightblue' }, space: 10}, React.createElement(l.Hlayout, null, this.state.msg), React.createElement(l.Hlayout, {align: 'top', space: 20}, React.createElement(i.Radiobox, {id: 'cb1', label: 'Option 1', name: 'group1', doCheck: this.doCheck.bind(this), value: 'one'}), React.createElement(i.Radiobox, {label: 'Option 2', name: 'group1', doCheck: this.doCheck.bind(this), value: 'two'}), React.createElement(i.Radiobox, {label: 'Option 3', name: 'group1', doCheck: this.doCheck.bind(this), value: 'three'})), React.createElement(i.Radiobox, {doCheck: this.doCheck.bind(this)}), "---------", React.createElement(i.Radiobox, {checked: this.state.checked, label: 'You can\' check this, the status follow the last checking'}), "---------", React.createElement(i.Radiobox, {label: 'Free radiobox'}), React.createElement(i.Radiobox, {label: 'Disabled radiobox', disabled: true})));
         };
         return App;
     }(React.Component));

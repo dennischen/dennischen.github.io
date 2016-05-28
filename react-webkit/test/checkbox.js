@@ -1,6 +1,6 @@
 /**
- * React WebKit - v0.0.2
- * The react widget kit base on typescript
+ * React WebKit - v0.0.5
+ * The react web widget kit base on typescript
  * 
  * Copyright 2016 - present, Dennis Chen, All rights reserved.
  * 
@@ -16,19 +16,19 @@ var __extends = (this && this.__extends) || function (d, b) {
         var v = factory(require, exports); if (v !== undefined) module.exports = v;
     }
     else if (typeof define === 'function' && define.amd) {
-        define(["require", "exports", 'react', 'react-dom', '../main/widget', '../main/layout'], factory);
+        define(["require", "exports", 'react', 'react-dom', '../main/input', '../main/layout'], factory);
     }
 })(function (require, exports) {
     "use strict";
     var React = require('react');
     var ReactDOM = require('react-dom');
-    var w = require('../main/widget');
+    var i = require('../main/input');
     var l = require('../main/layout');
     var App = (function (_super) {
         __extends(App, _super);
         function App(props) {
             _super.call(this, props);
-            this.state = { msg: 'start to operation', checked: true };
+            this.state = { msg: 'start to operation', checked: false };
         }
         App.prototype.componentDidMount = function () {
         };
@@ -41,7 +41,7 @@ var __extends = (this && this.__extends) || function (d, b) {
             this.setState({ msg: 'Checked ' + checked, checked: checked });
         };
         App.prototype.render = function () {
-            return (React.createElement(l.Vlayout, {vflex: 1, style: { padding: 10, background: 'lightblue' }, space: 10}, React.createElement(l.Hlayout, null, this.state.msg), React.createElement(w.Checkbox, {id: 'cb1', label: 'Label checkable', style: { fontSize: 40, background: 'lightpink' }, doCheck: this.doCheck.bind(this), value: { text: 'one' }}), React.createElement(w.Checkbox, {doCheck: this.doCheck.bind(this)}), React.createElement(w.Checkbox, {doCheck: this.doCheck.bind(this), value: 'two'}), "---------", React.createElement(w.Checkbox, {checked: this.state.checked, label: 'You can\' check this, the status follow the last checking'}), "---------", React.createElement(w.Checkbox, {label: 'Free checkbox'}), React.createElement(w.Checkbox, {label: 'Disabled checkbox', disabled: true})));
+            return (React.createElement(l.Vlayout, {vflex: 1, style: { padding: 10, background: 'lightblue' }, space: 10}, React.createElement(l.Hlayout, null, this.state.msg), React.createElement(i.Checkbox, {id: 'cb1', label: 'Label checkable', style: { fontSize: 40, background: 'lightpink' }, doCheck: this.doCheck.bind(this), value: { text: 'one' }}), React.createElement(i.Checkbox, {doCheck: this.doCheck.bind(this)}), React.createElement(i.Checkbox, {doCheck: this.doCheck.bind(this), value: 'two'}), "---------", React.createElement(i.Checkbox, {checked: this.state.checked, label: 'You can\' check this, the status follow the last checking'}), "---------", React.createElement(i.Checkbox, {label: 'Free checkbox'}), React.createElement(i.Checkbox, {label: 'Disabled checkbox', disabled: true})));
         };
         return App;
     }(React.Component));

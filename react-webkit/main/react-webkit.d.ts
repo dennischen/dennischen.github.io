@@ -1,18 +1,25 @@
 /**
- * React WebKit - v0.0.2
- * The react widget kit base on typescript
+ * React WebKit - v0.0.5
+ * The react web widget kit base on typescript
  * 
  * Copyright 2016 - present, Dennis Chen, All rights reserved.
  * 
  * Released under MIT license
  */
-declare module "react-webkit" {
-    import widget = require('widget');
-    import layout = require('layout');
-    import popup = require('popup');
+declare module "@atticcat/react-webkit" {
+    /**
+     * To avoid my IDE (i.e. VS Code) be conflicted by sub-module name,
+     * the exported sub-module name has to different from the original name.
+     * I simply uppercase sub-module.
+     */
+    import Widget = require('widget');
+    import Input = require('input');
+    import Layout = require('layout');
+    import Popup = require('popup');
     export{
-        widget,
-        layout,
-        popup
+        Widget,
+        Input,
+        Layout,
+        Popup
     };
 }

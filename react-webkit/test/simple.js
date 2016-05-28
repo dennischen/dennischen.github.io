@@ -1,6 +1,6 @@
 /**
- * React WebKit - v0.0.2
- * The react widget kit base on typescript
+ * React WebKit - v0.0.5
+ * The react web widget kit base on typescript
  * 
  * Copyright 2016 - present, Dennis Chen, All rights reserved.
  * 
@@ -38,7 +38,7 @@ var __extends = (this && this.__extends) || function (d, b) {
             this.visible = !this.visible;
         };
         App.prototype.render = function () {
-            return (React.createElement(l.Hlayout, {vflex: 1, style: { background: 'lightgreen', width: 600.65, marginLeft: 60.6, paddingLeft: 40.2, borderLeft: 'blue solid 20px', borderLeftWidth: 20 }}));
+            return (React.createElement(l.Hlayout, {vflex: 1, style: { padding: 20 }}, React.createElement(l.Box, {hflex: 1}, "A"), React.createElement(l.Box, {hflex: 2}, "B")));
         };
         return App;
     }(React.Component));

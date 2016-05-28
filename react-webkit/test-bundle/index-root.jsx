@@ -1,8 +1,9 @@
 'use strict'
 
 var wk = ReactWebKit;
-var w = wk.widget;
-var l = wk.layout;
+var w = wk.Widget;
+var i = wk.Input;
+var l = wk.Layout;
 
 var RootApp = React.createClass({
     getInitialState: function() {
@@ -54,7 +55,10 @@ var RootApp = React.createClass({
                     <span>LMN</span>
                     <span>XYZ</span>
                 </w.List>
-                <w.Checkbox label='A Checkbox'></w.Checkbox>
+                <l.Hlayout>
+                    <i.Checkbox label='A Checkbox'/>
+                    <i.Radiobox label='A Radio'/>
+                </l.Hlayout>
             </l.Vlayout>
         )
     }

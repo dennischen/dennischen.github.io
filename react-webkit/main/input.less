@@ -1,0 +1,38 @@
+/**
+ * React WebKit - v0.0.5
+ * The react web widget kit base on typescript
+ * 
+ * Copyright 2016 - present, Dennis Chen, All rights reserved.
+ * 
+ * Released under MIT license
+ */
+
+@import "_variable.less";
+@import "_function.less";
+
+//widget rules
+.wkw-checkbox, .wkw-radiobox{
+	.box-sizing;
+	position:relative;
+	display: inline-block;
+	> input {
+		margin:0;
+		cursor: pointer;
+		vertical-align: middle;
+		&[disabled]{
+			cursor: default;
+		}
+	}
+	> label{
+		&[for]{
+			cursor: pointer;	
+		}
+		padding-left:2px;
+		vertical-align: middle;
+	}
+	&.wk-disabled{
+		> label{
+			color: @disabledText;
+		}
+	}
+}

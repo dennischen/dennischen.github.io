@@ -4,6 +4,7 @@ import React = require('react');
 import ReactDOM = require('react-dom');
 
 import w = require('../main/widget');
+import i = require('../main/input');
 import l = require('../main/layout');
 import p = require('../main/popup');
 
@@ -88,46 +89,46 @@ export class App extends React.Component<any, State>{
                 <l.Vlayout  space={10}>
                     <l.Hlayout align='middle' space={10}>
                         Target HPos:
-                        <w.Radiobox name='targetHPos' checked={this.state.targetHPos == w.HPos.left}
+                        <i.Radiobox name='targetHPos' checked={this.state.targetHPos == w.HPos.left}
                             onChange={this.handleTargetHPos.bind(this, w.HPos.left) } label='Left'/>
-                        <w.Radiobox name='targetHPos' checked={this.state.targetHPos == w.HPos.center}
+                        <i.Radiobox name='targetHPos' checked={this.state.targetHPos == w.HPos.center}
                             onChange={this.handleTargetHPos.bind(this, w.HPos.center) } label='Center'/>
-                        <w.Radiobox name='targetHPos' checked={this.state.targetHPos == w.HPos.right}
+                        <i.Radiobox name='targetHPos' checked={this.state.targetHPos == w.HPos.right}
                             onChange={this.handleTargetHPos.bind(this, w.HPos.right) } label='Right'/>
                     </l.Hlayout>
                     <l.Hlayout align='middle' space={10}>
                         Target VPos:
-                        <w.Radiobox name='targetVPos' checked={this.state.targetVPos == w.VPos.top}
+                        <i.Radiobox name='targetVPos' checked={this.state.targetVPos == w.VPos.top}
                             onChange={this.handleTargetVPos.bind(this, w.VPos.top) } label='Top'/>
-                        <w.Radiobox name='targetVPos' checked={this.state.targetVPos == w.VPos.middle}
+                        <i.Radiobox name='targetVPos' checked={this.state.targetVPos == w.VPos.middle}
                             onChange={this.handleTargetVPos.bind(this, w.VPos.middle) } label='Middle'/>
-                        <w.Radiobox name='targetVPos' checked={this.state.targetVPos == w.VPos.bottom}
+                        <i.Radiobox name='targetVPos' checked={this.state.targetVPos == w.VPos.bottom}
                             onChange={this.handleTargetVPos.bind(this, w.VPos.bottom) } label='Bottom'/>
                     </l.Hlayout>
                     <l.Hlayout align='middle' space={10}>
                         Self HPos:
-                        <w.Radiobox name='selfHPos' checked={this.state.selfHPos == w.HPos.left}
+                        <i.Radiobox name='selfHPos' checked={this.state.selfHPos == w.HPos.left}
                             onChange={this.handleSelfHPos.bind(this, w.HPos.left) } label='Left'/>
-                        <w.Radiobox name='selfHPos' checked={this.state.selfHPos == w.HPos.center}
+                        <i.Radiobox name='selfHPos' checked={this.state.selfHPos == w.HPos.center}
                             onChange={this.handleSelfHPos.bind(this, w.HPos.center) } label='Center'/>
-                        <w.Radiobox name='selfHPos' checked={this.state.selfHPos == w.HPos.right}
+                        <i.Radiobox name='selfHPos' checked={this.state.selfHPos == w.HPos.right}
                             onChange={this.handleSelfHPos.bind(this, w.HPos.right) } label='Right'/>
                     </l.Hlayout>
                     <l.Hlayout align='middle' space={10}>
                         Self VPos:
-                        <w.Radiobox name='selfVPos' checked={this.state.selfVPos == w.VPos.top}
+                        <i.Radiobox name='selfVPos' checked={this.state.selfVPos == w.VPos.top}
                             onChange={this.handleSelfVPos.bind(this, w.VPos.top) } label='Top'/>
-                        <w.Radiobox name='selfVPos' checked={this.state.selfVPos == w.VPos.middle}
+                        <i.Radiobox name='selfVPos' checked={this.state.selfVPos == w.VPos.middle}
                             onChange={this.handleSelfVPos.bind(this, w.VPos.middle) } label='Middle'/>
-                        <w.Radiobox name='selfVPos' checked={this.state.selfVPos == w.VPos.bottom}
+                        <i.Radiobox name='selfVPos' checked={this.state.selfVPos == w.VPos.bottom}
                             onChange={this.handleSelfVPos.bind(this, w.VPos.bottom) } label='Bottom'/>
                     </l.Hlayout>
                     <l.Hlayout align='middle' space={10}>
-                        <w.Checkbox checked={this.state.autoDismiss > 0}
+                        <i.Checkbox checked={this.state.autoDismiss > 0}
                             doCheck={this.handleAutoDismiss.bind(this) } label='Auto dismiss'/>
-                        <w.Checkbox checked={this.state.animation ? true : false}
+                        <i.Checkbox checked={this.state.animation ? true : false}
                             doCheck={this.handleAnimation.bind(this) } label='Animation'/>
-                        <w.Checkbox checked={this.state.adjustXY?true:false}
+                        <i.Checkbox checked={this.state.adjustXY?true:false}
                             doCheck={this.handleAdjustXY.bind(this) } label='AdjustXY'/>
                     </l.Hlayout>
                 </l.Vlayout>

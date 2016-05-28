@@ -4,6 +4,7 @@ import React = require('react');
 import ReactDOM = require('react-dom');
 
 import w = require('../main/widget');
+import i = require('../main/input')
 import l = require('../main/layout');
 
 export interface State {
@@ -13,7 +14,7 @@ export interface State {
 export class App extends React.Component<any, State>{
     constructor(props: any) {
         super(props);
-        this.state = { msg: 'start to operation' , checked:true};
+        this.state = { msg: 'start to operation' , checked:false};
     }
     componentDidMount(): void {
     }
@@ -31,15 +32,15 @@ export class App extends React.Component<any, State>{
                 <l.Hlayout >
                     {this.state.msg}
                 </l.Hlayout>
-                <w.Checkbox id='cb1' label='Label checkable' style={{fontSize:40,background:'lightpink'}} 
-                    doCheck={this.doCheck.bind(this)} value={{text:'one'}}></w.Checkbox>
-                <w.Checkbox doCheck={this.doCheck.bind(this)}/>
-                <w.Checkbox doCheck={this.doCheck.bind(this)} value='two'/>
+                <i.Checkbox id='cb1' label='Label checkable' style={{fontSize:40,background:'lightpink'}} 
+                    doCheck={this.doCheck.bind(this)} value={{text:'one'}}></i.Checkbox>
+                <i.Checkbox doCheck={this.doCheck.bind(this)}/>
+                <i.Checkbox doCheck={this.doCheck.bind(this)} value='two'/>
                 ---------
-                <w.Checkbox checked={this.state.checked} label='You can\' check this, the status follow the last checking' />
+                <i.Checkbox checked={this.state.checked} label='You can\' check this, the status follow the last checking' />
                 ---------
-                <w.Checkbox label='Free checkbox' />
-                <w.Checkbox label='Disabled checkbox' disabled />
+                <i.Checkbox label='Free checkbox' />
+                <i.Checkbox label='Disabled checkbox' disabled />
             </l.Vlayout>
         )
     }

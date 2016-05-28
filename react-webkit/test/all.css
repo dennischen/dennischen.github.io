@@ -1,6 +1,6 @@
 /**
- * React WebKit - v0.0.2
- * The react widget kit base on typescript
+ * React WebKit - v0.0.5
+ * The react web widget kit base on typescript
  * 
  * Copyright 2016 - present, Dennis Chen, All rights reserved.
  * 
@@ -20,38 +20,6 @@
 .wk-vflex {
   height: 100%;
   overflow-y: hidden;
-}
-.wkw-checkbox,
-.wkw-radiobox {
-  -webkit-box-sizing: border-box;
-  -moz-box-sizing: border-box;
-  box-sizing: border-box;
-  margin: 0;
-  position: relative;
-  display: inline-block;
-}
-.wkw-checkbox > input,
-.wkw-radiobox > input {
-  margin: 0;
-  cursor: pointer;
-  vertical-align: middle;
-}
-.wkw-checkbox > input[disabled],
-.wkw-radiobox > input[disabled] {
-  cursor: default;
-}
-.wkw-checkbox > label,
-.wkw-radiobox > label {
-  padding-left: 2px;
-  vertical-align: middle;
-}
-.wkw-checkbox > label[for],
-.wkw-radiobox > label[for] {
-  cursor: pointer;
-}
-.wkw-checkbox.wk-disabled > label,
-.wkw-radiobox.wk-disabled > label {
-  color: #606060;
 }
 .wkw-list {
   -webkit-box-sizing: border-box;
@@ -107,6 +75,38 @@
 }
 .wkw-list.dark-bg > ul > li:active {
   background-color: rgba(255, 255, 255, 0.3);
+}
+.wkw-checkbox,
+.wkw-radiobox {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  margin: 0;
+  position: relative;
+  display: inline-block;
+}
+.wkw-checkbox > input,
+.wkw-radiobox > input {
+  margin: 0;
+  cursor: pointer;
+  vertical-align: middle;
+}
+.wkw-checkbox > input[disabled],
+.wkw-radiobox > input[disabled] {
+  cursor: default;
+}
+.wkw-checkbox > label,
+.wkw-radiobox > label {
+  padding-left: 2px;
+  vertical-align: middle;
+}
+.wkw-checkbox > label[for],
+.wkw-radiobox > label[for] {
+  cursor: pointer;
+}
+.wkw-checkbox.wk-disabled > label,
+.wkw-radiobox.wk-disabled > label {
+  color: #606060;
 }
 .wkw-box {
   -webkit-box-sizing: border-box;
@@ -267,12 +267,6 @@ body {
   font-family: arial, sans-serif;
   color: #333;
 }
-@media only screen and (min-resolution: 120dpi) {
-  html,
-  body {
-    font-size: 150%;
-  }
-}
 a,
 abbr,
 button,
@@ -311,18 +305,8 @@ span {
   padding-left: 6px;
   font-size: 2rem;
 }
-@media only screen and (min-resolution: 120dpi) {
-  #banner {
-    height: 100px;
-  }
-}
 #siderbar {
   width: 180px;
-}
-@media only screen and (min-resolution: 120dpi) {
-  #siderbar {
-    width: 240px;
-  }
 }
 #function {
   background: rgba(133, 196, 185, 0.7);
@@ -347,12 +331,6 @@ span {
 }
 #footer .fnbtn:hover {
   background: rgba(255, 255, 255, 0.2);
-}
-@media only screen and (min-resolution: 120dpi) {
-  #footer {
-    height: 50px;
-    font-size: 1rem;
-  }
 }
 
 /*# sourceMappingURL=srcmap/all.css.map */

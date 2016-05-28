@@ -4,6 +4,7 @@ import React = require('react');
 import ReactDOM = require('react-dom');
 
 import w = require('../main/widget');
+import i = require('../main/input');
 import l = require('../main/layout');
 
 export interface State {
@@ -33,19 +34,19 @@ export class App extends React.Component<any, State>{
                 </l.Hlayout>
 
                 <l.Hlayout align='top' space={20}>
-                    <w.Radiobox id='cb1' label='Option 3' name='group1'
-                        doCheck={this.doCheck.bind(this) } value='one'></w.Radiobox>
-                    <w.Radiobox label='Option 2'  name='group1'
-                        doCheck={this.doCheck.bind(this) } value='two'></w.Radiobox>
-                    <w.Radiobox label='Option 3' name='group1'
-                        doCheck={this.doCheck.bind(this) } value='tree'></w.Radiobox>
+                    <i.Radiobox id='cb1' label='Option 1' name='group1'
+                        doCheck={this.doCheck.bind(this) } value='one'></i.Radiobox>
+                    <i.Radiobox label='Option 2'  name='group1'
+                        doCheck={this.doCheck.bind(this) } value='two'></i.Radiobox>
+                    <i.Radiobox label='Option 3' name='group1'
+                        doCheck={this.doCheck.bind(this) } value='three'></i.Radiobox>
                 </l.Hlayout>
-                <w.Radiobox doCheck={this.doCheck.bind(this) }/>
+                <i.Radiobox doCheck={this.doCheck.bind(this) }/>
                 ---------
-                <w.Radiobox checked={this.state.checked} label='You can\' check this, the status follow the last checking' />
+                <i.Radiobox checked={this.state.checked} label='You can\' check this, the status follow the last checking' />
                 ---------
-                <w.Radiobox label='Free radiobox' />
-                <w.Radiobox label='Disabled radiobox' disabled />
+                <i.Radiobox label='Free radiobox' />
+                <i.Radiobox label='Disabled radiobox' disabled />
             </l.Vlayout>
         )
     }

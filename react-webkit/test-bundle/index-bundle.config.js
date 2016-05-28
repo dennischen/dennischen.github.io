@@ -5,6 +5,6 @@ requirejs.config({
         "react-dom": libPath + "react-dom",
         "jquery": libPath + "jquery",
         //built by webpack
-        "react-webkit":"../main/react-webkit.min"
+        "@atticcat/react-webkit":"../dist/react-webkit.min"
     },
 });

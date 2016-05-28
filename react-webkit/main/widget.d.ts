@@ -1,6 +1,6 @@
 /**
- * React WebKit - v0.0.2
- * The react widget kit base on typescript
+ * React WebKit - v0.0.5
+ * The react web widget kit base on typescript
  * 
  * Copyright 2016 - present, Dennis Chen, All rights reserved.
  * 
@@ -95,7 +95,7 @@ export interface WidgetState {
 }
 export declare abstract class Widget<P extends WidgetProps, S extends WidgetState> extends React.Component<P, S> implements Util.QueueListener<WidgetQueueEvent> {
     static defaultProps: WidgetProps;
-    static _widgetMagic: boolean;
+    static __wgtmgc: boolean;
     private _registedQueue;
     private _willAnimateHidden;
     private pseudoId;
@@ -130,34 +130,6 @@ export declare class Fonticon extends Widget<FonticonProps, any> {
     protected getWidgetSclass(): string;
     protected getRenderChildren(): React.ReactNode;
     protected getRenderType(): string;
-}
-export interface InputProps extends WidgetProps {
-    onChange?: (evt: Event) => void;
-    disabled?: boolean;
-    name?: string;
-}
-export declare abstract class Input<P extends InputProps, S> extends Widget<P, S> {
-    static defaultProps: InputProps;
-    protected onChange(evt: Event): void;
-    protected getRenderSclass(): string;
-    getInputDOM(): Element;
-}
-export interface CheckboxProps extends InputProps {
-    doCheck?: (checked: boolean, value: any) => void;
-    checked?: boolean;
-    label?: string;
-    value?: any;
-}
-export declare class Checkbox extends Input<CheckboxProps, any> {
-    static defaultProps: CheckboxProps;
-    protected getWidgetSclass(): string;
-    protected onChange(evt: Event): void;
-    protected getInputType(): string;
-    protected getRenderChildren(): React.ReactNode;
-}
-export declare class Radiobox extends Checkbox {
-    protected getWidgetSclass(): string;
-    protected getInputType(): string;
 }
 export interface ListProps extends WidgetProps {
     disabled?: boolean;

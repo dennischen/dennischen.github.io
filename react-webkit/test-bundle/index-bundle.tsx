@@ -3,10 +3,11 @@
 /// <reference path="../main/react-webkit.d.ts" />
 import React = require('react');
 import ReactDOM = require('react-dom');
-
-import wk = require('react-webkit');
-let w = wk.widget;
-let l = wk.layout;
+ 
+import wk = require('@atticcat/react-webkit');
+let w = wk.Widget;
+let i = wk.Input;
+let l = wk.Layout;
 
 export class App extends React.Component<any, any>{
     constructor(props: any) {
@@ -59,7 +60,10 @@ export class App extends React.Component<any, any>{
                     <span>LMN</span>
                     <span>XYZ</span>
                 </w.List>
-                <w.Checkbox label='A Checkbox'></w.Checkbox>
+                <l.Hlayout>
+                    <i.Checkbox label='A Checkbox'/>
+                    <i.Radiobox label='A Radio'/>
+                </l.Hlayout>
             </l.Vlayout>
         )
     }
