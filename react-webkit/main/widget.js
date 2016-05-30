@@ -287,21 +287,22 @@ var __extends = (this && this.__extends) || function (d, b) {
                 var jqd = Jq(this.getDOM());
                 var dur = ani.duration ? ani.duration : exports.DEFAULT_ANIMATION_DURATION;
                 var hidden = this.state.hidden;
-                var done = hidden ? function () {
+                var done = function () {
                     _this._willAnimateHidden = false;
                     sendWidgetResize();
-                } : function () {
-                    _this._willAnimateHidden = false;
+                };
+                var step = function () {
+                    sendWidgetResize();
                 };
                 switch (ani.effect) {
                     case AniEffect.fade:
                         jqd.animate({ opacity: hidden ? 'hide' : 'show' }, { duration: dur, done: done });
                         break;
                     case AniEffect.slide:
-                        jqd.animate({ height: hidden ? 'hide' : 'show' }, { duration: dur, done: done });
+                        jqd.animate({ height: hidden ? 'hide' : 'show' }, { duration: dur, step: step, done: done });
                         break;
                     case AniEffect.slideWidth:
-                        jqd.animate({ width: hidden ? 'hide' : 'show' }, { duration: dur, done: done });
+                        jqd.animate({ width: hidden ? 'hide' : 'show' }, { duration: dur, step: step, done: done });
                         break;
                 }
                 if (!hidden) {

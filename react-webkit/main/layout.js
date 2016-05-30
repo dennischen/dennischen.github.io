@@ -121,7 +121,7 @@ var __extends = (this && this.__extends) || function (d, b) {
             React.Children.forEach(this.props.children, function (each, idx) {
                 if (Widget.isWidgetElemnt(each)) {
                     var props = Widget.getWidgetProps(each);
-                    if (!props.hidden && props.vflex) {
+                    if (props.vflex) {
                         var jqcon = Jq(_this.getContentDOM(idx));
                         jqcon.css({ height: height });
                     }
@@ -270,12 +270,14 @@ var __extends = (this && this.__extends) || function (d, b) {
                 if (size > 0 && (!props.minSize || size >= props.minSize)
                     && (!props.maxSize || size <= props.maxSize)) {
                     _this.setState({ size: size });
+                    Widget.sendWidgetResize();
                 }
             };
             var docMouseUp = function (evt) {
                 jqdoc.unbind('mousemove', docMouseMove);
                 jqdoc.unbind('mouseup', docMouseUp);
                 _this.setState({ resizing: false });
+                Widget.sendWidgetResize();
             };
             jqdoc.bind('mousemove', docMouseMove);
             jqdoc.bind('mouseup', docMouseUp);

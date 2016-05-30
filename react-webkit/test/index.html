@@ -1,22 +1,18 @@
-<!-- index.html -->
 <!DOCTYPE html>
-<!--
-  load twice issue
-  https://github.com/Microsoft/TypeScript/issues/1567
-  -->
-
 <html>
 
 <head>
   <meta charset="utf-8" />
   <title>React WebKit</title>
-  <link rel="stylesheet" type="text/css" href="all.css" />
+  <link rel="stylesheet" type="text/css" href="test.css" />
   <link rel="stylesheet" type="text/css" href="csslib/font-awesome/font-awesome.min.css" />
-  <script src="jslib/require.min.js"></script>
+  <!-- syntaxHighlighter -->
+  <link rel="stylesheet" type="text/css" href="csslib/syntaxhighlighter.css" />
+  <script type="text/javascript" src="jslib/require.min.js"></script>
 </head>
 
 <body>
-  <div id="content" style="width:100%;height:100%"><div style="padding:10px">Loading...<div></div>
+  <div id="content" style="width:100%;height:100%"><div id="loading">Loading...<div></div>  
   <script type="text/javascript">
     require(['config'],function(){
       require(['index'],function(app){

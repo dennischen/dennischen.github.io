@@ -368,21 +368,22 @@ return /******/ (function(modules) { // webpackBootstrap
 	            var jqd = Jq(this.getDOM());
 	            var dur = ani.duration ? ani.duration : exports.DEFAULT_ANIMATION_DURATION;
 	            var hidden = this.state.hidden;
-	            var done = hidden ? function () {
+	            var done = function done() {
 	                _this._willAnimateHidden = false;
 	                sendWidgetResize();
-	            } : function () {
-	                _this._willAnimateHidden = false;
+	            };
+	            var step = function step() {
+	                sendWidgetResize();
 	            };
 	            switch (ani.effect) {
 	                case AniEffect.fade:
 	                    jqd.animate({ opacity: hidden ? 'hide' : 'show' }, { duration: dur, done: done });
 	                    break;
 	                case AniEffect.slide:
-	                    jqd.animate({ height: hidden ? 'hide' : 'show' }, { duration: dur, done: done });
+	                    jqd.animate({ height: hidden ? 'hide' : 'show' }, { duration: dur, step: step, done: done });
 	                    break;
 	                case AniEffect.slideWidth:
-	                    jqd.animate({ width: hidden ? 'hide' : 'show' }, { duration: dur, done: done });
+	                    jqd.animate({ width: hidden ? 'hide' : 'show' }, { duration: dur, step: step, done: done });
 	                    break;
 	            }
 	            if (!hidden) {
@@ -1007,7 +1008,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        React.Children.forEach(this.props.children, function (each, idx) {
 	            if (Widget.isWidgetElemnt(each)) {
 	                var props = Widget.getWidgetProps(each);
-	                if (!props.hidden && props.vflex) {
+	                if (props.vflex) {
 	                    var jqcon = Jq(_this.getContentDOM(idx));
 	                    jqcon.css({ height: height });
 	                }
@@ -1151,12 +1152,14 @@ return /******/ (function(modules) { // webpackBootstrap
 	            }
 	            if (size > 0 && (!props.minSize || size >= props.minSize) && (!props.maxSize || size <= props.maxSize)) {
 	                _this.setState({ size: size });
+	                Widget.sendWidgetResize();
 	            }
 	        };
 	        var docMouseUp = function docMouseUp(evt) {
 	            jqdoc.unbind('mousemove', docMouseMove);
 	            jqdoc.unbind('mouseup', docMouseUp);
 	            _this.setState({ resizing: false });
+	            Widget.sendWidgetResize();
 	        };
 	        jqdoc.bind('mousemove', docMouseMove);
 	        jqdoc.bind('mouseup', docMouseUp);
