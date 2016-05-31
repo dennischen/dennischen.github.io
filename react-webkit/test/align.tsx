@@ -16,11 +16,10 @@ export class App extends React.Component<any, any>{
         //we add a clickCount as key here
         this.state = { clickCount: 0, longContent: <span key={0}>Long Content, Long Content</span> };
     }
-    componentDidMount(): void {
-    }
     handleClick() {
         let c = this.state.clickCount + 1;
-        let longContent = [this.state.longContent, <br key={'br' + c}/>, <span key={c}>Content for {c}</span>];
+        let brk = 'br'+c;
+        let longContent = [this.state.longContent, <br key={brk}/>, <span key={c}>Content for {c}</span>];
         this.setState({ clickCount: c, longContent: longContent });
     }
     render() {

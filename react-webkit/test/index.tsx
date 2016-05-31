@@ -38,7 +38,6 @@ testCases = testCases.sort((a: TestCase, b: TestCase) => {
 });
 
 interface State {
-    showMenu?: boolean;
     showSidebar?: boolean;
     showSrcCode?: boolean;
     selectedCase?: TestCase;
@@ -74,7 +73,7 @@ class App extends React.Component<any, State>{
                 let srcName = item.module + '.tsx';
                 jq.ajax({
                     url: srcName, dataType: 'text', success: (data: any, status: string, xhr: any) => {
-                        jq('#testSrc').html('<pre id=\'srcPre\' class=\'brush: ts;\' /><span id=\'srcName\'>' + srcName + '</span>');
+                        jq('#src').html('<pre id=\'srcPre\' class=\'brush: ts;\' />');
                         let jqsrc = jq('#srcPre');
                         jqsrc.text(data);
                         highlighter.highlight({}, jqsrc[0]);
@@ -88,16 +87,15 @@ class App extends React.Component<any, State>{
     }
     toggleMenu() {
         let menu = this.refs['menu'] as p.Popup;
-        if (!this.state.showMenu) {
+        if (menu.state.hidden) {
             menu.show('#banner', {
+                autoDismiss: true,
                 targetHPos: w.HPos.left, targetVPos: w.VPos.bottom,
                 selfHPos: w.HPos.left, selfVPos: w.VPos.top, adjustX: 1, adjustY: 1
             });
         } else {
             menu.hide();
         }
-        this.setState({ showMenu: !this.state.showMenu });
-
     }
     toggleSidebar() {
         this.setState({ showSidebar: !this.state.showSidebar });
@@ -114,8 +112,8 @@ class App extends React.Component<any, State>{
                     </l.Box>
                     <span className='title'>WebKit - Tests</span>
                     <l.Hlayout vflex={1} hflex={1} align='bottom right' >
-                        <l.Box className={'fnbtn ' + (this.state.showSrcCode ? 'fnbtn-active' : '') } align={'middle center'} onClick={this.toggleSrcCode.bind(this) }
-                            hidden={this.state.selectedCase ? false : true}>
+                        <l.Box className={'fnbtn ' + (this.state.showSrcCode ? 'fnbtn-active' : '') } align={'middle center'} 
+                            onClick={this.toggleSrcCode.bind(this) } hidden={this.state.selectedCase ? false : true}>
                             <w.Fonticon className='fa fa-code '/>
                         </l.Box>
                     </l.Hlayout>
@@ -131,25 +129,35 @@ class App extends React.Component<any, State>{
                             >
                         </w.List>
                     </l.Sider>
-                    <l.Box id='testContent' hflex={1} vflex={1}>
-                            {this.state.content}
+                    <l.Box id='testBody' hflex={1} vflex={1}>
+                        {this.state.content}
                     </l.Box>
                 </l.Hlayout>
-                <l.Box id='testSrc' hflex={1}
-                    hidden={!this.state.showSrcCode} animation={{ effect: w.AniEffect.slide }}>
-                </l.Box>
-                <l.Hlayout id='footer'>
+                <l.Hlayout id='footer' align={'middle'}>
                     <l.Box className={'fnbtn ' + (this.state.showSidebar ? 'fnbtn-active' : '') } vflex={1} align={'middle center'} onClick={this.toggleSidebar.bind(this) }>
                         <w.Fonticon className={'fa fa-angle-double-' + (this.state.showSidebar ? 'left' : 'right') } />
+                    </l.Box>
+                    <l.Box id='srcName' align={'middle center'} hidden={this.state.showSrcCode ? false : true}>
+                        {this.state.selectedCase?this.state.selectedCase.module+'.tsx':''}
                     </l.Box>
                     <l.Box className='copyright' vflex={1} hflex={1} align={'middle right'}>
                         React WebKit © 2016
                     </l.Box>
                 </l.Hlayout>
+                <l.Box id='src' hflex={1}
+                    hidden={!this.state.showSrcCode} animation={{ effect: w.AniEffect.slide }}>
+                </l.Box>
                 <p.Popup id='menu' ref='menu' animation={{ effect: w.AniEffect.fade }}>
-                    <l.Vlayout hflex={1}>
-                        <h4>Welcome, User</h4>
-
+                    <l.Vlayout hflex={1} vflex={1} space={10}>
+                        <span>Welcome, User</span>
+                        <w.List hflex={1} doSelect={this.toggleMenu.bind(this)}>
+                           <div style={{ padding: 4 }}>Menu 1</div>
+                           <div style={{ padding: 4 }}>Menu 2</div>
+                           <div style={{ padding: 4 }}>Menu 3</div>
+                           <div style={{ padding: 4 }}>Menu 4</div>
+                           <div style={{ padding: 4 }}>Menu 5</div>
+                           <div style={{ padding: 4 }}>Menu 6</div> 
+                        </w.List>    
                     </l.Vlayout>
                 </p.Popup>
             </l.Vlayout >

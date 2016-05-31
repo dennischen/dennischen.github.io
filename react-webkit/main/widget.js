@@ -370,6 +370,9 @@ var __extends = (this && this.__extends) || function (d, b) {
         Widget.prototype.getRenderChildren = function () {
             return this.props.children;
         };
+        Widget.prototype.getId = function () {
+            return this.props.id;
+        };
         Widget.prototype.show = function () {
             if (!this.state.hidden) {
                 return;
@@ -386,7 +389,7 @@ var __extends = (this && this.__extends) || function (d, b) {
             var props = this.props;
             var t = this.getRenderType();
             var p = {
-                id: props.id,
+                id: this.getId(),
                 ref: 'DOM',
                 className: this.getRenderSclass(),
                 style: this.getRenderStyle(),

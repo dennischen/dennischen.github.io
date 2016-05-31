@@ -14,12 +14,13 @@ import Widget = require('./widget');
 export declare enum AdjustMethod {
     shift = 1,
     flip = 2,
-    flipinvert = 3,
 }
 export interface ShowOption {
-    autoDismiss?: number;
+    autoDismiss?: boolean;
+    dismissTimeout?: number;
     targetHPos?: Widget.HPos;
     targetVPos?: Widget.VPos;
+    targetMouseEvent?: MouseEvent;
     selfHPos?: Widget.HPos;
     selfVPos?: Widget.VPos;
     adjustX?: number;
@@ -28,12 +29,20 @@ export interface ShowOption {
 }
 export interface PopupProps extends Widget.WidgetProps {
 }
-export declare class Popup extends Widget.Widget<PopupProps, any> {
+export interface PopupState extends Widget.WidgetState {
+    left?: number;
+    top?: number;
+}
+export declare class Popup extends Widget.Widget<PopupProps, PopupState> {
     static defaultProps: PopupProps;
+    private dismissCount;
     constructor(props: PopupProps);
-    private _adc;
+    protected getId(): string;
+    componentWillUnmount(): void;
+    private onBodyClick;
+    private removeBodyListener();
     show(target?: string | Element, opt?: ShowOption): void;
-    reposition(target?: string | Element, opt?: ShowOption): void;
+    reposition(target: string | Element, opt?: ShowOption): void;
     hide(): void;
     protected getWidgetSclass(): string;
     protected getRenderStyle(): React.CSSProperties;

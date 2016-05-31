@@ -30,11 +30,10 @@ var __extends = (this && this.__extends) || function (d, b) {
             _super.call(this, props);
             this.state = { clickCount: 0, longContent: React.createElement("span", {key: 0}, "Long Content, Long Content") };
         }
-        App.prototype.componentDidMount = function () {
-        };
         App.prototype.handleClick = function () {
             var c = this.state.clickCount + 1;
-            var longContent = [this.state.longContent, React.createElement("br", {key: 'br' + c}), React.createElement("span", {key: c}, "Content for ", c)];
+            var brk = 'br' + c;
+            var longContent = [this.state.longContent, React.createElement("br", {key: brk}), React.createElement("span", {key: c}, "Content for ", c)];
             this.setState({ clickCount: c, longContent: longContent });
         };
         App.prototype.render = function () {

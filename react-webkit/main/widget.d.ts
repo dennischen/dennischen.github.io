@@ -119,6 +119,7 @@ export declare abstract class Widget<P extends WidgetProps, S extends WidgetStat
     protected getRenderSclass(): string;
     protected getRenderStyle(): React.CSSProperties;
     protected getRenderChildren(): React.ReactNode;
+    protected getId(): string;
     protected show(): void;
     protected hide(): void;
     render(): JSX.Element;
