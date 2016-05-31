@@ -67,7 +67,7 @@ var __extends = (this && this.__extends) || function (d, b) {
             var pop = this.refs['popup'];
             pop.show(event.target, Util.supplyProps(this.getShowOpt(), { targetMouseEvent: event }));
         };
-        App.prototype.handleHide = function () {
+        App.prototype.handleHide = function (event) {
             event.stopPropagation();
             var pop = this.refs['popup'];
             pop.hide();

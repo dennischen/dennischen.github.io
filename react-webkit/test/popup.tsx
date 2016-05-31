@@ -60,10 +60,9 @@ export class App extends React.Component<any, State>{
     }
     handleShowPos(event: MouseEvent) {
         let pop = this.refs['popup'] as p.Popup;
-        
         pop.show(event.target as any, Util.supplyProps(this.getShowOpt(),{targetMouseEvent:event}));
     }
-    handleHide() {
+    handleHide(event: MouseEvent) {
         event.stopPropagation();
         let pop = this.refs['popup'] as p.Popup;
         pop.hide();
