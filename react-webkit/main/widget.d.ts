@@ -36,8 +36,14 @@ export declare enum AniEffect {
     slide = 2,
     slideWidth = 3,
 }
+export declare enum AlertType {
+    success = 1,
+    info = 2,
+    warning = 3,
+    error = 4,
+}
 export interface Animation {
-    effect: AniEffect;
+    effect: AniEffect | string;
     duration?: number;
 }
 export declare var DEFAULT_ANIMATION_DURATION: number;
@@ -78,14 +84,30 @@ export declare class KeySelection<D> implements Selection<D> {
     unselect(...selection: D[]): KeySelection<D>;
     getSelection(): D[];
 }
-export interface WidgetProps {
+export interface ComponentProps {
     id?: string;
+}
+export declare abstract class Component<P extends ComponentProps, S> extends React.Component<P, S> {
+    private pseudoId;
+    private safeTimeoutKeeper;
+    getPseudoId(): string;
+    private clearPseudoId();
+    safeTimeout(fn: () => void, timeout: number): number;
+    clearSafeTimeout(): void;
+    componentWillUnmount(): void;
+}
+export interface WidgetProps extends ComponentProps {
     className?: string;
     style?: React.CSSProperties;
     hidden?: boolean;
     hflex?: number;
     vflex?: number;
     animation?: Animation;
+    tooltip?: string | Function;
+    tooltipOption?: any;
+    alert?: string | Function;
+    alertType?: string | AlertType;
+    alertOption?: any;
     onClick?: (evt: Event) => void;
     onDoubleClick?: (evt: Event) => void;
     onContextMenu?: (evt: Event) => void;
@@ -93,14 +115,13 @@ export interface WidgetProps {
 export interface WidgetState {
     hidden?: boolean;
 }
-export declare abstract class Widget<P extends WidgetProps, S extends WidgetState> extends React.Component<P, S> implements Util.QueueListener<WidgetQueueEvent> {
+export declare abstract class Widget<P extends WidgetProps, S extends WidgetState> extends Component<P, S> implements Util.QueueListener<WidgetQueueEvent> {
     static defaultProps: WidgetProps;
     static __wgtmgc: boolean;
     private _registedQueue;
-    private _willAnimateHidden;
-    private pseudoId;
+    private _willAnimate;
     constructor(props: P);
-    getPseudoId(): string;
+    protected getId(): string;
     protected registerQueue(): void;
     protected unregisterQueue(): void;
     componentWillMount(): void;
@@ -109,19 +130,20 @@ export declare abstract class Widget<P extends WidgetProps, S extends WidgetStat
     componentWillReceiveProps(nextProps: P): void;
     componentWillUpdate(nextProps: P, nextState: any): void;
     componentDidUpdate(prevProps: P, prevState: any): void;
+    protected afterAnimation(hidden: boolean): void;
     onQueueEvent(evt: WidgetQueueEvent): void;
     protected sendQueueEvent(name: string, data?: any): void;
     protected postQueueEvent(name: string, data?: any): void;
     protected abstract getWidgetSclass(): string;
     protected getWidgetSubSclass(sub: string): string;
-    protected getDOM(): any;
-    protected getRenderType(): string;
+    getDOM(): any;
+    protected getRenderTag(): string;
     protected getRenderSclass(): string;
     protected getRenderStyle(): React.CSSProperties;
     protected getRenderChildren(): React.ReactNode;
-    protected getId(): string;
     protected show(): void;
     protected hide(): void;
+    protected renderElementProps(): any;
     render(): JSX.Element;
 }
 export interface FonticonProps extends WidgetProps {
@@ -130,23 +152,43 @@ export declare class Fonticon extends Widget<FonticonProps, any> {
     static defaultProps: FonticonProps;
     protected getWidgetSclass(): string;
     protected getRenderChildren(): React.ReactNode;
-    protected getRenderType(): string;
+    protected getRenderTag(): string;
 }
-export interface ListProps extends WidgetProps {
+export interface ButtonProps extends WidgetProps {
+    label?: string;
     disabled?: boolean;
-    model?: any[];
-    selection?: Selection<any>;
-    itemRenderer?: ItemRenderer<any>;
-    doSelect?: (select: boolean, idx: number, item: any) => void;
-    onItemClick?: (evt: Event, idx: number, item: any) => void;
-    onItemDoubleClick?: (evt: Event, idx: number, item: any) => void;
-    onItemContextMenu?: (evt: Event, idx: number, item: any) => void;
+    type?: string;
+    form?: string;
 }
-export declare class List extends Widget<ListProps, any> {
-    static defaultProps: ListProps;
+export declare class Button extends Widget<ButtonProps, any> {
+    static defaultProps: ButtonProps;
     protected getWidgetSclass(): string;
-    protected getRenderSclass(): string;
     protected getRenderChildren(): React.ReactNode;
+    protected renderElementProps(): any;
+    protected getRenderTag(): string;
+}
+export interface AnchorProps extends WidgetProps {
+    label?: string;
+    href?: string;
+    target?: string;
+}
+export declare class Anchor extends Widget<AnchorProps, any> {
+    static defaultProps: AnchorProps;
+    protected getWidgetSclass(): string;
+    protected getRenderChildren(): React.ReactNode;
+    protected renderElementProps(): any;
+    protected getRenderTag(): string;
+}
+export interface AlertProps extends WidgetProps {
+    fonticon?: string;
+    title?: string;
+    label?: string;
+}
+export declare class Alert extends Widget<AlertProps, any> {
+    static defaultProps: AlertProps;
+    protected getWidgetSclass(): string;
+    protected getRenderChildren(): React.ReactNode;
+    protected getRenderSclass(): string;
 }
 export declare function isWidgetElemnt(child: React.ReactChild): boolean;
 export declare function getWidgetProps(child: React.ReactChild): WidgetProps;

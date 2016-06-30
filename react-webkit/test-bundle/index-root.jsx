@@ -4,6 +4,7 @@ var wk = ReactWebKit;
 var w = wk.Widget;
 var i = wk.Input;
 var l = wk.Layout;
+var ls = wk.List;
 
 var RootApp = React.createClass({
     getInitialState: function() {
@@ -46,7 +47,7 @@ var RootApp = React.createClass({
                     </l.Vlayout>
                     <span>456  {this.state.clickCount} </span>
                 </l.Hlayout>
-                <w.List style={{ background: 'lightblue', padding: '2px' }} 
+                <ls.List style={{ background: 'lightblue', padding: '2px' }} 
                     vflex={1} hflex={1} selection={this.state.selection}
                     doSelect={doSelect}>
                     <span>MULTIPLE Selection List</span>
@@ -54,10 +55,11 @@ var RootApp = React.createClass({
                     <span>IJK</span>
                     <span>LMN</span>
                     <span>XYZ</span>
-                </w.List>
-                <l.Hlayout>
+                </ls.List>
+                <l.Hlayout align='middle' space={4} tooltip='A tool tip'>
                     <i.Checkbox label='A Checkbox'/>
                     <i.Radiobox label='A Radio'/>
+                    <i.Textbox tooltip='Another tool tip'/>
                 </l.Hlayout>
             </l.Vlayout>
         )

@@ -6,10 +6,5 @@
  * 
  * Released under MIT license
  */
-
-@import "qtip.less";
-@import "widget.less";
-@import "input.less";
-@import "layout.less";
-@import "popup.less";
-@import "list.less";
+//qtip is jquery plugin, nothing to export in definition
+export = {};

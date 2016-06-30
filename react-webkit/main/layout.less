@@ -16,7 +16,6 @@
 //widget rules
 
 .wkw-box{
-	.box-sizing;
 	position: relative;
 	display: flex;
 	flex-direction: column;
@@ -40,6 +39,7 @@
 	}
 	&.wk-center{
 		align-items: center;
+		text-align: center;
 	}
 	&.wk-right{
 		align-items: flex-end;
@@ -47,14 +47,12 @@
 }
 
 .wkw-hlayout{
-	.box-sizing;
 	position: relative;
 	display: flex;
 	flex-direction: row;
     justify-content: flex-start;
     align-items: flex-start;
 	> .wkw-hlayout-content{
-		.box-sizing;
 	}
 	&.wk-top{
 		align-items: flex-start;
@@ -77,13 +75,10 @@
 }
 
 .wkw-vlayout{
-	.box-sizing;
 	position: relative;
 	display: flex;
 	flex-direction: column;
 	> .wkw-vlayout-content{
-		.box-sizing;
-		// display: block;
 		> .wk-vflex{
 			flex:1;
 		}
@@ -108,21 +103,44 @@
 	}	
 }
 
+.wkw-buttongroup {
+	> :first-child {
+		> button {
+			border-top-right-radius: 0;
+			border-bottom-right-radius : 0;
+			border-right: 0;
+		}
+	}
+	> :last-child {
+		> button {
+			border-top-left-radius: 0;
+			border-bottom-left-radius : 0;
+		}
+	}
+	> :not(:first-child):not(:last-child){
+		> button {
+			border-right: 0;
+			border-radius: 0;
+			border-left-color: rgba(0, 0, 0, 0.2);
+			border-right-color: rgba(0, 0, 0, 0.2);			
+		}
+	}
+}
+
 .wkw-sider{
-	.box-sizing;
 	position: relative;
 	.wkw-sider-bar {
 		position:absolute;
 		&:hover{
-			background: @siderHover;
+			background: @siderHoverBgColor;
 		}
 		&.wk-active{
-			background: @siderActive;
+			background: @siderActiveBgColor;
 		}
 	}	
 	&.wk-horizontal{
 		> .wkw-box {
-			padding-right: 10px;
+			padding-right: 10px;//for sider-bar
 		}
 		> .wkw-sider-bar{
 			position:absolute;
@@ -135,7 +153,7 @@
 	}
 	&.wk-vertical{
 		> .wkw-box {
-			padding-bottom: 10px;
+			padding-bottom: 10px;//for sider-bar
 		}
 		> .wkw-sider-bar{
 			width:100%;

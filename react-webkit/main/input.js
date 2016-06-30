@@ -11,6 +11,14 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
+var __assign = (this && this.__assign) || Object.assign || function(t) {
+    for (var s, i = 1, n = arguments.length; i < n; i++) {
+        s = arguments[i];
+        for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
+            t[p] = s[p];
+    }
+    return t;
+};
 (function (factory) {
     if (typeof module === 'object' && typeof module.exports === 'object') {
         var v = factory(require, exports); if (v !== undefined) module.exports = v;
@@ -48,6 +56,73 @@ var __extends = (this && this.__extends) || function (d, b) {
         return Input;
     }(Widget.Widget));
     exports.Input = Input;
+    (function (TextboxType) {
+        TextboxType[TextboxType["text"] = 1] = "text";
+        TextboxType[TextboxType["textarea"] = 2] = "textarea";
+        TextboxType[TextboxType["password"] = 3] = "password";
+    })(exports.TextboxType || (exports.TextboxType = {}));
+    var TextboxType = exports.TextboxType;
+    var Textbox = (function (_super) {
+        __extends(Textbox, _super);
+        function Textbox() {
+            _super.apply(this, arguments);
+        }
+        Textbox.prototype.getWidgetSclass = function () {
+            return 'wkw-textbox';
+        };
+        Textbox.prototype.onChange = function (evt) {
+            _super.prototype.onChange.call(this, evt);
+            if (this.props.doChange) {
+                this.props.doChange(evt.target.value);
+            }
+        };
+        Textbox.prototype.getRenderChildren = function () {
+            var props = this.props;
+            var onChange = (props.onChange || props.doChange) ? this.onChange.bind(this) : undefined;
+            var css = {};
+            if (props.hflex || (props.style && props.style.width)) {
+                css.width = '100%';
+            }
+            if (props.vflex || (props.style && props.style.height)) {
+                css.height = '100%';
+            }
+            var inpProps = {
+                ref: 'input',
+                onChange: onChange,
+                disabled: props.disabled,
+                readOnly: props.readOnly,
+                style: css,
+                placeholder: props.placeholder,
+                defaultValue: props.defaultValue,
+                name: props.name,
+                value: props.value,
+                maxLength: props.maxLength
+            };
+            var inpType = 'text';
+            switch (props.type) {
+                case 'textarea':
+                case TextboxType.textarea:
+                    if (props.hflex && props.vflex) {
+                        css.resize = 'none';
+                    }
+                    else if (props.hflex) {
+                        css.resize = 'vertical';
+                    }
+                    else if (props.vflex) {
+                        css.resize = 'horizontal';
+                    }
+                    return React.createElement("textarea", __assign({}, inpProps));
+                case 'password':
+                case TextboxType.password:
+                    inpType = 'password';
+                default:
+                    return React.createElement("input", __assign({type: inpType}, inpProps));
+            }
+        };
+        Textbox.defaultProps = Util.supplyProps({}, Input.defaultProps);
+        return Textbox;
+    }(Input));
+    exports.Textbox = Textbox;
     var Checkbox = (function (_super) {
         __extends(Checkbox, _super);
         function Checkbox() {
@@ -81,7 +156,7 @@ var __extends = (this && this.__extends) || function (d, b) {
             var inputType = this.getInputType();
             var onChange = (props.onChange || props.doCheck) ? this.onChange.bind(this) : undefined;
             var value = 'string' == typeof props.value ? props.value : undefined;
-            return [React.createElement("input", {key: 'i', id: inpid, type: inputType, ref: 'input', onChange: onChange, checked: props.checked, disabled: props.disabled, readOnly: props.readOnly, name: props.name, value: value}), label];
+            return [React.createElement("input", {key: 'i', id: inpid, type: inputType, ref: 'input', onChange: onChange, checked: props.checked, disabled: props.disabled, readOnly: props.readOnly, defaultChecked: props.defaultChecked, name: props.name, value: value}), label];
         };
         Checkbox.defaultProps = Util.supplyProps({}, Input.defaultProps);
         return Checkbox;

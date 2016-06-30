@@ -5,6 +5,7 @@ import ReactDOM = require('react-dom');
 
 import w = require('../main/widget');
 import l = require('../main/layout');
+import ls = require('../main/list');
 
 
 export class Color {
@@ -123,32 +124,30 @@ export class App extends React.Component<any, State>{
                 <h4>Model List</h4>
                 <button onClick={this.onMoveUp.bind(this) }>Move up</button>
                 <l.Hlayout vflex={1} hflex={1}>
-                    <w.List vflex={1} hflex={1} model={this.data}
+                    <ls.List vflex={1} hflex={1} model={this.data}
                         itemRenderer={itemRenderer}
                         selection={this.state.instanceSelection}
                         doSelect={instanceDoSelect}
                         onDoubleClick={this.onListDoubleClick.bind(this) }>
-                    </w.List>
-                    <w.List vflex={1}  hflex={1} model={this.data} style={{ background: 'lightblue' }}
+                    </ls.List>
+                    <ls.List vflex={1}  hflex={1} model={this.data} style={{ background: 'lightblue' }}
                         itemRenderer={itemRenderer}
                         selection={this.state.keySelection}
                         doSelect={instanceKeyDoSelect}
                         onDoubleClick={this.onListDoubleClick.bind(this) }>
-                    </w.List>
+                    </ls.List>
                 </l.Hlayout>
                 <h4>Static List</h4>
                 <l.Hlayout vflex={1} hflex={1} >
-                    <w.List vflex={1} hflex={1} style={{ background: 'gray' }} className='dark-bg'
-                        selection={this.state.indexSelection}
-                        doSelect={indexDoSelect}
-                        >
+                    <ls.List vflex={1} hflex={1} style={{ background: 'gray' }}
+                        selection={this.state.indexSelection} doSelect={indexDoSelect}>
                         <span>MULTIPLE Selection List</span>
                         <span>DEF</span>
                         <span>IJK</span>
                         <span>LMN</span>
                         <span>XYZ</span>
-                    </w.List>
-                    <w.List  vflex={1} hflex={1} style={{ background: 'lightpink' }}
+                    </ls.List>
+                    <ls.List  vflex={1} hflex={1} style={{ background: 'lightpink' }}
                         onItemClick={(evt: Event, idx: number) => { this.setState({ msg: 'Item Clicked' + idx }) } }
                         onItemDoubleClick={(evt: Event, idx: number) => { this.setState({ msg: 'Item Dbclicked' + idx }) } }
                         onItemContextMenu={(evt: Event, idx: number) => { this.setState({ msg: 'Item Contextmenu' + idx }), evt.preventDefault() } }>
@@ -157,18 +156,18 @@ export class App extends React.Component<any, State>{
                         <span>IJK</span>
                         <span>LMN</span>
                         <span>XYZ</span>
-                    </w.List>
+                    </ls.List>
                 </l.Hlayout>
                 <h4>Disabled List</h4>
                 <l.Hlayout vflex={1} hflex={1} >
-                    <w.List vflex={1} hflex={1} disabled style={{ background: 'lightblue' }}
+                    <ls.List vflex={1} hflex={1} disabled style={{ background: 'lightblue' }}
                         selection={this.state.indexSelection}>
                         <span>ABC</span>
                         <span>DEF</span>
                         <span>IJK</span>
                         <span>LMN</span>
                         <span>XYZ</span>
-                    </w.List>
+                    </ls.List>
                 </l.Hlayout>
             </l.Vlayout>
         )

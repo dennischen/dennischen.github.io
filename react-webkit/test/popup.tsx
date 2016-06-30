@@ -9,6 +9,9 @@ import l = require('../main/layout');
 import p = require('../main/popup');
 import Util = require('../main/util');
 
+//override zIndexStart of popup
+p.zIndexStart = 3000;
+
 let dismissTimeout = 1500;
 let animation =  {effect: w.AniEffect.fade };
 
@@ -58,13 +61,19 @@ export class App extends React.Component<any, State>{
         let pop = this.refs['popup'] as p.Popup;
         pop.show(event.target as any, this.getShowOpt());
     }
-    handleShowPos(event: MouseEvent) {
+    handleShowMousePos(event: MouseEvent) {
         let pop = this.refs['popup'] as p.Popup;
-        pop.show(event.target as any, Util.supplyProps(this.getShowOpt(),{targetMouseEvent:event}));
+        pop.show(event as any, this.getShowOpt());
+    }
+    handleShowNested(event: MouseEvent) {
+        let pop = this.refs['popupNested'] as p.Popup;
+        pop.show(event as any, this.getShowOpt());
     }
     handleHide(event: MouseEvent) {
         event.stopPropagation();
         let pop = this.refs['popup'] as p.Popup;
+        pop.hide();
+        pop = this.refs['popupNested'] as p.Popup;
         pop.hide();
     }
     handleTargetHPos(pos: w.HPos) {
@@ -163,7 +172,7 @@ export class App extends React.Component<any, State>{
                 
                 <l.Box hflex={1}  vflex={1} align='middle center'>
                     <l.Box style={{ height: 400, width: 600, background: 'lightblue', overflow: 'auto' }}>
-                        <l.Vlayout align='center' onClick={this.handleShowPos.bind(this) }>
+                        <l.Vlayout align='center' onClick={this.handleShowMousePos.bind(this) }>
                             Click other place to show popup follow the click position
                             <div style={{ height: 200, width: 800, background: 'lightpink' }} />
                             <l.Hlayout space={30}>
@@ -171,9 +180,11 @@ export class App extends React.Component<any, State>{
                                 <button onClick={this.handleHide.bind(this) }>Hide Popup</button>
                             </l.Hlayout>
                             <div style={{ height: 200, width: 800, background: 'lightpink' }}/>
-                        </l.Vlayout>
-                        
-                        <p.Popup ref='popup' style={{ border: '1px solid', width: 300, background: '#eee', padding: 4 }}
+                        </l.Vlayout>                        
+                        <p.Popup ref='popupNested' style={{ width: 300, padding: 4 }}>
+                            This is nested popup <br/>
+                        </p.Popup>
+                        <p.Popup ref='popup' style={{ width: 300, padding: 4 }} onClick={this.handleShowNested.bind(this) }
                             animation={this.state.animation}>
                             Pop-up ads or pop-ups are often forms of online advertising on the World Wide Web
                             intended to attract web traffic or capture email addresses.

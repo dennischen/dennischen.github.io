@@ -4,6 +4,7 @@ var wk = ReactWebKit;
 var w = wk.Widget;
 var i = wk.Input;
 var l = wk.Layout;
+var ls = wk.List;
 
 var RootApp = React.createClass({
     getInitialState: function getInitialState() {
@@ -145,7 +146,7 @@ var RootApp = React.createClass({
                 )
             ),
             React.createElement(
-                w.List,
+                ls.List,
                 { style: { background: 'lightblue', padding: '2px' },
                     vflex: 1, hflex: 1, selection: this.state.selection,
                     doSelect: doSelect },
@@ -177,9 +178,10 @@ var RootApp = React.createClass({
             ),
             React.createElement(
                 l.Hlayout,
-                null,
+                { align: 'middle', space: 4, tooltip: 'A tool tip' },
                 React.createElement(i.Checkbox, { label: 'A Checkbox' }),
-                React.createElement(i.Radiobox, { label: 'A Radio' })
+                React.createElement(i.Radiobox, { label: 'A Radio' }),
+                React.createElement(i.Textbox, { tooltip: 'Another tool tip' })
             )
         );
     }

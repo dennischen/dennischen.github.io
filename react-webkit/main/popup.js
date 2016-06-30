@@ -23,6 +23,7 @@ var __extends = (this && this.__extends) || function (d, b) {
     var Jq = require('jquery');
     var Widget = require('./widget');
     var Util = require('./util');
+    exports.zIndexStart = 2000;
     (function (AdjustMethod) {
         AdjustMethod[AdjustMethod["shift"] = 1] = "shift";
         AdjustMethod[AdjustMethod["flip"] = 2] = "flip";
@@ -49,12 +50,30 @@ var __extends = (this && this.__extends) || function (d, b) {
                 delete this.onBodyClick;
             }
         };
-        Popup.prototype.show = function (target, opt) {
+        Popup.prototype.show = function (target, showOpt) {
             var _this = this;
             if (target === void 0) { target = undefined; }
-            if (opt === void 0) { opt = {}; }
+            if (showOpt === void 0) { showOpt = undefined; }
             var props = this.props;
+            var opt = showOpt ? showOpt : props.showOption ? props.showOption : {};
             this.reposition(target, opt);
+            var dom = this.getDOM();
+            var jqdom = Jq(dom);
+            var jqp = jqdom.parent();
+            var zIndex = this.state.zIndex ? this.state.zIndex : exports.zIndexStart;
+            jqp.children().each(function (idx, each) {
+                if (each === dom) {
+                    return;
+                }
+                var zi = Jq(each).css("zIndex");
+                if (!isNaN(zi)) {
+                    zIndex = Math.max(zIndex, Number(zi) + 1);
+                }
+                else {
+                    zIndex = Math.max(zIndex, exports.zIndexStart);
+                }
+            });
+            this.setState({ zIndex: zIndex });
             _super.prototype.show.call(this);
             if (opt.dismissTimeout > 0) {
                 this.dismissCount++;
@@ -62,7 +81,7 @@ var __extends = (this && this.__extends) || function (d, b) {
                 if (props.animation) {
                     timeout += props.animation.duration || Widget.DEFAULT_ANIMATION_DURATION;
                 }
-                setTimeout(function () {
+                this.safeTimeout(function () {
                     _this.dismissCount--;
                     if (_this.dismissCount == 0) {
                         _this.hide();
@@ -71,26 +90,33 @@ var __extends = (this && this.__extends) || function (d, b) {
             }
             if (opt.autoDismiss) {
                 if (!this.onBodyClick) {
-                    Jq('body').bind('click', this.onBodyClick = function (evt) {
-                        if (Jq(evt.target).closest('#' + _this.getId()).length == 0) {
+                    var fnDismiss = function (evt) {
+                        var holders = ['#' + _this.getId()];
+                        if (opt.autoDismissHolders) {
+                            holders.push.apply(holders, opt.autoDismissHolders);
+                        }
+                        var jqt = Jq(evt.target);
+                        if (!holders.some(function (each) {
+                            return jqt.closest(each).length > 0;
+                        })) {
                             _this.hide();
                         }
-                    });
+                    };
+                    Jq('body').bind('click', this.onBodyClick = fnDismiss);
                 }
             }
             else {
                 this.removeBodyListener();
             }
         };
-        Popup.prototype.reposition = function (target, opt) {
-            if (opt === void 0) { opt = {}; }
+        Popup.prototype.reposition = function (target, showOpt) {
             var props = this.props;
+            var opt = showOpt ? showOpt : props.showOption ? props.showOption : {};
             var jqdom = Jq(this.getDOM());
             var jqp = jqdom.parent();
             var targetPos = { x: 0, y: 0 };
             if (target) {
-                var jqt = Jq(target);
-                targetPos = calculatPopupTargetPos(jqt, jqp, opt);
+                targetPos = calculatPopupTargetPos(target, jqp, opt);
             }
             var visible = jqdom.is(":visible");
             if (!visible) {
@@ -111,7 +137,16 @@ var __extends = (this && this.__extends) || function (d, b) {
         };
         Popup.prototype.hide = function () {
             _super.prototype.hide.call(this);
+            if (!this.props.animation) {
+                this.setState({ zIndex: undefined });
+            }
             this.removeBodyListener();
+        };
+        Popup.prototype.afterAnimation = function (hidden) {
+            _super.prototype.afterAnimation.call(this, hidden);
+            if (hidden) {
+                this.setState({ zIndex: undefined });
+            }
         };
         Popup.prototype.getWidgetSclass = function () {
             return 'wkw-popup';
@@ -121,39 +156,47 @@ var __extends = (this && this.__extends) || function (d, b) {
             var state = this.state;
             css.top = state.top;
             css.left = state.left;
+            css.zIndex = state.zIndex;
             return css;
         };
         Popup.defaultProps = Util.supplyProps({}, Widget.Widget.defaultProps);
         return Popup;
     }(Widget.Widget));
     exports.Popup = Popup;
-    function calculatPopupTargetPos(jqTarget, jqParent, opt) {
+    function calculatPopupTargetPos(target, jqParent, opt) {
         if (opt === void 0) { opt = {}; }
         var targetPos = { x: 0, y: 0 };
-        var targetOffset = jqTarget.offset();
         var parentOffset = jqParent.offset();
-        if (opt.targetMouseEvent) {
-            var evt = opt.targetMouseEvent;
+        var evt = target;
+        if (evt.target && "pageX" in evt && "pageY" in evt) {
             targetPos.x = evt.pageX - parentOffset.left + jqParent.scrollLeft();
             targetPos.y = evt.pageY - parentOffset.top + jqParent.scrollTop();
         }
         else {
+            var jqt = Jq(target);
+            var targetOffset = jqt.offset();
             targetPos.x = targetOffset.left - parentOffset.left + jqParent.scrollLeft();
             targetPos.y = targetOffset.top - parentOffset.top + jqParent.scrollTop();
-            var targetWidth = Widget.getOutterWidth(jqTarget[0]);
-            var targetHeight = Widget.getOutterHeight(jqTarget[0]);
-            switch (opt.targetHPos) {
+            var targetWidth = Widget.getOutterWidth(jqt[0]);
+            var targetHeight = Widget.getOutterHeight(jqt[0]);
+            var pos = opt.targetHPos ? opt.targetHPos : 'right';
+            switch (pos) {
+                case 'right':
                 case Widget.HPos.right:
                     targetPos.x += targetWidth;
                     break;
+                case 'center':
                 case Widget.HPos.center:
                     targetPos.x += targetWidth / 2;
                     break;
             }
-            switch (opt.targetVPos) {
+            pos = opt.targetVPos ? opt.targetVPos : 'top';
+            switch (pos) {
+                case 'bottom':
                 case Widget.VPos.bottom:
                     targetPos.y += targetHeight;
                     break;
+                case 'middle':
                 case Widget.VPos.middle:
                     targetPos.y += targetHeight / 2;
                     break;
@@ -165,18 +208,24 @@ var __extends = (this && this.__extends) || function (d, b) {
         if (opt === void 0) { opt = {}; }
         var left = targetPos.x;
         var top = targetPos.y;
-        switch (opt.selfHPos) {
+        var pos = opt.selfHPos ? opt.selfHPos : 'left';
+        switch (pos) {
+            case 'right':
             case Widget.HPos.right:
                 left -= selfSize.width;
                 break;
+            case 'center':
             case Widget.HPos.center:
                 left -= selfSize.width / 2;
                 break;
         }
+        pos = opt.selfVPos ? opt.selfVPos : 'top';
         switch (opt.selfVPos) {
+            case 'bottom':
             case Widget.VPos.bottom:
                 top -= selfSize.height;
                 break;
+            case 'middle':
             case Widget.VPos.middle:
                 top -= selfSize.height / 2;
                 break;
@@ -189,6 +238,7 @@ var __extends = (this && this.__extends) || function (d, b) {
         var psh = parentScrollSize.height;
         var adjPos = Util.overrideProps({}, selfPos);
         switch (opt.adjust) {
+            case 'shift':
             case AdjustMethod.shift:
                 if (adjPos.x + selfSize.width > psw) {
                     adjPos.x = psw - selfSize.width;
@@ -203,6 +253,7 @@ var __extends = (this && this.__extends) || function (d, b) {
                     adjPos.y = 0;
                 }
                 break;
+            case 'flip':
             case AdjustMethod.flip:
                 var adjOpt = Util.overrideProps({}, opt);
                 var adj = 0;

@@ -11,27 +11,30 @@
 /// <reference path="../3rd-definition/jquery.d.ts" />
 import React = require('react');
 import Widget = require('./widget');
+export declare var zIndexStart: number;
 export declare enum AdjustMethod {
     shift = 1,
     flip = 2,
 }
 export interface ShowOption {
     autoDismiss?: boolean;
+    autoDismissHolders?: any[];
     dismissTimeout?: number;
-    targetHPos?: Widget.HPos;
-    targetVPos?: Widget.VPos;
-    targetMouseEvent?: MouseEvent;
-    selfHPos?: Widget.HPos;
-    selfVPos?: Widget.VPos;
+    targetHPos?: Widget.HPos | string;
+    targetVPos?: Widget.VPos | string;
+    selfHPos?: Widget.HPos | string;
+    selfVPos?: Widget.VPos | string;
     adjustX?: number;
     adjustY?: number;
-    adjust?: AdjustMethod;
+    adjust?: AdjustMethod | string;
 }
 export interface PopupProps extends Widget.WidgetProps {
+    showOption?: ShowOption;
 }
 export interface PopupState extends Widget.WidgetState {
     left?: number;
     top?: number;
+    zIndex?: number;
 }
 export declare class Popup extends Widget.Widget<PopupProps, PopupState> {
     static defaultProps: PopupProps;
@@ -41,9 +44,10 @@ export declare class Popup extends Widget.Widget<PopupProps, PopupState> {
     componentWillUnmount(): void;
     private onBodyClick;
     private removeBodyListener();
-    show(target?: string | Element, opt?: ShowOption): void;
-    reposition(target: string | Element, opt?: ShowOption): void;
+    show(target?: string | Element | MouseEvent, showOpt?: ShowOption): void;
+    reposition(target: string | Element | MouseEvent, showOpt: ShowOption): void;
     hide(): void;
+    protected afterAnimation(hidden: boolean): void;
     protected getWidgetSclass(): string;
     protected getRenderStyle(): React.CSSProperties;
 }

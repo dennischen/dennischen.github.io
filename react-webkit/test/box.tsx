@@ -31,9 +31,7 @@ export class App extends React.Component<any, any>{
                 <l.Hlayout vflex={1} hflex={1} style={{ padding: '2px' }} >
                     <l.Box align='left middle' hflex={1} vflex={1} style={{border:'1px solid'}}>Left <br/> Middle</l.Box>
                     <l.Box align='center middle' hflex={1} vflex={1} style={{border:'1px solid', overflowY:'auto'}}>
-                        Center <br/> Middle <br/> 
-                        Long Content <br/> Long Content <br/>Long Content<br/>
-                        Long Content <br/> Long Content <br/>Long Content<br/>
+                        Center<br/>Middle<br/> Long Content<br/>Long Content<br/>Long Content<br/>Long Content<br/>Long Content<br/>Long Content<br/>
                         </l.Box>
                     <l.Box align='right middle' hflex={1} vflex={1} style={{border:'1px solid'}}>Right <br/> Middle</l.Box>
                 </l.Hlayout>

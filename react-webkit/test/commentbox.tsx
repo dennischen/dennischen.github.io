@@ -4,7 +4,11 @@
 import React = require('react');
 import ReactDOM = require('react-dom');
 import jq = require('jquery');
-// import marked = require('marked');
+import w = require('../main/widget');
+import p = require('../main/popup');
+import l = require('../main/layout');
+import inp = require('../main/input');
+import ls = require('../main/list');
 
 export interface Comment {
 	id: number|string
@@ -183,23 +187,25 @@ class CommentItem extends React.Component<CommentItemProps, any>{
 	}
 	render() {
 		return (
-			<div className="comment">
+			<l.Vlayout className="comment" space={6}>
 				<h2 className="commentAuthor">
 					{this.props.comment.author}
 				</h2>
-				<span dangerouslySetInnerHTML={this.rawMarkup() } />
-				<input
-					type="text"
-					placeholder={this.props.comment.text}
-					value={this.state.text}
-					disabled={this.props.comment.fresh}
-					onChange={(e:any) => this.handleTextChange(e) }
-					/><br/>
-				<div>
-					<button onClick={(e:any) => this.handleDelete() } disabled={this.props.comment.fresh}>Delete</button>
-					<button onClick={(e:any) => this.handleUpdate() } disabled={this.props.comment.fresh}>Update</button>
-				</div>
-			</div>
+				<l.Hlayout space={10} align='middle'>
+					<span dangerouslySetInnerHTML={this.rawMarkup() } />
+					<inp.Textbox
+						type="text"
+						placeholder={this.props.comment.text}
+						value={this.state.text}
+						disabled={this.props.comment.fresh}
+						onChange={(e:any) => this.handleTextChange(e) }
+						/>
+				</l.Hlayout>
+				<l.Hlayout space={10}>
+					<w.Button onClick={(e:any) => this.handleDelete() } disabled={this.props.comment.fresh}>Delete</w.Button>
+					<w.Button onClick={(e:any) => this.handleUpdate() } disabled={this.props.comment.fresh}>Update</w.Button>
+				</l.Hlayout>
+			</l.Vlayout>
 		);
 	}
 }
@@ -232,21 +238,21 @@ class CommentForm extends React.Component<CommentFormProps, any>{
 	render() {
 		return (
 			<form className="commentForm" onSubmit={(e:any) => this.handleSubmit(e) }>
-				<div>
-					<input
+				<l.Hlayout space={10} align='middle'>
+					<inp.Textbox
 						type="text"
 						placeholder="Your name"
 						value={this.state.author}
 						onChange={(e:any) => this.handleAuthorChange(e) }
 						/>
-					<input
+					<inp.Textbox
 						type="text"
 						placeholder="Say something..."
 						value={this.state.text}
 						onChange={(e:any) => this.handleTextChange(e) }
 						/>
-					<input type="submit" value="Post" />
-				</div>
+					<w.Button type="submit" label="Post" />
+				</l.Hlayout>
 			</form>
 		);
 	}

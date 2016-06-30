@@ -23,10 +23,30 @@ export declare abstract class Input<P extends InputProps, S> extends Widget.Widg
     protected getRenderSclass(): string;
     getInputDOM(): Element;
 }
+export declare enum TextboxType {
+    text = 1,
+    textarea = 2,
+    password = 3,
+}
+export interface TextboxProps extends InputProps {
+    type?: TextboxType | string;
+    value?: string;
+    defaultValue?: string;
+    placeholder?: string;
+    maxLength?: number;
+    doChange?: (value: any) => void;
+}
+export declare class Textbox extends Input<TextboxProps, any> {
+    static defaultProps: TextboxProps;
+    protected getWidgetSclass(): string;
+    protected onChange(evt: Event): void;
+    protected getRenderChildren(): React.ReactNode;
+}
 export interface CheckboxProps extends InputProps {
     doCheck?: (checked: boolean, value: any) => void;
     checked?: boolean;
     label?: string;
+    defaultChecked?: boolean;
     value?: any;
 }
 export declare class Checkbox extends Input<CheckboxProps, any> {

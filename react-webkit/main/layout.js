@@ -138,7 +138,6 @@ var __extends = (this && this.__extends) || function (d, b) {
                     }
                     if (props.hflex) {
                         css.flex = props.hflex;
-                        css.overflow = 'hidden';
                     }
                     ctx.anyVisible = true;
                 }
@@ -193,7 +192,6 @@ var __extends = (this && this.__extends) || function (d, b) {
                     }
                     if (props.vflex) {
                         css.flex = props.vflex;
-                        css.overflow = 'hidden';
                         css.display = 'flex';
                         css.flexDirection = 'column';
                     }
@@ -232,6 +230,18 @@ var __extends = (this && this.__extends) || function (d, b) {
         return Vlayout;
     }(Layout));
     exports.Vlayout = Vlayout;
+    var Buttongroup = (function (_super) {
+        __extends(Buttongroup, _super);
+        function Buttongroup() {
+            _super.apply(this, arguments);
+        }
+        Buttongroup.prototype.getRenderSclass = function () {
+            var sclass = [_super.prototype.getRenderSclass.call(this), 'wkw-buttongroup'];
+            return sclass.join(' ');
+        };
+        return Buttongroup;
+    }(Hlayout));
+    exports.Buttongroup = Buttongroup;
     var Sider = (function (_super) {
         __extends(Sider, _super);
         function Sider(props) {

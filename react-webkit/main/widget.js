@@ -16,7 +16,7 @@ var __extends = (this && this.__extends) || function (d, b) {
         var v = factory(require, exports); if (v !== undefined) module.exports = v;
     }
     else if (typeof define === 'function' && define.amd) {
-        define(["require", "exports", 'react', 'react-dom', 'jquery', './util'], factory);
+        define(["require", "exports", 'react', 'react-dom', 'jquery', './util', './qtip'], factory);
     }
 })(function (require, exports) {
     "use strict";
@@ -24,6 +24,7 @@ var __extends = (this && this.__extends) || function (d, b) {
     var ReactDOM = require('react-dom');
     var Jq = require('jquery');
     var Util = require('./util');
+    var Qtip = require('./qtip');
     exports.QUEUE_EVENTS = {
         ON_RESIZE: 'onResize'
     };
@@ -65,6 +66,13 @@ var __extends = (this && this.__extends) || function (d, b) {
         AniEffect[AniEffect["slideWidth"] = 3] = "slideWidth";
     })(exports.AniEffect || (exports.AniEffect = {}));
     var AniEffect = exports.AniEffect;
+    (function (AlertType) {
+        AlertType[AlertType["success"] = 1] = "success";
+        AlertType[AlertType["info"] = 2] = "info";
+        AlertType[AlertType["warning"] = 3] = "warning";
+        AlertType[AlertType["error"] = 4] = "error";
+    })(exports.AlertType || (exports.AlertType = {}));
+    var AlertType = exports.AlertType;
     exports.DEFAULT_ANIMATION_DURATION = 300;
     var IndexSelection = (function () {
         function IndexSelection() {
@@ -233,6 +241,103 @@ var __extends = (this && this.__extends) || function (d, b) {
     }());
     exports.KeySelection = KeySelection;
     var pseudoIdGenerator = new Util.ShortId('wk_', 'webkit');
+    var Component = (function (_super) {
+        __extends(Component, _super);
+        function Component() {
+            _super.apply(this, arguments);
+        }
+        Component.prototype.getPseudoId = function () {
+            if (!this.pseudoId) {
+                this.pseudoId = pseudoIdGenerator.next();
+            }
+            return this.pseudoId;
+        };
+        Component.prototype.clearPseudoId = function () {
+            if (this.pseudoId) {
+                pseudoIdGenerator.reuse(this.pseudoId);
+                delete this.pseudoId;
+            }
+        };
+        Component.prototype.safeTimeout = function (fn, timeout) {
+            var _this = this;
+            if (!this.safeTimeoutKeeper) {
+                this.safeTimeoutKeeper = {};
+            }
+            var ticket;
+            ticket = setTimeout(function () {
+                delete _this.safeTimeoutKeeper[ticket];
+                fn();
+            }, timeout);
+            this.safeTimeoutKeeper[ticket] = '';
+            return ticket;
+        };
+        Component.prototype.clearSafeTimeout = function () {
+            if (this.safeTimeoutKeeper) {
+                for (var prop in this.safeTimeoutKeeper) {
+                    clearTimeout(prop);
+                }
+                delete this.safeTimeoutKeeper;
+            }
+        };
+        Component.prototype.componentWillUnmount = function () {
+            this.clearSafeTimeout();
+            this.clearPseudoId();
+        };
+        return Component;
+    }(React.Component));
+    exports.Component = Component;
+    var defaultTooltipOption = {
+        show: {
+            delay: 500
+        },
+        hide: {
+            delay: 100
+        },
+        position: {
+            target: 'mouse',
+            my: 'left bottom'
+        },
+        style: {
+            classes: 'qtip-bootstrap wk-tooltip'
+        }
+    };
+    var defaultAlertOption = {
+        content: {
+            button: true
+        },
+        show: {
+            when: false,
+            ready: true
+        },
+        hide: false,
+        position: {
+            my: 'left center',
+            at: 'right center'
+        },
+        style: {
+            classes: 'qtip-bootstrap wk-alert'
+        }
+    };
+    function getAlertTypeClasses(type) {
+        var clz = 'wk-error';
+        if (type) {
+            switch (type) {
+                case 'success':
+                case AlertType.success:
+                    clz = 'wk-success';
+                    break;
+                case 'info':
+                case AlertType.info:
+                    clz = 'wk-info';
+                    break;
+                case 'warning':
+                case AlertType.warning:
+                    clz = 'wk-warning';
+                    break;
+            }
+        }
+        return clz;
+    }
     var Widget = (function (_super) {
         __extends(Widget, _super);
         function Widget(props) {
@@ -241,11 +346,8 @@ var __extends = (this && this.__extends) || function (d, b) {
                 hidden: props.hidden
             };
         }
-        Widget.prototype.getPseudoId = function () {
-            if (!this.pseudoId) {
-                this.pseudoId = pseudoIdGenerator.next();
-            }
-            return this.pseudoId;
+        Widget.prototype.getId = function () {
+            return this.props.id;
         };
         Widget.prototype.registerQueue = function () {
             if (!this._registedQueue) {
@@ -262,11 +364,25 @@ var __extends = (this && this.__extends) || function (d, b) {
         Widget.prototype.componentWillMount = function () {
         };
         Widget.prototype.componentDidMount = function () {
+            var props = this.props;
+            if (props.tooltip) {
+                var tipOpt = props.tooltipOption ? Jq.extend(true, {}, defaultTooltipOption, props.tooltipOption)
+                    : defaultTooltipOption;
+                Qtip.setTip(Jq(this.getDOM()), props.tooltip, tipOpt);
+            }
+            if (props.alert) {
+                var tipOpt = Jq.extend(true, {}, defaultAlertOption, props.alertOption);
+                tipOpt.style.classes += ' ' + getAlertTypeClasses(props.alertType);
+                Qtip.setTip(Jq(this.getDOM()), props.alert, tipOpt);
+            }
         };
         Widget.prototype.componentWillUnmount = function () {
-            if (this.pseudoId) {
-                pseudoIdGenerator.reuse(this.pseudoId);
-                delete this.pseudoId;
+            _super.prototype.componentWillUnmount.call(this);
+            if (this.props.tooltip) {
+                Qtip.removeTip(Jq(this.getDOM()));
+            }
+            if (this.props.alert) {
+                Qtip.removeTip(Jq(this.getDOM()));
             }
         };
         Widget.prototype.componentWillReceiveProps = function (nextProps) {
@@ -276,44 +392,72 @@ var __extends = (this && this.__extends) || function (d, b) {
         };
         Widget.prototype.componentWillUpdate = function (nextProps, nextState) {
             if (nextProps.animation && this.state.hidden !== nextState.hidden) {
-                this._willAnimateHidden = true;
+                this._willAnimate = true;
             }
         };
         Widget.prototype.componentDidUpdate = function (prevProps, prevState) {
             var _this = this;
             var fireResize = false;
-            if (this._willAnimateHidden) {
-                var ani = this.props.animation;
-                var jqd = Jq(this.getDOM());
+            var dom = this.getDOM();
+            var props = this.props;
+            if (this._willAnimate) {
+                var ani = props.animation;
+                var jqd = Jq(dom);
                 var dur = ani.duration ? ani.duration : exports.DEFAULT_ANIMATION_DURATION;
-                var hidden = this.state.hidden;
+                var hidden_1 = this.state.hidden;
                 var done = function () {
-                    _this._willAnimateHidden = false;
+                    delete _this._willAnimate;
+                    _this.afterAnimation(hidden_1);
                     sendWidgetResize();
                 };
                 var step = function () {
                     sendWidgetResize();
                 };
                 switch (ani.effect) {
-                    case AniEffect.fade:
-                        jqd.animate({ opacity: hidden ? 'hide' : 'show' }, { duration: dur, done: done });
-                        break;
+                    case 'slide':
                     case AniEffect.slide:
-                        jqd.animate({ height: hidden ? 'hide' : 'show' }, { duration: dur, step: step, done: done });
+                        jqd.animate({ height: hidden_1 ? 'hide' : 'show' }, { duration: dur, step: step, done: done });
                         break;
+                    case 'slideWidth':
                     case AniEffect.slideWidth:
-                        jqd.animate({ width: hidden ? 'hide' : 'show' }, { duration: dur, step: step, done: done });
+                        jqd.animate({ width: hidden_1 ? 'hide' : 'show' }, { duration: dur, step: step, done: done });
+                        break;
+                    default:
+                    case 'fade':
+                    case AniEffect.fade:
+                        jqd.animate({ opacity: hidden_1 ? 'hide' : 'show' }, { duration: dur, done: done });
                         break;
                 }
-                if (!hidden) {
+                if (!hidden_1) {
                     fireResize = true;
                 }
             }
-            if (fireResize || this.props.hflex !== prevProps.hflex
-                || this.props.vflex !== prevProps.vflex) {
+            if (fireResize || props.hflex !== prevProps.hflex
+                || props.vflex !== prevProps.vflex) {
                 sendWidgetResize();
             }
+            if (props.tooltip !== prevProps.tooltip) {
+                if (prevProps.tooltip) {
+                    Qtip.removeTip(Jq(dom));
+                }
+                if (props.tooltip) {
+                    var tipOpt = props.tooltipOption ? Jq.extend(true, {}, defaultTooltipOption, props.tooltipOption)
+                        : defaultTooltipOption;
+                    Qtip.setTip(Jq(dom), props.tooltip, tipOpt);
+                }
+            }
+            if (props.alert !== prevProps.alert) {
+                if (prevProps.alert) {
+                    Qtip.removeTip(Jq(dom));
+                }
+                if (props.alert) {
+                    var tipOpt = Jq.extend(true, {}, defaultAlertOption, props.alertOption);
+                    tipOpt.style.classes += ' ' + getAlertTypeClasses(props.alertType);
+                    Qtip.setTip(Jq(dom), props.alert, tipOpt);
+                }
+            }
         };
+        Widget.prototype.afterAnimation = function (hidden) { };
         Widget.prototype.onQueueEvent = function (evt) { };
         Widget.prototype.sendQueueEvent = function (name, data) {
             if (data === void 0) { data = {}; }
@@ -335,7 +479,7 @@ var __extends = (this && this.__extends) || function (d, b) {
         Widget.prototype.getDOM = function () {
             return ReactDOM.findDOMNode(this);
         };
-        Widget.prototype.getRenderType = function () {
+        Widget.prototype.getRenderTag = function () {
             return 'div';
         };
         Widget.prototype.getRenderSclass = function () {
@@ -357,7 +501,7 @@ var __extends = (this && this.__extends) || function (d, b) {
             if (this.props.style) {
                 Util.supplyProps(css, this.props.style);
             }
-            if (this._willAnimateHidden) {
+            if (this._willAnimate) {
                 if (!this.state.hidden) {
                     css.display = 'none';
                 }
@@ -369,9 +513,6 @@ var __extends = (this && this.__extends) || function (d, b) {
         };
         Widget.prototype.getRenderChildren = function () {
             return this.props.children;
-        };
-        Widget.prototype.getId = function () {
-            return this.props.id;
         };
         Widget.prototype.show = function () {
             if (!this.state.hidden) {
@@ -385,10 +526,9 @@ var __extends = (this && this.__extends) || function (d, b) {
             }
             this.setState({ hidden: true });
         };
-        Widget.prototype.render = function () {
+        Widget.prototype.renderElementProps = function () {
             var props = this.props;
-            var t = this.getRenderType();
-            var p = {
+            return {
                 id: this.getId(),
                 ref: 'DOM',
                 className: this.getRenderSclass(),
@@ -397,12 +537,16 @@ var __extends = (this && this.__extends) || function (d, b) {
                 onDoubleClick: props.onDoubleClick,
                 onContextMenu: props.onContextMenu
             };
+        };
+        Widget.prototype.render = function () {
+            var t = this.getRenderTag();
+            var p = this.renderElementProps();
             return React.createElement(t, p, this.getRenderChildren());
         };
         Widget.defaultProps = {};
         Widget.__wgtmgc = true;
         return Widget;
-    }(React.Component));
+    }(Component));
     exports.Widget = Widget;
     var Fonticon = (function (_super) {
         __extends(Fonticon, _super);
@@ -415,92 +559,125 @@ var __extends = (this && this.__extends) || function (d, b) {
         Fonticon.prototype.getRenderChildren = function () {
             return null;
         };
-        Fonticon.prototype.getRenderType = function () {
+        Fonticon.prototype.getRenderTag = function () {
             return 'i';
         };
         Fonticon.defaultProps = Util.supplyProps({}, Widget.defaultProps);
         return Fonticon;
     }(Widget));
     exports.Fonticon = Fonticon;
-    var List = (function (_super) {
-        __extends(List, _super);
-        function List() {
+    var Button = (function (_super) {
+        __extends(Button, _super);
+        function Button() {
             _super.apply(this, arguments);
         }
-        List.prototype.getWidgetSclass = function () {
-            return 'wkw-list';
+        Button.prototype.getWidgetSclass = function () {
+            return 'wkw-button';
         };
-        List.prototype.getRenderSclass = function () {
+        Button.prototype.getRenderChildren = function () {
+            var children = [];
+            var props = this.props;
+            if (props.label) {
+                children.push(props.label);
+            }
+            if (props.children) {
+                React.Children.forEach(props.children, function (child, idx) {
+                    children.push(child);
+                });
+            }
+            return children;
+        };
+        Button.prototype.renderElementProps = function () {
+            var props = this.props;
+            var p = _super.prototype.renderElementProps.call(this);
+            Util.supplyProps(p, {
+                disabled: props.disabled,
+                type: props.type,
+                form: props.form
+            });
+            return p;
+        };
+        Button.prototype.getRenderTag = function () {
+            return 'button';
+        };
+        Button.defaultProps = Util.supplyProps({}, Widget.defaultProps);
+        return Button;
+    }(Widget));
+    exports.Button = Button;
+    var Anchor = (function (_super) {
+        __extends(Anchor, _super);
+        function Anchor() {
+            _super.apply(this, arguments);
+        }
+        Anchor.prototype.getWidgetSclass = function () {
+            return 'wkw-anchor';
+        };
+        Anchor.prototype.getRenderChildren = function () {
+            var children = [];
+            var props = this.props;
+            if (props.label) {
+                children.push(props.label);
+            }
+            if (props.children) {
+                React.Children.forEach(props.children, function (child, idx) {
+                    children.push(child);
+                });
+            }
+            return children;
+        };
+        Anchor.prototype.renderElementProps = function () {
+            var props = this.props;
+            var p = _super.prototype.renderElementProps.call(this);
+            Util.supplyProps(p, {
+                href: props.href ? props.href : '#',
+                target: props.target
+            });
+            return p;
+        };
+        Anchor.prototype.getRenderTag = function () {
+            return 'a';
+        };
+        Anchor.defaultProps = Util.supplyProps({}, Widget.defaultProps);
+        return Anchor;
+    }(Widget));
+    exports.Anchor = Anchor;
+    var Alert = (function (_super) {
+        __extends(Alert, _super);
+        function Alert() {
+            _super.apply(this, arguments);
+        }
+        Alert.prototype.getWidgetSclass = function () {
+            return 'wkw-alert';
+        };
+        Alert.prototype.getRenderChildren = function () {
+            var children = [];
+            var props = this.props;
+            if (props.fonticon) {
+                children.push(React.createElement(Fonticon, {key: 'f', className: props.fonticon}));
+            }
+            if (props.title) {
+                children.push(React.createElement("strong", {key: 't'}, props.title));
+            }
+            if (props.label) {
+                children.push(props.label);
+            }
+            if (props.children) {
+                React.Children.forEach(props.children, function (child, idx) {
+                    children.push(child);
+                });
+            }
+            return children;
+        };
+        Alert.prototype.getRenderSclass = function () {
             var str = [];
             str.push(_super.prototype.getRenderSclass.call(this));
-            if (this.props.disabled) {
-                str.push('wk-disabled');
-            }
+            str.push(getAlertTypeClasses(this.props.alertType));
             return str.join(' ');
         };
-        List.prototype.getRenderChildren = function () {
-            var props = this.props;
-            var selection = props.selection;
-            if (props.model) {
-                var renderer_1 = props.itemRenderer;
-                if (!renderer_1) {
-                    var msg = 'Need itemRenderer to render model of List';
-                    throw msg;
-                }
-                var childrenNodes = props.model.map(function (each, idx) {
-                    var key = renderer_1.key(idx, each);
-                    if (key == undefined) {
-                        key = idx;
-                    }
-                    var templateNode = renderer_1.render(idx, each);
-                    var selected = selection ? selection.isSelected(idx, each) : false;
-                    var onItemClick = props.onItemClick || props.doSelect ? function (evt) {
-                        if (props.onItemClick) {
-                            props.onItemClick(evt, idx, each);
-                        }
-                        if (props.doSelect) {
-                            props.doSelect(!selected, idx, each);
-                        }
-                    } : undefined;
-                    var onItemDoubleClick = props.onItemDoubleClick ? function (evt) {
-                        props.onItemDoubleClick(evt, idx, each);
-                    } : undefined;
-                    var onItemContextMenu = props.onItemContextMenu ? function (evt) {
-                        props.onItemContextMenu(evt, idx, each);
-                    } : undefined;
-                    return React.createElement("li", {key: key, className: selected ? 'wk-selected' : undefined, onClick: onItemClick, onDoubleClick: onItemDoubleClick, onContentMenu: onItemContextMenu}, templateNode);
-                });
-                return React.createElement("ul", null, childrenNodes);
-            }
-            else if (props.children) {
-                var childrenNodes = React.Children.map(props.children, function (child, idx) {
-                    var selected = selection ? selection.isSelected(idx, undefined) : false;
-                    var onItemClick = props.onItemClick || props.doSelect ? function (evt) {
-                        if (props.onItemClick) {
-                            props.onItemClick(evt, idx, undefined);
-                        }
-                        if (props.doSelect) {
-                            props.doSelect(!selected, idx, undefined);
-                        }
-                    } : undefined;
-                    var onItemDoubleClick = props.onItemDoubleClick ? function (evt) {
-                        props.onItemDoubleClick(evt, idx, null);
-                    } : undefined;
-                    var onItemContextMenu = props.onItemContextMenu ? function (evt) {
-                        props.onItemContextMenu(evt, idx, null);
-                    } : undefined;
-                    return React.createElement("li", {className: selected ? 'wk-selected' : undefined, onClick: onItemClick, onDoubleClick: onItemDoubleClick, onContextMenu: onItemContextMenu}, child);
-                });
-                return React.createElement("ul", null, childrenNodes);
-            }
-            else {
-                return React.createElement("ul", null);
-            }
-        };
-        List.defaultProps = Util.supplyProps({}, Widget.defaultProps);
-        return List;
+        Alert.defaultProps = Util.supplyProps({}, Widget.defaultProps);
+        return Alert;
     }(Widget));
-    exports.List = List;
+    exports.Alert = Alert;
     function isWidgetElemnt(child) {
         var casting = child;
         return casting ? (casting.type && casting.type.__wgtmgc) : false;

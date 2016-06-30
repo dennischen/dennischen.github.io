@@ -8,6 +8,7 @@ import wk = require('@atticcat/react-webkit');
 let w = wk.Widget;
 let i = wk.Input;
 let l = wk.Layout;
+let ls = wk.List;
 
 export class App extends React.Component<any, any>{
     constructor(props: any) {
@@ -51,7 +52,7 @@ export class App extends React.Component<any, any>{
                     </l.Vlayout>
                     <span>456  {this.state.clickCount} </span>
                 </l.Hlayout>
-                <w.List style={{ background: 'lightblue', padding: '2px' }} 
+                <ls.List style={{ background: 'lightblue', padding: '2px' }} 
                     vflex={1} hflex={1} selection={this.state.selection}
                     doSelect={doSelect}>
                     <span>MULTIPLE Selection List</span>
@@ -59,10 +60,10 @@ export class App extends React.Component<any, any>{
                     <span>IJK</span>
                     <span>LMN</span>
                     <span>XYZ</span>
-                </w.List>
-                <l.Hlayout>
+                </ls.List>
+                <l.Hlayout tooltip="A tool tip">
                     <i.Checkbox label='A Checkbox'/>
-                    <i.Radiobox label='A Radio'/>
+                    <i.Radiobox label='A Radio' tooltip='Another tool tip'/>
                 </l.Hlayout>
             </l.Vlayout>
         )

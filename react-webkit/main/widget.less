@@ -22,56 +22,132 @@
 	overflow-y: hidden;
 }
 
-//widget rules
-.wkw-list{
-	.box-sizing;
-	position:relative;
-	overflow-y:auto;
-	> ul{
-		.box-sizing;
-		padding:0;
-		position:relative;
-		list-style: none;
-		> li {
-			.box-sizing;
-			position:relative;
-			padding:3px;
-			cursor: pointer;
-			&:hover{
-				background-color: @list-hover;
-			}
-			&.wk-selected{
-				background-color: @list-selected
-			}
-			&:active{
-				background-color: @list-active;
-			}
+.wk-error{
+	.color-error();
+}
+.wk-warning{
+	.color-warning();
+}
+.wk-info{
+	.color-info();
+}
+.wk-success{
+	.color-success();
+}
+
+.wk-tooltip.qtip{
+	font-size:14px;
+	border-radius: 3px;
+	.qtip-content{
+		padding: 5px 9px;
+	}
+}
+.wk-alert.qtip{
+	font-size:14px;
+	border-radius: 3px;
+	.qtip-content{
+		padding: 5px 9px;
+	}
+	.qtip-close{
+		background: rgba(255,255,255,0.5);
+		right:-7px;
+		top:-7px;
+		.ui-icon{
+			font-size:16px;
+			line-height:14px;
 		}
 	}
-	&.wk-disabled{
-		> ul{
-			> li {
-				cursor:default;
-				color: @disabledText;
-				&:hover,:active{
-					background-color:inherit;
-				}
-				&.wk-selected{
-					background-color: @list-selected
-				}
-			}
-		}
+	&.wk-error{
+		.qtip-close{
+			.color-error();
+		}	
 	}
-	&.dark-bg > ul > li{
-		&:hover{
-			background-color: @list-hover-dark-bg;
-		}
-		&.wk-selected{
-			background-color: @list-selected-dark-bg
-		}
-		&:active{
-			background-color: @list-active-dark-bg;
-		}
+	&.wk-warning{
+		.qtip-close{
+			.color-warning();
+		}	
+	}
+	&.wk-info{
+		.qtip-close{
+			.color-info();
+		}	
+	}
+	&.wk-success{
+		.qtip-close{
+			.color-success();
+		}	
 	}
 }
 
+
+//widget rules
+[class^='wkw-'] {
+	.box-sizing();
+	//to avoid widget inheritance, TODO consider ltr, rtl
+	text-align: left; 
+}
+
+.wkw-button{
+	padding: 4px 12px;
+	box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2), 0 1px 2px rgba(0, 0, 0, 0.05);
+	line-height: 1.2rem;
+	cursor: pointer;
+	color: @generalColor;
+	text-decoration: none;
+	text-align: center;
+	text-shadow: 0 1px 1px rgba(255, 255, 255, 0.75);
+	background: linear-gradient(to bottom, @generalBgColor, @generalSolidBgColor);
+	border: 1px solid @generalBorderColor;
+	border-top-color: rgba(0, 0, 0, 0.2);
+	border-left-color: rgba(0, 0, 0, 0.2);
+	border-right-color: rgba(0, 0, 0, 0.2);
+    border-bottom-color: rgba(0, 0, 0, 0.35);
+	border-radius:4px;
+	&:hover,&:focus,&:active{
+		background: @generalSolidBgColor;
+		z-index: 10;
+	}
+	&:focus{
+		outline: thin dotted #333;//other browser
+    	outline: 5px auto -webkit-focus-ring-color; //chrome override
+    	outline-offset: -2px;
+	}
+	&:active{
+		outline: 0;
+		box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.15), 0 1px 2px rgba(0, 0, 0, 0.05);
+	}
+	&:disabled{
+		cursor: not-allowed;
+		color: @generalDisabledColor;
+		background: @generalDisabledSolidBgColor;
+	}
+	&::-moz-focus-inner {//ugly firefox dot border on label
+  		border: 0;
+	}
+}
+
+.wkw-anchor{
+	padding: 3px;
+	display: inline-block;
+	text-decoration: none;
+	color: inherit;
+	font-size: inherit;
+	outline: 0;
+	&:hover{
+		background: @anchorHoverBgColor;
+	}
+	&:focus{
+		background: @anchorFocusedBgColor;
+	}
+	&:active{
+		background: @anchorActiveBgColor;
+	}
+}
+
+.wkw-alert{
+	padding: 15px;
+	border-radius: 4px;
+	> .wkw-fonticon, > strong{
+		margin-right: 6px;
+	}
+}
