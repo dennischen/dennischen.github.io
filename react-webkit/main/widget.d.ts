@@ -134,8 +134,8 @@ export declare abstract class Widget<P extends WidgetProps, S extends WidgetStat
     onQueueEvent(evt: WidgetQueueEvent): void;
     protected sendQueueEvent(name: string, data?: any): void;
     protected postQueueEvent(name: string, data?: any): void;
-    protected abstract getWidgetSclass(): string;
-    protected getWidgetSubSclass(sub: string): string;
+    abstract getWidgetSclass(): string;
+    getWidgetSubSclass(sub: string): string;
     getDOM(): any;
     protected getRenderTag(): string;
     protected getRenderSclass(): string;
@@ -150,7 +150,7 @@ export interface FonticonProps extends WidgetProps {
 }
 export declare class Fonticon extends Widget<FonticonProps, any> {
     static defaultProps: FonticonProps;
-    protected getWidgetSclass(): string;
+    getWidgetSclass(): string;
     protected getRenderChildren(): React.ReactNode;
     protected getRenderTag(): string;
 }
@@ -162,7 +162,7 @@ export interface ButtonProps extends WidgetProps {
 }
 export declare class Button extends Widget<ButtonProps, any> {
     static defaultProps: ButtonProps;
-    protected getWidgetSclass(): string;
+    getWidgetSclass(): string;
     protected getRenderChildren(): React.ReactNode;
     protected renderElementProps(): any;
     protected getRenderTag(): string;
@@ -174,7 +174,7 @@ export interface AnchorProps extends WidgetProps {
 }
 export declare class Anchor extends Widget<AnchorProps, any> {
     static defaultProps: AnchorProps;
-    protected getWidgetSclass(): string;
+    getWidgetSclass(): string;
     protected getRenderChildren(): React.ReactNode;
     protected renderElementProps(): any;
     protected getRenderTag(): string;
@@ -186,7 +186,7 @@ export interface AlertProps extends WidgetProps {
 }
 export declare class Alert extends Widget<AlertProps, any> {
     static defaultProps: AlertProps;
-    protected getWidgetSclass(): string;
+    getWidgetSclass(): string;
     protected getRenderChildren(): React.ReactNode;
     protected getRenderSclass(): string;
 }
@@ -199,3 +199,4 @@ export declare function getInnerHeight(dom: HTMLElement): number;
 export declare function getOutterWidth(dom: HTMLElement): number;
 export declare function getOutterHeight(dom: HTMLElement): number;
 export declare function toPxNumber(pxvar: any): number;
+export declare function gainFocus(under: string | Element | JQuery): void;

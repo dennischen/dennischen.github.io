@@ -17,7 +17,7 @@ export interface BoxProps extends Widget.WidgetProps {
 }
 export declare class Box extends Widget.Widget<BoxProps, any> {
     static defaultProps: BoxProps;
-    protected getWidgetSclass(): string;
+    getWidgetSclass(): string;
     protected getRenderSclass(): string;
 }
 export interface LayoutRenderContext {
@@ -41,7 +41,7 @@ export interface HlayoutProps extends LayoutProps {
 }
 export declare class Hlayout extends Layout<HlayoutProps, any> {
     static defaultProps: HlayoutProps;
-    protected getWidgetSclass(): string;
+    getWidgetSclass(): string;
     componentDidMount(): void;
     componentWillMount(): void;
     componentWillUnmount(): void;
@@ -58,7 +58,7 @@ export interface VlayoutProps extends LayoutProps {
 }
 export declare class Vlayout extends Layout<VlayoutProps, any> {
     static defaultProps: VlayoutProps;
-    protected getWidgetSclass(): string;
+    getWidgetSclass(): string;
     protected getRenderContentStyle(child: React.ReactChild, idx: number, ctx: LayoutRenderContext): React.CSSProperties;
     protected getRenderSclass(): string;
 }
@@ -79,7 +79,7 @@ export declare class Sider extends Widget.Widget<SiderProps, SiderState> {
     static defaultProps: SiderProps;
     constructor(props: SiderProps);
     protected onBarMousedown(evt: MouseEvent): void;
-    protected getWidgetSclass(): string;
+    getWidgetSclass(): string;
     protected getRenderSclass(): string;
     protected getRenderStyle(): React.CSSProperties;
     protected getRenderChildren(): React.ReactNode;

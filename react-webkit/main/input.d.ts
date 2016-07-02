@@ -38,7 +38,7 @@ export interface TextboxProps extends InputProps {
 }
 export declare class Textbox extends Input<TextboxProps, any> {
     static defaultProps: TextboxProps;
-    protected getWidgetSclass(): string;
+    getWidgetSclass(): string;
     protected onChange(evt: Event): void;
     protected getRenderChildren(): React.ReactNode;
 }
@@ -51,12 +51,12 @@ export interface CheckboxProps extends InputProps {
 }
 export declare class Checkbox extends Input<CheckboxProps, any> {
     static defaultProps: CheckboxProps;
-    protected getWidgetSclass(): string;
+    getWidgetSclass(): string;
     protected onChange(evt: Event): void;
     protected getInputType(): string;
     protected getRenderChildren(): React.ReactNode;
 }
 export declare class Radiobox extends Checkbox {
-    protected getWidgetSclass(): string;
+    getWidgetSclass(): string;
     protected getInputType(): string;
 }

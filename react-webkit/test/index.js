@@ -42,12 +42,13 @@ var __extends = (this && this.__extends) || function (d, b) {
         { name: 'Vlayout', module: 'vlayout' },
         { name: 'Sider', module: 'sider' },
         { name: 'Popup', module: 'popup' },
+        { name: 'Modal', module: 'modal' },
         { name: 'Radiobox', module: 'radiobox' },
         { name: 'Textbox', module: 'textbox' },
         { name: 'Button', module: 'button' },
         { name: 'Anchor', module: 'anchor' },
         { name: 'Lifecycle', module: 'lifecycle' },
-        { name: 'Combine-Commentbox', module: 'test-commentbox', html: 'test-commentbox.html' }
+        { name: '*Commentbox', module: 'test-commentbox', html: 'test-commentbox.html' }
     ];
     testCases = testCases.sort(function (a, b) {
         return a.name.localeCompare(b.name);

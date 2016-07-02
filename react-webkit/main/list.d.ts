@@ -22,7 +22,7 @@ export interface ListProps extends Widget.WidgetProps {
 }
 export declare class List extends Widget.Widget<ListProps, any> {
     static defaultProps: ListProps;
-    protected getWidgetSclass(): string;
+    getWidgetSclass(): string;
     protected getRenderSclass(): string;
     protected getRenderChildren(): React.ReactNode;
 }

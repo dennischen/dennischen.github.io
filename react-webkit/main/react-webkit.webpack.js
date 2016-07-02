@@ -17,6 +17,7 @@ var Widget = require('./widget')
 var Input = require('./input')
 var Layout = require('./layout')
 var Popup = require('./popup')
+var Modal = require('./modal')
 var List = require('./list')
 
 module.exports = {

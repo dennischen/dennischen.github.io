@@ -830,6 +830,35 @@ x:-o-prefocus,
   border: 1px solid #aaa;
   border-radius: 3px;
 }
+#wkModalCave {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 0;
+  height: 0;
+  z-index: 2000;
+}
+.wkw-modal-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.3);
+}
+.wkw-modal-container .wkw-modal-container-content {
+  box-shadow: 2px 2px 5px 0 rgba(0, 0, 0, 0.2);
+  background: #fff;
+  color: #333;
+}
+.wkw-modal {
+  display: none;
+}
+.wkw-modal-content {
+  padding: 16px;
+  border: 1px solid #aaa;
+  border-radius: 4px;
+}
 .wkw-list {
   position: relative;
   overflow-y: auto;

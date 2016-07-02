@@ -734,6 +734,17 @@ var __extends = (this && this.__extends) || function (d, b) {
         return 0;
     }
     exports.toPxNumber = toPxNumber;
+    function gainFocus(under) {
+        var jq;
+        if (!(under instanceof Jq)) {
+            jq = Jq(under);
+        }
+        else {
+            jq = under;
+        }
+        jq.find('a, button:not(:disabled), input:not(:disabled)').first().focus();
+    }
+    exports.gainFocus = gainFocus;
 });
 
 //# sourceMappingURL=srcmap/widget.js.map

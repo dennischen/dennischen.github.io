@@ -16,6 +16,7 @@ declare module "@atticcat/react-webkit" {
     import Input = require('input');
     import Layout = require('layout');
     import Popup = require('popup');
+    import Modal = require('modal');
     import List = require('list');
     export{
         Widget,
