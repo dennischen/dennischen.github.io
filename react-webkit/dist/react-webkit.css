@@ -859,6 +859,39 @@ x:-o-prefocus,
   border: 1px solid #aaa;
   border-radius: 4px;
 }
+.wkw-window {
+  display: none;
+}
+.wkw-window-content {
+  border: 1px solid #aaa;
+  border-radius: 4px;
+}
+.wkw-window-content .wkw-window-title {
+  padding: 10px 10px 9px;
+  font-size: 1.2rem;
+  border-bottom: 1px solid #aaa;
+}
+.wkw-window-content .wkw-window-close {
+  cursor: pointer;
+  padding: 0;
+  background: none;
+  border: 0;
+  font-size: 21px;
+  font-weight: 700;
+  line-height: 1;
+  text-shadow: 0 1px 0 #fff;
+  filter: alpha(opacity=20);
+  opacity: .2;
+}
+.wkw-window-content .wkw-window-close:hover,
+.wkw-window-content .wkw-window-close:focus {
+  filter: alpha(opacity=50);
+  opacity: .5;
+  outline: 0;
+}
+.wkw-window-content .wkw-window-body {
+  padding: 16px;
+}
 .wkw-list {
   position: relative;
   overflow-y: auto;

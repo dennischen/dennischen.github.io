@@ -40,41 +40,42 @@ var __extends = (this && this.__extends) || function (d, b) {
         __extends(ModalContainer, _super);
         function ModalContainer(props) {
             _super.call(this, props);
-            this.state.modalStack = [];
+            this._modalStack = [];
+            this.state.modalStack = this._modalStack;
         }
         ModalContainer.prototype.getWidgetSclass = function () {
             return 'wkw-modal-container';
         };
-        ModalContainer.prototype.setModal = function (modal) {
-            var modalStack = this.state.modalStack;
+        ModalContainer.prototype.putModal = function (modal) {
+            var modalStack = this._modalStack;
             var idx = modalStack.indexOf(modal);
             if (idx < 0) {
-                modalStack = modalStack.concat(modal);
+                modalStack.push(modal);
             }
             else if (idx == modalStack.length - 1) {
                 return;
             }
             else {
-                modalStack = modalStack.slice();
                 modalStack.splice(idx, 1);
                 modalStack.push(modal);
             }
-            this.setState({ modalStack: modalStack });
+            this.setState({ modalStack: this._modalStack });
         };
         ModalContainer.prototype.getModal = function () {
-            var modalStack = this.state.modalStack;
+            var modalStack = this._modalStack;
             return modalStack.length > 0 ? modalStack[modalStack.length - 1] : undefined;
         };
         ModalContainer.prototype.clearModal = function (modal) {
-            var modalStack = this.state.modalStack;
-            var newStack = [];
-            for (var i = 0; i < modalStack.length; i++) {
-                if (modalStack[i] != modal) {
-                    newStack.push(modalStack[i]);
+            var modalStack = this._modalStack;
+            var hit;
+            for (var i = modalStack.length - 1; i >= 0; i--) {
+                if (modalStack[i] == modal) {
+                    modalStack.splice(i, 1);
+                    hit = true;
                 }
             }
-            if (newStack.length != modalStack.length) {
-                this.setState({ modalStack: newStack });
+            if (hit) {
+                this.setState({ modalStack: this._modalStack });
             }
         };
         ModalContainer.prototype.componentDidMount = function () {
@@ -127,10 +128,9 @@ var __extends = (this && this.__extends) || function (d, b) {
         };
         ModalContainer.prototype.componentDidUpdate = function (prevProps, prevState) {
             _super.prototype.componentDidUpdate.call(this, prevProps, prevState);
-            var state = this.state;
-            if (state.modalStack != prevProps.modalStack && state.modalStack.length > 0) {
+            var modal = this.getModal();
+            if (modal) {
                 Widget.gainFocus(this.getDOM());
-                var modal = this.getModal();
                 if (modal.props.doAfterShow) {
                     modal.props.doAfterShow();
                 }
@@ -166,7 +166,7 @@ var __extends = (this && this.__extends) || function (d, b) {
             _super.prototype.componentDidMount.call(this);
             var props = this.props;
             if (props.show) {
-                this.getContainer().setModal(this);
+                this.getContainer().putModal(this);
             }
         };
         Modal.prototype.componentDidUpdate = function (prevProps, prevState) {
@@ -175,14 +175,14 @@ var __extends = (this && this.__extends) || function (d, b) {
             var container = this.getContainer();
             if (props.show != prevProps.show) {
                 if (props.show) {
-                    container.setModal(this);
+                    container.putModal(this);
                 }
                 else {
                     container.clearModal(this);
                 }
             }
             else if (props.show && container.getModal() != this) {
-                container.setModal(this);
+                container.putModal(this);
             }
         };
         Modal.prototype.componentWillUnmount = function () {
@@ -210,6 +210,33 @@ var __extends = (this && this.__extends) || function (d, b) {
         return Modal;
     }(Widget.Widget));
     exports.Modal = Modal;
+    var Window = (function (_super) {
+        __extends(Window, _super);
+        function Window() {
+            _super.apply(this, arguments);
+        }
+        Window.prototype.getWidgetSclass = function () {
+            return 'wkw-window';
+        };
+        Window.prototype.getModalRenderChildren = function () {
+            var props = this.props;
+            var bodyclz = this.getWidgetSubSclass('body');
+            if (props.title || props.doClose) {
+                var titleclz = this.getWidgetSubSclass('title');
+                var closeclz = [this.getWidgetSubSclass('close'), 'wk-aux'].join(' ');
+                var titleNodes = [];
+                titleNodes.push(React.createElement(layout_1.Box, {key: 't', hflex: 1}, props.title));
+                if (props.doClose) {
+                    titleNodes.push(React.createElement("button", {key: 'c', type: 'button', className: closeclz, onClick: this.props.doClose.bind(this)}, "×"));
+                }
+                return React.createElement(layout_1.Vlayout, null, React.createElement(layout_1.Hlayout, {className: titleclz, hflex: 1, align: 'middle'}, titleNodes), React.createElement("div", {className: bodyclz}, this.props.children));
+            }
+            return React.createElement("div", {className: bodyclz}, this.props.children);
+        };
+        Window.defaultProps = Util.supplyProps({}, Modal.defaultProps);
+        return Window;
+    }(Modal));
+    exports.Window = Window;
 });
 
 //# sourceMappingURL=srcmap/modal.js.map

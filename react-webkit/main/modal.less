@@ -41,7 +41,38 @@
 }
 .wkw-modal-content{
 	padding: 16px;
-	// display: block;
+	border: 1px solid @generalBorderColor;
+	border-radius: 4px;
+}
+.wkw-window{
+	display: none;
+}
+.wkw-window-content{
+	.wkw-window-title{
+		padding: 10px 10px 9px;
+		font-size: 1.2rem;
+		border-bottom: 1px solid @generalBorderColor;
+	}
+	.wkw-window-close{
+		cursor: pointer;
+		padding: 0;
+		background: none;
+		border: 0;
+		font-size: 21px;
+		font-weight: 700;
+		line-height: 1;
+		text-shadow: 0 1px 0 #fff;
+		filter: alpha(opacity=20);
+		opacity: .2;
+		&:hover,&:focus{
+			filter: alpha(opacity=50);
+			opacity: .5;
+			outline: 0;		
+		}		
+	}
+	.wkw-window-body{
+		padding: 16px;
+	}
 	border: 1px solid @generalBorderColor;
 	border-radius: 4px;
 }

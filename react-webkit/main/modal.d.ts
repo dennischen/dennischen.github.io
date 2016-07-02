@@ -14,18 +14,18 @@ import Widget = require('./widget');
 export interface ModalContainerProps extends Widget.WidgetProps {
 }
 export interface ModalContainerState {
-    modalStack?: Modal[];
-    nextModalKey?: String;
+    modalStack: Modal<ModalProps>[];
 }
 export declare class ModalContainer extends Widget.Widget<ModalContainerProps, ModalContainerState> {
     static defaultProps: ModalContainerProps;
+    private _modalStack;
     constructor(props: ModalProps);
     private onBodyFocusin;
     private onBodyKeyup;
     getWidgetSclass(): string;
-    setModal(modal: Modal): void;
-    getModal(): Modal;
-    clearModal(modal: Modal): void;
+    putModal(modal: Modal<ModalProps>): void;
+    getModal(): Modal<ModalProps>;
+    clearModal(modal: Modal<ModalProps>): void;
     componentDidMount(): void;
     componentWillUnmount(): void;
     componentDidUpdate(prevProps: ModalContainerState, prevState: any): void;
@@ -37,14 +37,23 @@ export interface ModalProps extends Widget.WidgetProps {
     doAfterShow?: () => void;
     doEsc?: () => void;
 }
-export declare class Modal extends Widget.Widget<ModalProps, any> {
+export declare class Modal<P extends ModalProps> extends Widget.Widget<P, any> {
     static defaultProps: ModalProps;
-    constructor(props: ModalProps);
+    constructor(props: P);
     componentDidMount(): void;
-    componentDidUpdate(prevProps: ModalProps, prevState: any): void;
+    componentDidUpdate(prevProps: P, prevState: any): void;
     componentWillUnmount(): void;
     protected getContainer(): ModalContainer;
     getWidgetSclass(): string;
     getModalRenderChildren(): React.ReactNode;
     protected getRenderChildren(): React.ReactNode;
+}
+export interface WindowlProps extends ModalProps {
+    title?: string;
+    doClose?: () => void;
+}
+export declare class Window extends Modal<WindowlProps> {
+    static defaultProps: WindowlProps;
+    getWidgetSclass(): string;
+    getModalRenderChildren(): React.ReactNode;
 }

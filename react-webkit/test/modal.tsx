@@ -8,7 +8,7 @@ import Jq = require('jquery');
 import {Button, Alert} from '../main/widget';
 import {Textbox} from '../main/input';
 import {Box, Vlayout, Hlayout} from '../main/layout';
-import {Modal} from '../main/modal';
+import {Modal,Window} from '../main/modal';
 
 export class App extends React.Component<any, any>{
     constructor(props: any) {
@@ -30,8 +30,8 @@ export class App extends React.Component<any, any>{
                         <Button label='Modal 2' onClick={()=>{this.setModal2(true)}} />
                     </Hlayout>
                 </Vlayout>
-                <Modal show={this.state.modal1} doAfterShow={()=>{console.log('Show modal 1')}} doEsc={()=>{this.setModal1(false)}}>
-                    <h2>Provide your information</h2>
+                <Window show={this.state.modal1} doAfterShow={()=>{console.log('Show modal 1')}} doEsc={()=>{this.setModal1(false)}}
+                    title='Provide your information' doClose={()=>{this.setModal1(false)}}>
                     <Vlayout space={10}>
                         <Hlayout align='middle' space={10}>
                             A : <Textbox disabled />
@@ -49,7 +49,7 @@ export class App extends React.Component<any, any>{
                             <Button label='Show nested Modal 2' onClick={()=>{this.setModal2(true)}}/>
                         </Hlayout>
                     </Vlayout>
-                </Modal>
+                </Window>
                 <Modal show={this.state.modal2} doAfterShow={()=>{console.log('Show modal 2')}} >
                     <h2>The 2nd modal</h2>
                     <Vlayout space={10}>
@@ -61,7 +61,8 @@ export class App extends React.Component<any, any>{
                         </Hlayout>
                         <Alert alertType='info' label='It should focus on 2nd textbox' />
                         <Hlayout align='center' space={10}>
-                            <Button label='Ok' onClick={()=>{this.setModal1(true);this.setModal2(false);}}/>
+                            <Button label='Back' onClick={()=>{this.setModal1(this.state.modal1);this.setModal2(false);}}/>
+                            <Button label='Ok' onClick={()=>{this.setModal1(false);this.setModal2(false);}}/>
                         </Hlayout>
                     </Vlayout>
                 </Modal>

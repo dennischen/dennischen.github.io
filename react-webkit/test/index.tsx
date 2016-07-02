@@ -16,6 +16,7 @@ interface TestCase {
     name: string
     module: string
     html?: string
+    priority?:number
 }
 
 let testcaseurl = function(testcase:string) {
@@ -35,16 +36,21 @@ let testCases: TestCase[] = [
     { name: 'Vlayout', module: 'vlayout'},
     { name: 'Sider', module: 'sider'},
     { name: 'Popup', module: 'popup'},
-    { name: 'Modal', module: 'modal'},
+    { name: 'Modal', module: 'modal', priority:10},
     { name: 'Radiobox', module: 'radiobox'},
     { name: 'Textbox', module: 'textbox'},
     { name: 'Button', module: 'button'},
     { name: 'Anchor', module: 'anchor'},
-    { name: 'Lifecycle', module: 'lifecycle'},
-    { name: '*Commentbox', module: 'test-commentbox', html: 'test-commentbox.html' }
+    { name: 'Lifecycle', module: 'lifecycle', priority:-9},
+    { name: 'Commentbox', module: 'test-commentbox', html: 'test-commentbox.html', priority:-10 }
 ]
 
 testCases = testCases.sort((a: TestCase, b: TestCase) => {
+    let pra = a.priority || 0;
+    let prb = b.priority || 0;
+    if(pra!=prb){
+        return pra>prb?-11:1;
+    }
     return a.name.localeCompare(b.name);
 });
 

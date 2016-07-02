@@ -742,7 +742,7 @@ var __extends = (this && this.__extends) || function (d, b) {
         else {
             jq = under;
         }
-        jq.find('a, button:not(:disabled), input:not(:disabled)').first().focus();
+        jq.find('a, button:not(:disabled):not(.wk-aux), input:not(:disabled):not(.wk-aux)').first().focus();
     }
     exports.gainFocus = gainFocus;
 });
