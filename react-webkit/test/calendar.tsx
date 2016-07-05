@@ -24,7 +24,7 @@ export class App extends React.Component<any, State>{
     }
     doSelect(date: Date) {
         this.setState({
-            msg: 'Selected:' + (date ? date.toLocaleDateString() : undefined),
+            msg: 'Selected:' + (date ? date.toLocaleDateString() : null),
             date1: date,
             date2: date
         });

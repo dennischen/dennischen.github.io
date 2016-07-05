@@ -61,7 +61,7 @@ var __extends = (this && this.__extends) || function (d, b) {
         __extends(Calendar, _super);
         function Calendar(props) {
             _super.call(this, props);
-            this.state.viewingDate = 'undefined' == typeof props.date ? new Date() : new Date(props.date.getTime());
+            this.state.viewingDate = props.date ? new Date(props.date.getTime()) : new Date();
             this.state.view = View.date;
         }
         Calendar.prototype.isFreeMode = function () {
@@ -78,7 +78,7 @@ var __extends = (this && this.__extends) || function (d, b) {
             var props = this.props;
             if (props.date != nextProps.date) {
                 this.setState({
-                    viewingDate: 'undefined' == typeof nextProps.date ? new Date() : new Date(nextProps.date.getTime())
+                    viewingDate: nextProps.date ? new Date(nextProps.date.getTime()) : new Date()
                 });
             }
         };

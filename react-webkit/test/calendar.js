@@ -35,7 +35,7 @@ var __extends = (this && this.__extends) || function (d, b) {
         }
         App.prototype.doSelect = function (date) {
             this.setState({
-                msg: 'Selected:' + (date ? date.toLocaleDateString() : undefined),
+                msg: 'Selected:' + (date ? date.toLocaleDateString() : null),
                 date1: date,
                 date2: date
             });
