@@ -1,30 +1,21 @@
-/**
- * React WebKit - v0.0.5
- * The react web widget kit base on typescript
- * 
- * Copyright 2016 - present, Dennis Chen, All rights reserved.
- * 
- * Released under MIT license
- */
 
 //common variables
-@generalBgColor: #fff;
-@generalColor: #333;
-@generalBorderColor: #aaa;
-@generalSolidBgColor: #e6e6e6;
+@generalBgColor: color(#fff);
+@generalColor: color( #333);
+@generalBorderColor: color( #aaa);
+@generalSolidBgColor: color( #e6e6e6);
 
-@generalDisabledBgColor: #efefef;
-@generalDisabledColor:#777;
-@generalDisabledSolidBgColor: #c6c6c6;
+@generalDisabledBgColor: color( #efefef);
+@generalDisabledColor: color(#777);
+@generalDisabledSolidBgColor: color(#c6c6c6);
 
-@lightHoverBgColor: rgba(255,255,255,0.05);
-@lightSelectedBgColor: rgba(255,255,255,0.2);
-@lightActiveBgColor: rgba(255,255,255,0.3);
+@lightHoverBgColor: fade(color(#fff),5%);//rgba(255,255,255,0.05);
+@lightSelectedBgColor: fade(color(#fff),20%);//rgba(255,255,255,0.2);
+@lightActiveBgColor: fade(color(#fff),30%);//rgba(255,255,255,0.3);
 
-@darkHoverBgColor: rgba(0,0,0,0.03);
-@darkSelectedBgColor: rgba(0,0,0,0.15);
-@darkActiveBgColor: rgba(0,0,0,0.2);
-
+@darkHoverBgColor: fade(color(#000),3%);// rgba(0,0,0,0.03);
+@darkSelectedBgColor: fade(color(#000),15%);// rgba(0,0,0,0.15);
+@darkActiveBgColor: fade(color(#000),20%);// rgba(0,0,0,0.2);
 
 
 //widget variables
@@ -36,5 +27,15 @@
 @listSelectedBgColor: @darkSelectedBgColor;
 @listActiveBgColor: @darkActiveBgColor;
 
-@siderHoverBgColor:rgba(0,0,0,0.05);
-@siderActiveBgColor:rgba(0,0,0,0.15);
+@siderHoverBgColor: fade(color(#000),5%);//rgba(0,0,0,0.05);
+@siderActiveBgColor: fade(color(#000),15%);//rgba(0,0,0,0.15);
+
+
+@calendarHoverBgColor: @darkHoverBgColor;
+@calendarSelectedBgColor: @darkSelectedBgColor;
+@calendarActiveBgColor: @darkActiveBgColor;
+
+@calendarSundayBgColor: color(#f2dede);
+@calendarSundayHoverBgColor: darken(@calendarSundayBgColor,3%);
+@calendarSundaySelectedBgColor: darken(@calendarSundayBgColor,10%);
+@calendarSundayActiveBgColor: darken(@calendarSundayBgColor,15%);

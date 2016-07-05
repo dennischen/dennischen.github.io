@@ -29,7 +29,7 @@
 	left:0;
 	right:0;
 	bottom:0;
-	background: rgba(0,0,0,.3);
+	background: rgba(0,0,0,.2);
 	.wkw-modal-container-content{
 		box-shadow: 2px 2px 5px 0 rgba(0,0,0,.2);
 		background:@generalBgColor;
@@ -48,31 +48,34 @@
 	display: none;
 }
 .wkw-window-content{
-	.wkw-window-title{
+	border: 1px solid @generalBorderColor;
+	border-radius: 4px;
+	.wkw-window-title-bar{
 		padding: 10px 10px 9px;
 		font-size: 1.2rem;
-		border-bottom: 1px solid @generalBorderColor;
-	}
-	.wkw-window-close{
-		cursor: pointer;
-		padding: 0;
-		background: none;
-		border: 0;
-		font-size: 21px;
-		font-weight: 700;
-		line-height: 1;
-		text-shadow: 0 1px 0 #fff;
-		filter: alpha(opacity=20);
-		opacity: .2;
-		&:hover,&:focus{
-			filter: alpha(opacity=50);
-			opacity: .5;
+		border-bottom: 1px solid lighten(@generalBorderColor,10%);
+		.wkw-window-close{
+			cursor: pointer;
+			background: none;
+			padding: 0;
+			border: 0;
+			font-size: 1.3rem;
+			font-weight: 700;
+			line-height: 1;
+			filter: alpha(opacity=20);
+			opacity: .2;
 			outline: 0;		
-		}		
+			&:hover,&:focus{
+				filter: alpha(opacity=50);
+				opacity: .5;
+			}
+			&:active{
+				filter: alpha(opacity=70);
+				opacity: .7;
+			}
+		} 
 	}
 	.wkw-window-body{
 		padding: 16px;
 	}
-	border: 1px solid @generalBorderColor;
-	border-radius: 4px;
 }

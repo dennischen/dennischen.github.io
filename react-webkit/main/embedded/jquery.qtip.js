@@ -6,7 +6,7 @@
  * 
  * Released under MIT license
  */
-/*
+/*!
  * qTip2 - Pretty powerful tooltips - v3.0.3
  * http://qtip2.com
  *

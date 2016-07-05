@@ -14,16 +14,18 @@
  * I simply uppercase sub-module.
  */
 var Widget = require('./widget')
-var Input = require('./input')
 var Layout = require('./layout')
+var Datetime = require('./datetime')
+var Input = require('./input')
 var Popup = require('./popup')
 var Modal = require('./modal')
 var List = require('./list')
 
 module.exports = {
     Widget,
-    Input,
     Layout,
+    Datetime,
+    Input,
     Popup,
     List
 }

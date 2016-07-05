@@ -24,6 +24,9 @@ let testcaseurl = function(testcase:string) {
 }
 
 let testCases: TestCase[] = [
+    //Higlighted
+    { name: 'Calender', module: 'calendar',priority:10},
+    { name: 'Modal', module: 'modal', priority:10},
     { name: 'Align', module: 'align'},
     { name: 'Alert', module: 'alert'},
     { name: 'Animate', module: 'animate'},
@@ -36,13 +39,20 @@ let testCases: TestCase[] = [
     { name: 'Vlayout', module: 'vlayout'},
     { name: 'Sider', module: 'sider'},
     { name: 'Popup', module: 'popup'},
-    { name: 'Modal', module: 'modal', priority:10},
     { name: 'Radiobox', module: 'radiobox'},
     { name: 'Textbox', module: 'textbox'},
     { name: 'Button', module: 'button'},
     { name: 'Anchor', module: 'anchor'},
-    { name: 'Lifecycle', module: 'lifecycle', priority:-9},
-    { name: 'Commentbox', module: 'test-commentbox', html: 'test-commentbox.html', priority:-10 }
+    //TODO
+    /*
+    { name: '*Time', module: 'time'},
+    { name: '*Combobox', module: 'combobox'},
+    { name: '*Markdown', module: 'markdown'},
+    { name: '*Switch', module: 'switch'},
+    */
+    //Misc
+    { name: 'Lifecycle', module: 'lifecycle', priority:-99},
+    { name: 'Commentbox', module: 'test-commentbox', html: 'test-commentbox.html', priority:-99 }
 ]
 
 testCases = testCases.sort((a: TestCase, b: TestCase) => {

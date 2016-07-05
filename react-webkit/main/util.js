@@ -115,6 +115,79 @@
         return ShortId;
     }());
     exports.ShortId = ShortId;
+    function formatString(str) {
+        var args = [];
+        for (var _i = 1; _i < arguments.length; _i++) {
+            args[_i - 1] = arguments[_i];
+        }
+        if (!args || args.length == 0) {
+            return str;
+        }
+        var l = str.length, argidx = 0;
+        var sb = [];
+        for (var i = 0; i < l; i++) {
+            var c = str.charAt(i);
+            if (c == '{') {
+                if (i < l - 1 && str.charAt(i + 1) == '}' && argidx < args.length) {
+                    sb.push(args[argidx]);
+                    i++;
+                    argidx++;
+                    continue;
+                }
+            }
+            sb.push(c);
+        }
+        return sb.join('');
+    }
+    exports.formatString = formatString;
+    function isArray(obj) {
+        return obj instanceof Array || Object.prototype.toString.call(obj) === '[object Array]';
+    }
+    exports.isArray = isArray;
+    (function (DateField) {
+        DateField[DateField["year"] = 1] = "year";
+        DateField[DateField["month"] = 2] = "month";
+        DateField[DateField["week"] = 3] = "week";
+        DateField[DateField["date"] = 4] = "date";
+        DateField[DateField["hour"] = 5] = "hour";
+        DateField[DateField["minute"] = 6] = "minute";
+        DateField[DateField["second"] = 7] = "second";
+    })(exports.DateField || (exports.DateField = {}));
+    var DateField = exports.DateField;
+    var secondms = 1000;
+    var minutems = secondms * 60;
+    var hourms = minutems * 60;
+    var datems = hourms * 24;
+    var weekms = datems * 7;
+    function addDateField(date, field, value) {
+        var time = date.getTime();
+        switch (field) {
+            case DateField.year:
+                date.setFullYear(date.getFullYear() + value);
+                break;
+            case DateField.month:
+                var month = date.getMonth();
+                date.setMonth(month + value);
+                break;
+            case DateField.week:
+                date.setTime(time + (value * weekms));
+                break;
+            case DateField.date:
+                date.setTime(time + (value * datems));
+                break;
+            case DateField.hour:
+                date.setTime(time + (value * hourms));
+                break;
+            case DateField.minute:
+                date.setTime(time + (value * minutems));
+                break;
+            case DateField.second:
+                date.setTime(time + (value * secondms));
+                break;
+        }
+        return date;
+    }
+    exports.addDateField = addDateField;
 });
 
 //# sourceMappingURL=srcmap/util.js.map

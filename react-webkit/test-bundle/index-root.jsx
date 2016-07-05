@@ -5,6 +5,7 @@ var w = wk.Widget;
 var i = wk.Input;
 var l = wk.Layout;
 var ls = wk.List;
+var dt = wk.Datetime;
 
 var RootApp = React.createClass({
     getInitialState: function() {
@@ -35,7 +36,7 @@ var RootApp = React.createClass({
                     <span>123  {this.state.clickCount} </span>
                     <l.Vlayout style={{ background: 'lightpink', padding: '2px', overflowY: 'auto' }} hflex={1} vflex={1}>
                         <span>xyz1 {this.state.clickCount} </span>
-                        <span>ijk1 {this.state.clickCount} lkasdl falsjdfl asjdlfa jsdlfjal sdfjlasj dflasjdf lajsdlfjas ldfkjald falsdjl asdjfls djf</span>
+                        <dt.Calendar hflex={1} vflex={1}/>
                     </l.Vlayout>
                     <l.Vlayout hidden={this.state.hidden} style={{ background: 'lightseagreen', padding: '2px' }} hflex={2} animation={{ effect: w.AniEffect.slide }}>
                         <span>xyz2 {this.state.clickCount} </span>

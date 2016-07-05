@@ -32,8 +32,7 @@ var __extends = (this && this.__extends) || function (d, b) {
             return 'wkw-list';
         };
         List.prototype.getRenderSclass = function () {
-            var str = [];
-            str.push(_super.prototype.getRenderSclass.call(this));
+            var str = [_super.prototype.getRenderSclass.call(this)];
             if (this.props.disabled) {
                 str.push('wk-disabled');
             }
@@ -50,7 +49,7 @@ var __extends = (this && this.__extends) || function (d, b) {
                 }
                 var childrenNodes = props.model.map(function (each, idx) {
                     var key = renderer_1.key(idx, each);
-                    if (key == undefined) {
+                    if (key == undefined || key == null) {
                         key = idx;
                     }
                     var templateNode = renderer_1.render(idx, each);
@@ -75,13 +74,13 @@ var __extends = (this && this.__extends) || function (d, b) {
             }
             else if (props.children) {
                 var childrenNodes = React.Children.map(props.children, function (child, idx) {
-                    var selected = selection ? selection.isSelected(idx, undefined) : false;
+                    var selected = selection ? selection.isSelected(idx, null) : false;
                     var onItemClick = props.onItemClick || props.doSelect ? function (evt) {
                         if (props.onItemClick) {
-                            props.onItemClick(evt, idx, undefined);
+                            props.onItemClick(evt, idx, null);
                         }
                         if (props.doSelect) {
-                            props.doSelect(!selected, idx, undefined);
+                            props.doSelect(!selected, idx, null);
                         }
                     } : undefined;
                     var onItemDoubleClick = props.onItemDoubleClick ? function (evt) {

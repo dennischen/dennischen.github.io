@@ -5,6 +5,7 @@ var w = wk.Widget;
 var i = wk.Input;
 var l = wk.Layout;
 var ls = wk.List;
+var dt = wk.Datetime;
 
 var RootApp = React.createClass({
     getInitialState: function getInitialState() {
@@ -93,13 +94,7 @@ var RootApp = React.createClass({
                         this.state.clickCount,
                         ' '
                     ),
-                    React.createElement(
-                        'span',
-                        null,
-                        'ijk1 ',
-                        this.state.clickCount,
-                        ' lkasdl falsjdfl asjdlfa jsdlfjal sdfjlasj dflasjdf lajsdlfjas ldfkjald falsdjl asdjfls djf'
-                    )
+                    React.createElement(dt.Calendar, { hflex: 1, vflex: 1 })
                 ),
                 React.createElement(
                     l.Vlayout,

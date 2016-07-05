@@ -324,8 +324,8 @@ var __extends = (this && this.__extends) || function (d, b) {
             if (this.state.resizing) {
                 barcls.push('wk-active');
             }
-            return [React.createElement(Box, {key: 'b', hflex: 1, vflex: 1}, this.props.children),
-                React.createElement("div", {key: 's', className: barcls.join(' '), onMouseDown: this.onBarMousedown.bind(this)})];
+            return [React.createElement(Box, {hflex: 1, vflex: 1}, this.props.children),
+                React.createElement("div", {className: barcls.join(' '), onMouseDown: this.onBarMousedown.bind(this)})];
         };
         Sider.defaultProps = Util.supplyProps({}, Widget.Widget.defaultProps);
         return Sider;

@@ -141,7 +141,8 @@ var __extends = (this && this.__extends) || function (d, b) {
             if (modal) {
                 var key = modal.getPseudoId();
                 var clz = [this.getWidgetSubSclass('content'), modal.getWidgetSubSclass('content')].join(' ');
-                return React.createElement(layout_1.Box, {hflex: 1, vflex: 1, align: 'center middle'}, React.createElement("div", {key: key, className: clz}, modal.getModalRenderChildren()), React.createElement("a", {ref: 'keyAnchor', href: 'javascript: void(0)'}));
+                var content = Widget.createReactElement('div', { key: key, className: clz }, modal.getModalRenderChildren());
+                return React.createElement(layout_1.Box, {hflex: 1, vflex: 1, align: 'center middle'}, content, React.createElement("a", {ref: 'keyAnchor', href: 'javascript: void(0)'}));
             }
             return undefined;
         };
@@ -221,17 +222,14 @@ var __extends = (this && this.__extends) || function (d, b) {
         Window.prototype.getModalRenderChildren = function () {
             var props = this.props;
             var bodyclz = this.getWidgetSubSclass('body');
-            if (props.title || props.doClose) {
-                var titleclz = this.getWidgetSubSclass('title');
+            var tbarclz = this.getWidgetSubSclass('title-bar');
+            var tbarnodes = [React.createElement(layout_1.Box, {hflex: 1}, props.title)];
+            if (props.doClose) {
                 var closeclz = [this.getWidgetSubSclass('close'), 'wk-aux'].join(' ');
-                var titleNodes = [];
-                titleNodes.push(React.createElement(layout_1.Box, {key: 't', hflex: 1}, props.title));
-                if (props.doClose) {
-                    titleNodes.push(React.createElement("button", {key: 'c', type: 'button', className: closeclz, onClick: this.props.doClose.bind(this)}, "×"));
-                }
-                return React.createElement(layout_1.Vlayout, null, React.createElement(layout_1.Hlayout, {className: titleclz, hflex: 1, align: 'middle'}, titleNodes), React.createElement("div", {className: bodyclz}, this.props.children));
+                tbarnodes.push(React.createElement("button", {type: 'button', className: closeclz, onClick: this.props.doClose}, "×"));
             }
-            return React.createElement("div", {className: bodyclz}, this.props.children);
+            var tbar = Widget.createReactElement(layout_1.Hlayout, { className: tbarclz, hflex: 1, align: 'middle' }, tbarnodes);
+            return React.createElement(layout_1.Vlayout, null, tbar, React.createElement("div", {className: bodyclz}, this.props.children));
         };
         Window.defaultProps = Util.supplyProps({}, Modal.defaultProps);
         return Window;

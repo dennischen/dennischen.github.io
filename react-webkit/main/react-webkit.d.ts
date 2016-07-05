@@ -13,15 +13,17 @@ declare module "@atticcat/react-webkit" {
      * I simply uppercase sub-module.
      */
     import Widget = require('widget');
-    import Input = require('input');
     import Layout = require('layout');
+    import Datetime = require('datetime');
+    import Input = require('input');
     import Popup = require('popup');
     import Modal = require('modal');
     import List = require('list');
     export{
         Widget,
-        Input,
         Layout,
+        Datetime,
+        Input,
         Popup,
         List
     };

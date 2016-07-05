@@ -122,7 +122,7 @@ var __extends = (this && this.__extends) || function (d, b) {
             return new (IndexSelection.bind.apply(IndexSelection, [void 0].concat(newsel)))();
         };
         IndexSelection.prototype.getSelection = function () {
-            return this.selection.length == 0 ? undefined : this.selection.slice();
+            return this.selection.length == 0 ? null : this.selection.slice();
         };
         return IndexSelection;
     }());
@@ -177,7 +177,7 @@ var __extends = (this && this.__extends) || function (d, b) {
             return new (InstanceSelection.bind.apply(InstanceSelection, [void 0].concat(newsel)))();
         };
         InstanceSelection.prototype.getSelection = function () {
-            return this.selection.length == 0 ? undefined : this.selection.slice();
+            return this.selection.length == 0 ? null : this.selection.slice();
         };
         return InstanceSelection;
     }());
@@ -235,7 +235,7 @@ var __extends = (this && this.__extends) || function (d, b) {
             return new (KeySelection.bind.apply(KeySelection, [void 0].concat([this.key], newsel)))();
         };
         KeySelection.prototype.getSelection = function () {
-            return this.selection.length == 0 ? undefined : this.selection.slice();
+            return this.selection.length == 0 ? null : this.selection.slice();
         };
         return KeySelection;
     }());
@@ -541,7 +541,8 @@ var __extends = (this && this.__extends) || function (d, b) {
         Widget.prototype.render = function () {
             var t = this.getRenderTag();
             var p = this.renderElementProps();
-            return React.createElement(t, p, this.getRenderChildren());
+            var c = this.getRenderChildren();
+            return createReactElement(t, p, c);
         };
         Widget.defaultProps = {};
         Widget.__wgtmgc = true;
@@ -653,10 +654,10 @@ var __extends = (this && this.__extends) || function (d, b) {
             var children = [];
             var props = this.props;
             if (props.fonticon) {
-                children.push(React.createElement(Fonticon, {key: 'f', className: props.fonticon}));
+                children.push(React.createElement(Fonticon, {className: props.fonticon}));
             }
             if (props.title) {
-                children.push(React.createElement("strong", {key: 't'}, props.title));
+                children.push(React.createElement("strong", null, props.title));
             }
             if (props.label) {
                 children.push(props.label);
@@ -678,6 +679,15 @@ var __extends = (this && this.__extends) || function (d, b) {
         return Alert;
     }(Widget));
     exports.Alert = Alert;
+    function createReactElement(type, props, children) {
+        if (Util.isArray(children)) {
+            return React.createElement.apply(React, [type, props].concat(children));
+        }
+        else {
+            return React.createElement(type, props, children);
+        }
+    }
+    exports.createReactElement = createReactElement;
     function isWidgetElemnt(child) {
         var casting = child;
         return casting ? (casting.type && casting.type.__wgtmgc) : false;

@@ -7,6 +7,7 @@ import w = require('../main/widget');
 import i = require('../main/input');
 import l = require('../main/layout');
 import ls = require('../main/list');
+import dt = require('../main/datetime');
 
 export class App extends React.Component<any, any>{
     constructor(props: any) {
@@ -38,7 +39,7 @@ export class App extends React.Component<any, any>{
                     <span>123  {this.state.clickCount} </span>
                     <l.Vlayout style={{ background: 'lightpink', padding: '2px', overflowY: 'auto' }} hflex={1} vflex={1}>
                         <span>xyz1 {this.state.clickCount} </span>
-                        <span>ijk1 {this.state.clickCount} lkasdl falsjdfl asjdlfa jsdlfjal sdfjlasj dflasjdf lajsdlfjas ldfkjald falsdjl asdjfls djf</span>
+                        <dt.Calendar hflex={1} vflex={1}/>
                     </l.Vlayout>
                     <l.Vlayout hidden={this.state.hidden} style={{ background: 'lightseagreen', padding: '2px' }} hflex={2} animation={{ effect: w.AniEffect.slide }}>
                         <span>xyz2 {this.state.clickCount} </span>

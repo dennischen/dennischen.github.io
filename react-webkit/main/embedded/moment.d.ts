@@ -6,12 +6,5 @@
  * 
  * Released under MIT license
  */
-
-@import "qtip.less";
-@import "widget.less";
-@import "layout.less";
-@import "datetime.less";
-@import "input.less";
-@import "popup.less";
-@import "modal.less";
-@import "list.less";
+//we won't write the definition, just return as any to avoid cimplie error
+export = {} as any;

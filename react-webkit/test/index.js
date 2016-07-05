@@ -30,6 +30,8 @@ var __extends = (this && this.__extends) || function (d, b) {
         return 'cases.html?testcase=' + testcase;
     };
     var testCases = [
+        { name: 'Calender', module: 'calendar', priority: 10 },
+        { name: 'Modal', module: 'modal', priority: 10 },
         { name: 'Align', module: 'align' },
         { name: 'Alert', module: 'alert' },
         { name: 'Animate', module: 'animate' },
@@ -42,13 +44,12 @@ var __extends = (this && this.__extends) || function (d, b) {
         { name: 'Vlayout', module: 'vlayout' },
         { name: 'Sider', module: 'sider' },
         { name: 'Popup', module: 'popup' },
-        { name: 'Modal', module: 'modal', priority: 10 },
         { name: 'Radiobox', module: 'radiobox' },
         { name: 'Textbox', module: 'textbox' },
         { name: 'Button', module: 'button' },
         { name: 'Anchor', module: 'anchor' },
-        { name: 'Lifecycle', module: 'lifecycle', priority: -9 },
-        { name: 'Commentbox', module: 'test-commentbox', html: 'test-commentbox.html', priority: -10 }
+        { name: 'Lifecycle', module: 'lifecycle', priority: -99 },
+        { name: 'Commentbox', module: 'test-commentbox', html: 'test-commentbox.html', priority: -99 }
     ];
     testCases = testCases.sort(function (a, b) {
         var pra = a.priority || 0;

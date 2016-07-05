@@ -190,6 +190,7 @@ export declare class Alert extends Widget<AlertProps, any> {
     protected getRenderChildren(): React.ReactNode;
     protected getRenderSclass(): string;
 }
+export declare function createReactElement(type: string | React.ComponentClass<any> | React.SFC<any>, props: any, children: React.ReactNode): React.ReactElement<any>;
 export declare function isWidgetElemnt(child: React.ReactChild): boolean;
 export declare function getWidgetProps(child: React.ReactChild): WidgetProps;
 export declare function hasHScrollbar(dom: HTMLElement): number;

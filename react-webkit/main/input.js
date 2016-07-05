@@ -42,8 +42,7 @@ var __assign = (this && this.__assign) || Object.assign || function(t) {
             }
         };
         Input.prototype.getRenderSclass = function () {
-            var str = [];
-            str.push(_super.prototype.getRenderSclass.call(this));
+            var str = [_super.prototype.getRenderSclass.call(this)];
             if (this.props.disabled) {
                 str.push('wk-disabled');
             }
@@ -151,12 +150,12 @@ var __assign = (this && this.__assign) || Object.assign || function(t) {
             }
             var label;
             if (props.label) {
-                label = React.createElement("label", {key: 'l', htmlFor: inpid}, props.label);
+                label = React.createElement("label", {htmlFor: inpid}, props.label);
             }
             var inputType = this.getInputType();
             var onChange = (props.onChange || props.doCheck) ? this.onChange.bind(this) : undefined;
             var value = 'string' == typeof props.value ? props.value : undefined;
-            return [React.createElement("input", {key: 'i', id: inpid, type: inputType, ref: 'input', onChange: onChange, checked: props.checked, disabled: props.disabled, readOnly: props.readOnly, defaultChecked: props.defaultChecked, name: props.name, value: value}), label];
+            return [React.createElement("input", {id: inpid, type: inputType, ref: 'input', onChange: onChange, checked: props.checked, disabled: props.disabled, readOnly: props.readOnly, defaultChecked: props.defaultChecked, name: props.name, value: value}), label];
         };
         Checkbox.defaultProps = Util.supplyProps({}, Input.defaultProps);
         return Checkbox;

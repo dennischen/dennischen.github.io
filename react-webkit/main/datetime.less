@@ -1,0 +1,126 @@
+/**
+ * React WebKit - v0.0.5
+ * The react web widget kit base on typescript
+ * 
+ * Copyright 2016 - present, Dennis Chen, All rights reserved.
+ * 
+ * Released under MIT license
+ */
+
+@import "_variable.less";
+@import "_function.less";
+
+//status rules
+
+
+//widget rules
+
+.wkw-calendar{
+    color: @generalColor;
+    border: 1px solid @generalBorderColor;
+	border-radius: 4px;
+    background: @generalBgColor;
+}
+
+.wkw-calendar-titlebar{
+    padding: 10px 16px 9px;
+	border-bottom: 1px solid lighten(@generalBorderColor,10%);
+    font-size: 1.2rem;
+    text-shadow: 0 1px 1px rgba(0, 0, 0, 0.3);
+    button.wk-aux {
+        cursor: pointer;
+        background: none;
+        padding: 0;
+        border: 0;
+        font-size: 1.2rem;
+        font-weight: 700;
+        line-height: 1;
+        filter: alpha(opacity=20);
+        opacity: .2;
+        outline: 0;		
+        &:hover,&:focus{
+            filter: alpha(opacity=50);
+            opacity: .5;
+        }
+        &:active{
+			filter: alpha(opacity=70);
+			opacity: .7;
+		}
+    }
+} 
+.wkw-calendar-bottombar{
+	padding: 6px 10px 8px;
+}
+
+.wkw-calendar-yearview, .wkw-calendar-monthview, .wkw-calendar-dateview{
+    .wkw-calendar-table{
+        padding: 2px 0px 2px;
+        height: 100%;
+        width:100%;
+        table-layout:fixed;
+        border-spacing: 10px;
+        border-collapse: separate;
+        th{
+            text-align: center;
+            text-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
+            font-weight: normal;
+        }
+        td{
+            cursor: pointer;
+            border : 1px solid lighten(@generalBorderColor,20%);
+            padding: 0px;
+            text-align: center;
+            text-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
+            &.wk-date-prv-m,&.wk-date-next-m{
+                color: fade(@generalColor,40%);
+                text-shadow: none;
+            }
+            &.wk-today{
+                position: relative;
+                &:before{
+                    content: '';
+                    border: solid transparent;
+                    border-width: 10px 0 10px 10px;
+                    position: absolute;
+                    top: 1px;
+                    right: 1px;
+                    border-top-color: fade(darken(@generalBorderColor,40%),60%);
+                }
+            }
+            &:hover{
+                background: @calendarHoverBgColor;
+            }
+            &.wk-selected{
+                background: @calendarSelectedBgColor;
+            }
+            &.wk-active{
+                background: @calendarActiveBgColor;
+            }
+        }
+    }
+}
+.wkw-calendar-dateview{
+    .wkw-calendar-table{
+        border-collapse: collapse;
+        border-spacing: 4px;
+        th,td{
+            &.wk-sunday{
+                border: 1px solid darken(@calendarSundayBgColor,5%);
+                background: @calendarSundayBgColor;
+            }
+        }
+        td{
+            &.wk-sunday{
+                &:hover{
+                    background: @calendarSundayHoverBgColor;
+                }
+                &.wk-selected{
+                    background: @calendarSundaySelectedBgColor;
+                }
+                &.wk-active{
+                    background: @calendarSundayActiveBgColor;
+                }
+            }
+        }
+    }
+}
