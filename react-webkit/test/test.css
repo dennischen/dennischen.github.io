@@ -1172,8 +1172,7 @@ button {
   box-shadow: 2px 2px 5px 0 rgba(0, 0, 0, 0.2);
 }
 #testBody {
-  padding-left: 6;
-  padding-top: 4;
+  overflow: auto;
 }
 #src {
   overflow: auto;

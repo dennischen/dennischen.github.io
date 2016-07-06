@@ -4622,11 +4622,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	};
 	var minComputerYear = 1971;
 	var yearGridBase = 3;
-	var yearGridNumber = yearGridBase * yearGridBase;
+	var yearGridNumber = yearGridBase * 4;
 	var monthGridBase = 3;
-	var monthGridNumber = 12;
-	var dateGridBase = 7;
-	var dateGridNumber = 42;
 	(function (View) {
 	    View[View["year"] = 1] = "year";
 	    View[View["month"] = 2] = "month";
@@ -4654,9 +4651,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	        _super.prototype.componentWillReceiveProps.call(this, nextProps);
 	        var props = this.props;
 	        if (props.date != nextProps.date) {
-	            this.setState({
-	                viewingDate: nextProps.date ? new Date(nextProps.date.getTime()) : new Date()
-	            });
+	            if (nextProps.date) {
+	                this.setState({
+	                    viewingDate: new Date(nextProps.date.getTime())
+	                });
+	            }
 	        }
 	    };
 	    Calendar.prototype.doReset = function () {
@@ -4689,7 +4688,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	        }
 	        this.safeTimeout(function () {
 	            _this.setState({
-	                viewingDate: new Date(),
 	                freeDate: undefined,
 	                view: View.date
 	            });
@@ -4905,14 +4903,14 @@ return /******/ (function(modules) { // webpackBootstrap
 	                }
 	                rowChildren.push(React.createElement("td", { className: clz.join(' '), onMouseDown: onActive, onMouseUp: onUnactive, onMouseLeave: onUnactive, onClick: this.doSelect.bind(this, month) }, i18n.monthNames[month]));
 	                count++;
-	                if (count >= monthGridNumber) {
+	                if (count >= 12) {
 	                    break;
 	                }
 	            }
 	            if (rowChildren.length > 0) {
 	                tableChildren.push(Widget.createReactElement('tr', {}, rowChildren));
 	            }
-	            if (count >= monthGridNumber) {
+	            if (count >= 12) {
 	                break;
 	            }
 	        }
@@ -4958,10 +4956,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	        };
 	        var title = Util.formatString("{} {}", i18n.longMonthNames[viewingMonth], viewingYear);
 	        var tableRows = [];
-	        var count = 0;
 	        var firstDayOfWeek = props.firstDayOfWeek ? props.firstDayOfWeek : 0;
 	        var sundayIdx = firstDayOfWeek == 0 ? 0 : 7 - firstDayOfWeek;
 	        var firstDayIdx = sundayIdx == 0 ? weekDayOfMonth : weekDayOfMonth - 1;
+	        if (firstDayIdx <= 0) {
+	            firstDayIdx += 7;
+	        }
 	        var headerChildren = [];
 	        for (var c = 0; c < 7; c++) {
 	            var idx = firstDayOfWeek + c;
@@ -4972,10 +4972,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	            headerChildren.push(React.createElement("th", { className: clz }, i18n.dayNames[idx]));
 	        }
 	        tableRows.push(Widget.createReactElement('tr', {}, headerChildren));
-	        for (var r = 0;; r++) {
+	        for (var r = 0; r < 6; r++) {
 	            var rowChildren = [];
-	            for (var c = 0; c < dateGridBase; c++) {
-	                var date = r * dateGridBase + c;
+	            for (var c = 0; c < 7; c++) {
+	                var date = r * 7 + c;
 	                date = date - firstDayIdx + 1;
 	                var clz = [];
 	                if (viewingYear == selectedYear && viewingMonth == selectedMonth && date == selectedDate) {
@@ -4999,16 +4999,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	                    label = date;
 	                }
 	                rowChildren.push(React.createElement("td", { className: clz.join(' '), onMouseDown: onActive, onMouseUp: onUnactive, onMouseLeave: onUnactive, onClick: this.doSelect.bind(this, date) }, label));
-	                count++;
-	                if (count >= dateGridNumber) {
-	                    break;
-	                }
 	            }
 	            if (rowChildren.length > 0) {
 	                tableRows.push(Widget.createReactElement('tr', {}, rowChildren));
-	            }
-	            if (count >= dateGridNumber) {
-	                break;
 	            }
 	        }
 	        var tbody = Widget.createReactElement('tbody', {}, tableRows);
