@@ -34,8 +34,8 @@ export class App extends React.Component<any, State>{
             <Vlayout space={10} style={{ padding: 10 }}>
                 {this.state.msg}
                 <Hlayout space={10} >
-                    <Calendar date={this.state.date1} doSelect={this.doSelect.bind(this) }/>
-                    <Calendar date={this.state.date2} doSelect={this.doSelect.bind(this) } firstDayOfWeek={1}/>
+                    <Calendar selected={this.state.date1} doSelect={this.doSelect.bind(this) }/>
+                    <Calendar selected={this.state.date2} doSelect={this.doSelect.bind(this) } firstDayOfWeek={1}/>
                 </Hlayout>
                 <Calendar doSelect={this.doSelect.bind(this) } style={{width: 400, height:400}}/>
             </Vlayout>

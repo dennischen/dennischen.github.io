@@ -28,13 +28,13 @@ var __extends = (this && this.__extends) || function (d, b) {
         __extends(App, _super);
         function App(props) {
             _super.call(this, props);
-            this.state = { hidden: false };
+            this.state = { visible: true };
         }
         App.prototype.doToggle = function () {
-            this.setState({ hidden: !this.state.hidden });
+            this.setState({ visible: !this.state.visible });
         };
         App.prototype.render = function () {
-            return (React.createElement(layout_1.Box, {hflex: 1, vflex: 1, align: 'center middle'}, React.createElement(layout_1.Vlayout, {style: { width: 400, height: 600 }}, React.createElement(layout_1.Hlayout, {align: 'middle', space: 10}, React.createElement(widget_1.Button, {label: "Toggle", onClick: this.doToggle.bind(this)})), React.createElement(widget_1.Alert, {title: 'Error!', label: "This is an error", alertType: 'error'}), React.createElement(widget_1.Alert, {fonticon: 'fa fa-exclamation-triangle', title: 'Warning!', label: "This is a warning", alertType: 'warning', hidden: this.state.hidden}), React.createElement(widget_1.Alert, {alertType: 'info'}, React.createElement("strong", null, "Information"), React.createElement(widget_1.Fonticon, {className: 'fa fa-info-circle fa-lg'}), "This is information"), React.createElement(widget_1.Alert, {label: "This is success", alertType: 'success', animation: { effect: 'fade' }, hidden: this.state.hidden}))));
+            return (React.createElement(layout_1.Box, {hflex: 1, vflex: 1, align: 'center middle'}, React.createElement(layout_1.Vlayout, {style: { width: 400, height: 600 }}, React.createElement(layout_1.Hlayout, {align: 'middle', space: 10}, React.createElement(widget_1.Button, {label: "Toggle", onClick: this.doToggle.bind(this)})), React.createElement(widget_1.Alert, {title: 'Error!', label: "This is an error", alertType: 'error'}), React.createElement(widget_1.Alert, {fonticon: 'fa fa-exclamation-triangle', title: 'Warning!', label: "This is a warning", alertType: 'warning', visible: this.state.visible}), React.createElement(widget_1.Alert, {alertType: 'info'}, React.createElement("strong", null, "Information"), React.createElement(widget_1.Fonticon, {className: 'fa fa-info-circle fa-lg'}), "This is information"), React.createElement(widget_1.Alert, {label: "This is success", alertType: 'success', animation: { effect: 'fade', eager: true }, visible: this.state.visible}))));
         };
         return App;
     }(React.Component));

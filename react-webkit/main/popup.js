@@ -34,7 +34,9 @@ var __extends = (this && this.__extends) || function (d, b) {
         function Popup(props) {
             _super.call(this, props);
             this.dismissCount = 0;
-            this.state.hidden = undefined === props.hidden ? true : props.hidden;
+            if (undefined === this.state.visible) {
+                this.state.visible = false;
+            }
         }
         Popup.prototype.getId = function () {
             var id = _super.prototype.getId.call(this);
@@ -60,7 +62,7 @@ var __extends = (this && this.__extends) || function (d, b) {
             var dom = this.getDOM();
             var jqdom = Jq(dom);
             var jqp = jqdom.parent();
-            var zIndex = this.state.zIndex ? this.state.zIndex : exports.zIndexStart;
+            var zIndex = exports.zIndexStart;
             jqp.children().each(function (idx, each) {
                 if (each === dom) {
                     return;
@@ -142,9 +144,9 @@ var __extends = (this && this.__extends) || function (d, b) {
             }
             this.removeBodyListener();
         };
-        Popup.prototype.afterAnimation = function (hidden) {
-            _super.prototype.afterAnimation.call(this, hidden);
-            if (hidden) {
+        Popup.prototype.afterAnimation = function (finalVisible) {
+            _super.prototype.afterAnimation.call(this, finalVisible);
+            if (!finalVisible) {
                 this.setState({ zIndex: undefined });
             }
         };

@@ -141,8 +141,8 @@ var __extends = (this && this.__extends) || function (d, b) {
             if (modal) {
                 var key = modal.getPseudoId();
                 var clz = [this.getWidgetSubSclass('content'), modal.getWidgetSubSclass('content')].join(' ');
-                var content = Widget.createReactElement('div', { key: key, className: clz }, modal.getModalRenderChildren());
-                return React.createElement(layout_1.Box, {hflex: 1, vflex: 1, align: 'center middle'}, content, React.createElement("a", {ref: 'keyAnchor', href: 'javascript: void(0)'}));
+                var content = Widget.createReactElement('div', { className: clz }, modal.getModalRenderChildren());
+                return React.createElement(layout_1.Box, {key: key, hflex: 1, vflex: 1, align: 'center middle', animation: modal.props.animation}, content, React.createElement("a", {ref: 'keyAnchor', href: 'javascript: void(0)'}));
             }
             return undefined;
         };

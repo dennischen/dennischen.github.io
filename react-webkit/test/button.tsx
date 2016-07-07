@@ -15,10 +15,10 @@ export class App extends React.Component<any, any>{
     doShowMenu(){
         let pop = this.refs['popup'] as p.Popup;
         let target = (this.refs['popupBtn'] as w.Widget<any,any>).getDOM(); 
-        if(pop.state.hidden){
-            pop.show(target);
-        }else{
+        if(pop.state.visible){
             pop.hide();
+        }else{
+            pop.show(target);
         }
         
     }

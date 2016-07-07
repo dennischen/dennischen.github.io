@@ -105,7 +105,7 @@ export class App extends React.Component<any, State>{
     }
     componentDidUpdate(prevProps: any, prevState: any) {
         let pop = this.refs['popup'] as p.Popup;
-        if(!pop.state.hidden){
+        if(pop.state.visible){
             pop.reposition('#btn1',this.getShowOpt());
         }
     }

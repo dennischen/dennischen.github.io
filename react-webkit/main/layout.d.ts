@@ -78,7 +78,7 @@ export interface SiderState {
 export declare class Sider extends Widget.Widget<SiderProps, SiderState> {
     static defaultProps: SiderProps;
     constructor(props: SiderProps);
-    protected onBarMousedown(evt: MouseEvent): void;
+    private onBarMousedown(evt);
     getWidgetSclass(): string;
     protected getRenderSclass(): string;
     protected getRenderStyle(): React.CSSProperties;

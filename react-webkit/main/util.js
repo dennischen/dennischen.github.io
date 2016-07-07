@@ -147,18 +147,54 @@
     (function (DateField) {
         DateField[DateField["year"] = 1] = "year";
         DateField[DateField["month"] = 2] = "month";
-        DateField[DateField["week"] = 3] = "week";
-        DateField[DateField["date"] = 4] = "date";
-        DateField[DateField["hour"] = 5] = "hour";
-        DateField[DateField["minute"] = 6] = "minute";
-        DateField[DateField["second"] = 7] = "second";
+        DateField[DateField["date"] = 3] = "date";
+        DateField[DateField["hour"] = 4] = "hour";
+        DateField[DateField["minute"] = 5] = "minute";
+        DateField[DateField["second"] = 6] = "second";
+        DateField[DateField["millisecond"] = 7] = "millisecond";
     })(exports.DateField || (exports.DateField = {}));
     var DateField = exports.DateField;
     var secondms = 1000;
     var minutems = secondms * 60;
     var hourms = minutems * 60;
     var datems = hourms * 24;
-    var weekms = datems * 7;
+    function isDateEquals(date1, date2, level) {
+        if (date1 == date2) {
+            return true;
+        }
+        if (!date1 || !date2) {
+            return false;
+        }
+        switch (level) {
+            case DateField.millisecond:
+                if (date1.getMilliseconds() != date2.getMilliseconds()) {
+                    return false;
+                }
+            case DateField.second:
+                if (date1.getSeconds() != date2.getSeconds()) {
+                    return false;
+                }
+            case DateField.minute:
+                if (date1.getMinutes() != date2.getMinutes()) {
+                    return false;
+                }
+            case DateField.hour:
+                if (date1.getHours() != date2.getHours()) {
+                    return false;
+                }
+            case DateField.month:
+                if (date1.getMonth() != date2.getMonth()) {
+                    return false;
+                }
+            case DateField.year:
+                if (date1.getFullYear() != date2.getFullYear()) {
+                    return false;
+                }
+                return true;
+        }
+        return date1.getTime() == date2.getTime();
+    }
+    exports.isDateEquals = isDateEquals;
     function addDateField(date, field, value) {
         var time = date.getTime();
         switch (field) {
@@ -168,9 +204,6 @@
             case DateField.month:
                 var month = date.getMonth();
                 date.setMonth(month + value);
-                break;
-            case DateField.week:
-                date.setTime(time + (value * weekms));
                 break;
             case DateField.date:
                 date.setTime(time + (value * datems));
@@ -183,6 +216,9 @@
                 break;
             case DateField.second:
                 date.setTime(time + (value * secondms));
+                break;
+            case DateField.millisecond:
+                date.setTime(time + value);
                 break;
         }
         return date;

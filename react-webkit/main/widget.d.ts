@@ -45,6 +45,7 @@ export declare enum AlertType {
 export interface Animation {
     effect: AniEffect | string;
     duration?: number;
+    eager?: boolean;
 }
 export declare var DEFAULT_ANIMATION_DURATION: number;
 export interface ItemRenderer<D> {
@@ -99,7 +100,7 @@ export declare abstract class Component<P extends ComponentProps, S> extends Rea
 export interface WidgetProps extends ComponentProps {
     className?: string;
     style?: React.CSSProperties;
-    hidden?: boolean;
+    visible?: boolean;
     hflex?: number;
     vflex?: number;
     animation?: Animation;
@@ -113,13 +114,14 @@ export interface WidgetProps extends ComponentProps {
     onContextMenu?: (evt: Event) => void;
 }
 export interface WidgetState {
-    hidden?: boolean;
+    visible?: boolean;
 }
 export declare abstract class Widget<P extends WidgetProps, S extends WidgetState> extends Component<P, S> implements Util.QueueListener<WidgetQueueEvent> {
     static defaultProps: WidgetProps;
     static __wgtmgc: boolean;
     private _registedQueue;
     private _willAnimate;
+    private _willAnimateVisible;
     constructor(props: P);
     protected getId(): string;
     protected registerQueue(): void;
@@ -130,7 +132,10 @@ export declare abstract class Widget<P extends WidgetProps, S extends WidgetStat
     componentWillReceiveProps(nextProps: P): void;
     componentWillUpdate(nextProps: P, nextState: any): void;
     componentDidUpdate(prevProps: P, prevState: any): void;
-    protected afterAnimation(hidden: boolean): void;
+    protected doAnimate(): boolean;
+    protected afterAnimation(finalVisible: boolean): void;
+    protected show(): void;
+    protected hide(): void;
     onQueueEvent(evt: WidgetQueueEvent): void;
     protected sendQueueEvent(name: string, data?: any): void;
     protected postQueueEvent(name: string, data?: any): void;
@@ -139,12 +144,12 @@ export declare abstract class Widget<P extends WidgetProps, S extends WidgetStat
     getDOM(): any;
     protected getRenderTag(): string;
     protected getRenderSclass(): string;
+    protected getRenderVisible(): boolean;
     protected getRenderStyle(): React.CSSProperties;
     protected getRenderChildren(): React.ReactNode;
-    protected show(): void;
-    protected hide(): void;
     protected renderElementProps(): any;
     render(): JSX.Element;
+    stating(): void;
 }
 export interface FonticonProps extends WidgetProps {
 }

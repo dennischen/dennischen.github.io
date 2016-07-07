@@ -15,6 +15,12 @@
     var testcase = getUrlParameter('testcase');
     if (testcase) {
        require([testcase], function (app) {
+
+    	    if(ga){
+                ga('set', 'page', 'test/cases/'+testcase);
+                ga('send', 'pageview');
+            }
+
             app.render(document.getElementById('content'));
        });
     }else{

@@ -34,11 +34,11 @@ var __extends = (this && this.__extends) || function (d, b) {
         App.prototype.doShowMenu = function () {
             var pop = this.refs['popup'];
             var target = this.refs['popupBtn'].getDOM();
-            if (pop.state.hidden) {
-                pop.show(target);
+            if (pop.state.visible) {
+                pop.hide();
             }
             else {
-                pop.hide();
+                pop.show(target);
             }
         };
         App.prototype.doSelectMenu = function (select, idx, item) {

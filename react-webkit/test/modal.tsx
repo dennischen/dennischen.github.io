@@ -31,7 +31,7 @@ export class App extends React.Component<any, any>{
                     </Hlayout>
                 </Vlayout>
                 <Window show={this.state.modal1} doAfterShow={()=>{console.log('Show modal 1')}} doEsc={()=>{this.setModal1(false)}}
-                    title='Provide your information' doClose={()=>{this.setModal1(false)}}>
+                    title='Provide your information' doClose={()=>{this.setModal1(false)}} animation={{effect:'fade',duration:500, eager:true}}>
                     <Vlayout space={10}>
                         <Hlayout align='middle' space={10}>
                             A : <Textbox disabled />
@@ -50,7 +50,7 @@ export class App extends React.Component<any, any>{
                         </Hlayout>
                     </Vlayout>
                 </Window>
-                <Modal show={this.state.modal2} doAfterShow={()=>{console.log('Show modal 2')}} >
+                <Modal show={this.state.modal2} doAfterShow={()=>{console.log('Show modal 2')}} animation={{effect:'slide',duration:500, eager:true}}>
                     <h2>The 2nd modal</h2>
                     <Vlayout space={10}>
                         <Hlayout align='middle' space={10}>

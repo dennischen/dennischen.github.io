@@ -47,7 +47,7 @@ export declare class Popup extends Widget.Widget<PopupProps, PopupState> {
     show(target?: string | Element | MouseEvent, showOpt?: ShowOption): void;
     reposition(target: string | Element | MouseEvent, showOpt: ShowOption): void;
     hide(): void;
-    protected afterAnimation(hidden: boolean): void;
+    protected afterAnimation(finalVisible: boolean): void;
     getWidgetSclass(): string;
     protected getRenderStyle(): React.CSSProperties;
 }

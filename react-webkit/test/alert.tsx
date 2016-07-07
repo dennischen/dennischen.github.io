@@ -13,10 +13,10 @@ import {Box, Vlayout, Hlayout} from '../main/layout';
 export class App extends React.Component<any, any>{
     constructor(props: any) {
         super(props);
-        this.state = { hidden: false}
+        this.state = { visible: true}
     }
     doToggle(){
-        this.setState({hidden:!this.state.hidden});
+        this.setState({visible:!this.state.visible});
     }
     render() {
         return (
@@ -26,9 +26,9 @@ export class App extends React.Component<any, any>{
                         <Button label="Toggle" onClick={this.doToggle.bind(this)}/>
                     </Hlayout>
                     <Alert title='Error!' label="This is an error" alertType='error' />
-                    <Alert fonticon='fa fa-exclamation-triangle' title='Warning!' label="This is a warning" alertType='warning' hidden={this.state.hidden}/>
+                    <Alert fonticon='fa fa-exclamation-triangle' title='Warning!' label="This is a warning" alertType='warning' visible={this.state.visible}/>
                     <Alert alertType='info'><strong>Information</strong><Fonticon className='fa fa-info-circle fa-lg'/>This is information</Alert>
-                    <Alert label="This is success" alertType='success' animation={{effect:'fade'}} hidden={this.state.hidden}/>
+                    <Alert label="This is success" alertType='success' animation={{effect:'fade', eager:true}} visible={this.state.visible}/>
                 </Vlayout>
             </Box>
         )

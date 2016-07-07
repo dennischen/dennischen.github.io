@@ -12,6 +12,8 @@ import p = require('../main/popup');
 import l = require('../main/layout');
 import ls = require('../main/list');
 
+let ga = (window as any).ga;
+
 interface TestCase {
     name: string
     module: string
@@ -75,6 +77,7 @@ class App extends React.Component<any, State>{
         super(props);
         this.state = {
             showSidebar: true,
+            showSrcCode: false,
             content:
             <l.Box hflex={1} vflex={1} align='middle center'>
                 <h4>Select left list item to load specific test case, <br/> Double click to open test in new tab</h4>
@@ -106,15 +109,26 @@ class App extends React.Component<any, State>{
                         highlighter.highlight({}, jqsrc[0]);
                     }
                 });
+                if(ga){
+                    ga('set', 'page', 'test/index/'+item.module);
+                    ga('send', 'pageview');
+                }
             }.bind(this));
+
+            if(ga){
+                ga('send', 'event', 'TestPage', 'selectCase');
+            }
         }
     }
     onCaseDoubleClick(evt: Event, idx: number, item: TestCase) {
         window.open(item.html?item.html:testcaseurl(item.module), '_blank');
+        if(ga){
+            ga('send', 'event', 'TestPage', 'openCase');
+        }
     }
     toggleMenu() {
         let menu = this.refs['menu'] as p.Popup;
-        if (menu.state.hidden) {
+        if (!menu.state.visible) {
             menu.show('#banner', {
                 autoDismiss: true, autoDismissHolders:['.menubtn'],
                 targetHPos: w.HPos.left, targetVPos: w.VPos.bottom,
@@ -123,15 +137,24 @@ class App extends React.Component<any, State>{
         } else {
             menu.hide();
         }
+        if(ga){
+            ga('send', 'event', 'TestPage', 'toggleMenu');
+        }
     }
     doMenuSelect(select: boolean, idx: number, item: any){
         this.toggleMenu();
     }
     toggleSidebar() {
         this.setState({ showSidebar: !this.state.showSidebar });
+        if(ga){
+            ga('send', 'event', 'TestPage', 'toggleSidebar');
+        }
     }
     toggleSrcCode() {
         this.setState({ showSrcCode: !this.state.showSrcCode });
+        if(ga){
+            ga('send', 'event', 'TestPage', 'toggleSrc');
+        }
     }
     render() {
         return (
@@ -143,7 +166,7 @@ class App extends React.Component<any, State>{
                     <span className='title'>WebKit - Tests</span>
                     <l.Hlayout vflex={1} hflex={1} align='bottom right' >
                         <l.Box className={'fnbtn ' + (this.state.showSrcCode ? 'fnbtn-active' : '') } align={'middle center'} 
-                            onClick={this.toggleSrcCode.bind(this) } hidden={this.state.selectedCase ? false : true}
+                            onClick={this.toggleSrcCode.bind(this) } visible={this.state.selectedCase ? true : false}
                             tooltip="Toggle source">
                             <w.Fonticon className='fa fa-code '/>
                         </l.Box>
@@ -172,7 +195,7 @@ class App extends React.Component<any, State>{
                 </p.Popup>                
                 <l.Hlayout vflex={1} hflex={1}>
                     <l.Sider id='siderbar' vflex={1} minSize={100} maxSize={300}
-                        hidden={!this.state.showSidebar} animation={{ effect: w.AniEffect.slideWidth }}>
+                        visible={this.state.showSidebar} animation={{ effect: w.AniEffect.slideWidth }}>
                         <ls.List id='function' vflex={1} hflex={1} style={{ paddingTop: 4 }}
                             onItemDoubleClick={this.onCaseDoubleClick.bind(this) }
                             model={testCases} itemRenderer={this.caseRenderer}
@@ -190,7 +213,7 @@ class App extends React.Component<any, State>{
                         tooltip='Toggle sidebar'>
                         <w.Fonticon className={'fa fa-angle-double-' + (this.state.showSidebar ? 'left' : 'right') } />
                     </l.Box>
-                    <l.Box id='srcName' align={'middle center'} hidden={this.state.showSrcCode ? false : true} onClick={this.toggleSrcCode.bind(this) } > 
+                    <l.Box id='srcName' align={'middle center'} visible={this.state.showSrcCode} onClick={this.toggleSrcCode.bind(this) } > 
                         {this.state.selectedCase?this.state.selectedCase.module+'.tsx':''}
                     </l.Box>
                     <l.Box className='copyright' vflex={1} hflex={1} align={'middle right'}>
@@ -198,7 +221,7 @@ class App extends React.Component<any, State>{
                     </l.Box>
                 </l.Hlayout>
                 <l.Box id='src' hflex={1}
-                    hidden={!this.state.showSrcCode} animation={{ effect: w.AniEffect.slide }}>
+                    visible={this.state.showSrcCode} animation={{ effect: w.AniEffect.slide }}>
                 </l.Box>
             </l.Vlayout >
         )

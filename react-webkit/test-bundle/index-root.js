@@ -9,11 +9,11 @@ var dt = wk.Datetime;
 
 var RootApp = React.createClass({
     getInitialState: function getInitialState() {
-        return { clickCount: 0, hidden: false, selection: new w.IndexSelection() };
+        return { clickCount: 0, visible: true, selection: new w.IndexSelection() };
     },
     handleClick: function handleClick() {
         var c = this.state.clickCount + 1;
-        this.setState({ clickCount: c, hidden: !this.state.hidden });
+        this.setState({ clickCount: c, visible: !this.state.visible });
     },
     render: function render() {
         var _this = this;
@@ -39,7 +39,7 @@ var RootApp = React.createClass({
             ),
             React.createElement(
                 l.Hlayout,
-                { hidden: this.state.hidden, style: { background: 'lightblue', padding: '2px' }, hflex: 1, animation: { effect: w.AniEffect.fade } },
+                { visible: this.state.visible, style: { background: 'lightblue', padding: '2px' }, hflex: 1, animation: { effect: w.AniEffect.fade } },
                 React.createElement(
                     l.Box,
                     { hflex: 1 },
@@ -98,7 +98,7 @@ var RootApp = React.createClass({
                 ),
                 React.createElement(
                     l.Vlayout,
-                    { hidden: this.state.hidden, style: { background: 'lightseagreen', padding: '2px' }, hflex: 2, animation: { effect: w.AniEffect.slide } },
+                    { visible: this.state.visible, style: { background: 'lightseagreen', padding: '2px' }, hflex: 2, animation: { effect: w.AniEffect.slide } },
                     React.createElement(
                         'span',
                         null,

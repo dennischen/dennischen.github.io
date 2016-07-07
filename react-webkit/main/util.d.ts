@@ -57,10 +57,11 @@ export declare function isArray(obj: any): boolean;
 export declare enum DateField {
     year = 1,
     month = 2,
-    week = 3,
-    date = 4,
-    hour = 5,
-    minute = 6,
-    second = 7,
+    date = 3,
+    hour = 4,
+    minute = 5,
+    second = 6,
+    millisecond = 7,
 }
+export declare function isDateEquals(date1: Date, date2: Date, level: DateField): boolean;
 export declare function addDateField(date: Date, field: DateField, value: number): Date;

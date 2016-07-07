@@ -132,7 +132,7 @@ var __extends = (this && this.__extends) || function (d, b) {
             var css = _super.prototype.getRenderContentStyle.call(this, child, idx, ctx);
             if (Widget.isWidgetElemnt(child)) {
                 var props = Widget.getWidgetProps(child);
-                if (!props.hidden) {
+                if (undefined == props.visible || props.visible) {
                     if (this.props.space && ctx.anyVisible) {
                         css.marginLeft = this.props.space;
                     }
@@ -186,7 +186,7 @@ var __extends = (this && this.__extends) || function (d, b) {
             var css = _super.prototype.getRenderContentStyle.call(this, child, idx, ctx);
             if (Widget.isWidgetElemnt(child)) {
                 var props = Widget.getWidgetProps(child);
-                if (!props.hidden) {
+                if (undefined == props.visible || props.visible) {
                     if (this.props.space && ctx.anyVisible) {
                         css.marginTop = this.props.space;
                     }

@@ -431,7 +431,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    function Widget(props) {
 	        _super.call(this, props);
 	        this.state = {
-	            hidden: props.hidden
+	            visible: props.visible
 	        };
 	    }
 	    Widget.prototype.getId = function () {
@@ -449,9 +449,18 @@ return /******/ (function(modules) { // webpackBootstrap
 	            delete this._registedQueue;
 	        }
 	    };
-	    Widget.prototype.componentWillMount = function () {};
+	    Widget.prototype.componentWillMount = function () {
+	        var props = this.props;
+	        if (props.animation && props.animation.eager && (undefined == props.visible || props.visible)) {
+	            this._willAnimate = true;
+	            this._willAnimateVisible = false;
+	        }
+	    };
 	    Widget.prototype.componentDidMount = function () {
 	        var props = this.props;
+	        if (this._willAnimate) {
+	            this.doAnimate();
+	        }
 	        if (props.tooltip) {
 	            var tipOpt = props.tooltipOption ? Jq.extend(true, {}, defaultTooltipOption, props.tooltipOption) : defaultTooltipOption;
 	            Qtip.setTip(Jq(this.getDOM()), props.tooltip, tipOpt);
@@ -472,51 +481,22 @@ return /******/ (function(modules) { // webpackBootstrap
 	        }
 	    };
 	    Widget.prototype.componentWillReceiveProps = function (nextProps) {
-	        if (this.props.hidden !== nextProps.hidden) {
-	            this.setState({ hidden: nextProps.hidden });
+	        if (this.props.visible !== nextProps.visible) {
+	            this.setState({ visible: nextProps.visible });
 	        }
 	    };
 	    Widget.prototype.componentWillUpdate = function (nextProps, nextState) {
-	        if (nextProps.animation && this.state.hidden !== nextState.hidden) {
+	        if (nextProps.animation && this.state.visible != nextState.visible) {
 	            this._willAnimate = true;
+	            this._willAnimateVisible = this.state.visible;
 	        }
 	    };
 	    Widget.prototype.componentDidUpdate = function (prevProps, prevState) {
-	        var _this = this;
 	        var fireResize = false;
 	        var dom = this.getDOM();
 	        var props = this.props;
 	        if (this._willAnimate) {
-	            var ani = props.animation;
-	            var jqd = Jq(dom);
-	            var dur = ani.duration ? ani.duration : exports.DEFAULT_ANIMATION_DURATION;
-	            var hidden_1 = this.state.hidden;
-	            var done = function done() {
-	                delete _this._willAnimate;
-	                _this.afterAnimation(hidden_1);
-	                sendWidgetResize();
-	            };
-	            var step = function step() {
-	                sendWidgetResize();
-	            };
-	            switch (ani.effect) {
-	                case 'slide':
-	                case AniEffect.slide:
-	                    jqd.animate({ height: hidden_1 ? 'hide' : 'show' }, { duration: dur, step: step, done: done });
-	                    break;
-	                case 'slideWidth':
-	                case AniEffect.slideWidth:
-	                    jqd.animate({ width: hidden_1 ? 'hide' : 'show' }, { duration: dur, step: step, done: done });
-	                    break;
-	                default:
-	                case 'fade':
-	                case AniEffect.fade:
-	                    jqd.animate({ opacity: hidden_1 ? 'hide' : 'show' }, { duration: dur, done: done });
-	                    break;
-	            }
-	            if (!hidden_1) {
-	                fireResize = true;
-	            }
+	            fireResize = this.doAnimate();
 	        }
 	        if (fireResize || props.hflex !== prevProps.hflex || props.vflex !== prevProps.vflex) {
 	            sendWidgetResize();
@@ -541,7 +521,50 @@ return /******/ (function(modules) { // webpackBootstrap
 	            }
 	        }
 	    };
-	    Widget.prototype.afterAnimation = function (hidden) {};
+	    Widget.prototype.doAnimate = function () {
+	        var _this = this;
+	        var props = this.props;
+	        var dom = this.getDOM();
+	        var visible = this.state.visible;
+	        if (undefined == visible) {
+	            visible = true;
+	        }
+	        delete this._willAnimate;
+	        delete this._willAnimateVisible;
+	        var ani = props.animation;
+	        var jqd = Jq(dom);
+	        var dur = ani.duration ? ani.duration : exports.DEFAULT_ANIMATION_DURATION;
+	        var done = function done() {
+	            _this.afterAnimation(visible);
+	            sendWidgetResize();
+	        };
+	        var step = function step() {
+	            sendWidgetResize();
+	        };
+	        switch (ani.effect) {
+	            case 'slide':
+	            case AniEffect.slide:
+	                jqd.animate({ height: visible ? 'show' : 'hide' }, { duration: dur, step: step, done: done });
+	                break;
+	            case 'slideWidth':
+	            case AniEffect.slideWidth:
+	                jqd.animate({ width: visible ? 'show' : 'hide' }, { duration: dur, step: step, done: done });
+	                break;
+	            default:
+	            case 'fade':
+	            case AniEffect.fade:
+	                jqd.animate({ opacity: visible ? 'show' : 'hide' }, { duration: dur, done: done });
+	                break;
+	        }
+	        return visible;
+	    };
+	    Widget.prototype.afterAnimation = function (finalVisible) {};
+	    Widget.prototype.show = function () {
+	        this.setState({ visible: true });
+	    };
+	    Widget.prototype.hide = function () {
+	        this.setState({ visible: false });
+	    };
 	    Widget.prototype.onQueueEvent = function (evt) {};
 	    Widget.prototype.sendQueueEvent = function (name, data) {
 	        if (data === void 0) {
@@ -584,34 +607,24 @@ return /******/ (function(modules) { // webpackBootstrap
 	        }
 	        return str.join(" ");
 	    };
+	    Widget.prototype.getRenderVisible = function () {
+	        if (this._willAnimate) {
+	            return this._willAnimateVisible;
+	        }
+	        return undefined == this.state.visible ? true : this.state.visible;
+	    };
 	    Widget.prototype.getRenderStyle = function () {
 	        var css = {};
 	        if (this.props.style) {
 	            Util.supplyProps(css, this.props.style);
 	        }
-	        if (this._willAnimate) {
-	            if (!this.state.hidden) {
-	                css.display = 'none';
-	            }
-	        } else if (this.state.hidden) {
+	        if (!this.getRenderVisible()) {
 	            css.display = 'none';
 	        }
 	        return css;
 	    };
 	    Widget.prototype.getRenderChildren = function () {
 	        return this.props.children;
-	    };
-	    Widget.prototype.show = function () {
-	        if (!this.state.hidden) {
-	            return;
-	        }
-	        this.setState({ hidden: false });
-	    };
-	    Widget.prototype.hide = function () {
-	        if (this.state.hidden) {
-	            return;
-	        }
-	        this.setState({ hidden: true });
 	    };
 	    Widget.prototype.renderElementProps = function () {
 	        var props = this.props;
@@ -630,6 +643,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	        var p = this.renderElementProps();
 	        var c = this.getRenderChildren();
 	        return createReactElement(t, p, c);
+	    };
+	    Widget.prototype.stating = function () {
+	        this.setState({});
 	    };
 	    Widget.defaultProps = {};
 	    Widget.__wgtmgc = true;
@@ -1016,18 +1032,54 @@ return /******/ (function(modules) { // webpackBootstrap
 	(function (DateField) {
 	    DateField[DateField["year"] = 1] = "year";
 	    DateField[DateField["month"] = 2] = "month";
-	    DateField[DateField["week"] = 3] = "week";
-	    DateField[DateField["date"] = 4] = "date";
-	    DateField[DateField["hour"] = 5] = "hour";
-	    DateField[DateField["minute"] = 6] = "minute";
-	    DateField[DateField["second"] = 7] = "second";
+	    DateField[DateField["date"] = 3] = "date";
+	    DateField[DateField["hour"] = 4] = "hour";
+	    DateField[DateField["minute"] = 5] = "minute";
+	    DateField[DateField["second"] = 6] = "second";
+	    DateField[DateField["millisecond"] = 7] = "millisecond";
 	})(exports.DateField || (exports.DateField = {}));
 	var DateField = exports.DateField;
 	var secondms = 1000;
 	var minutems = secondms * 60;
 	var hourms = minutems * 60;
 	var datems = hourms * 24;
-	var weekms = datems * 7;
+	function isDateEquals(date1, date2, level) {
+	    if (date1 == date2) {
+	        return true;
+	    }
+	    if (!date1 || !date2) {
+	        return false;
+	    }
+	    switch (level) {
+	        case DateField.millisecond:
+	            if (date1.getMilliseconds() != date2.getMilliseconds()) {
+	                return false;
+	            }
+	        case DateField.second:
+	            if (date1.getSeconds() != date2.getSeconds()) {
+	                return false;
+	            }
+	        case DateField.minute:
+	            if (date1.getMinutes() != date2.getMinutes()) {
+	                return false;
+	            }
+	        case DateField.hour:
+	            if (date1.getHours() != date2.getHours()) {
+	                return false;
+	            }
+	        case DateField.month:
+	            if (date1.getMonth() != date2.getMonth()) {
+	                return false;
+	            }
+	        case DateField.year:
+	            if (date1.getFullYear() != date2.getFullYear()) {
+	                return false;
+	            }
+	            return true;
+	    }
+	    return date1.getTime() == date2.getTime();
+	}
+	exports.isDateEquals = isDateEquals;
 	function addDateField(date, field, value) {
 	    var time = date.getTime();
 	    switch (field) {
@@ -1037,9 +1089,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	        case DateField.month:
 	            var month = date.getMonth();
 	            date.setMonth(month + value);
-	            break;
-	        case DateField.week:
-	            date.setTime(time + value * weekms);
 	            break;
 	        case DateField.date:
 	            date.setTime(time + value * datems);
@@ -1052,6 +1101,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	            break;
 	        case DateField.second:
 	            date.setTime(time + value * secondms);
+	            break;
+	        case DateField.millisecond:
+	            date.setTime(time + value);
 	            break;
 	    }
 	    return date;
@@ -4389,7 +4441,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        var css = _super.prototype.getRenderContentStyle.call(this, child, idx, ctx);
 	        if (Widget.isWidgetElemnt(child)) {
 	            var props = Widget.getWidgetProps(child);
-	            if (!props.hidden) {
+	            if (undefined == props.visible || props.visible) {
 	                if (this.props.space && ctx.anyVisible) {
 	                    css.marginLeft = this.props.space;
 	                }
@@ -4442,7 +4494,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        var css = _super.prototype.getRenderContentStyle.call(this, child, idx, ctx);
 	        if (Widget.isWidgetElemnt(child)) {
 	            var props = Widget.getWidgetProps(child);
-	            if (!props.hidden) {
+	            if (undefined == props.visible || props.visible) {
 	                if (this.props.space && ctx.anyVisible) {
 	                    css.marginTop = this.props.space;
 	                }
@@ -4635,25 +4687,25 @@ return /******/ (function(modules) { // webpackBootstrap
 	    __extends(Calendar, _super);
 	    function Calendar(props) {
 	        _super.call(this, props);
-	        this.state.viewingDate = props.date ? new Date(props.date.getTime()) : new Date();
+	        this.state.viewingDate = props.selected ? new Date(props.selected.getTime()) : new Date();
 	        this.state.view = View.date;
 	    }
-	    Calendar.prototype.isFreeMode = function () {
-	        return 'undefined' == typeof this.props.date;
+	    Calendar.prototype.isUncontrolled = function () {
+	        return undefined == this.props.selected;
 	    };
 	    Calendar.prototype.getSelectedDate = function () {
-	        if (this.isFreeMode()) {
-	            return this.state.freeDate;
+	        if (this.isUncontrolled()) {
+	            return this.state.uncontrolled;
 	        }
-	        return this.props.date;
+	        return this.props.selected;
 	    };
 	    Calendar.prototype.componentWillReceiveProps = function (nextProps) {
 	        _super.prototype.componentWillReceiveProps.call(this, nextProps);
 	        var props = this.props;
-	        if (props.date != nextProps.date) {
-	            if (nextProps.date) {
+	        if (props.selected != nextProps.selected) {
+	            if (nextProps.selected) {
 	                this.setState({
-	                    viewingDate: new Date(nextProps.date.getTime())
+	                    viewingDate: new Date(nextProps.selected.getTime())
 	                });
 	            }
 	        }
@@ -4675,7 +4727,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        this.safeTimeout(function () {
 	            _this.setState({
 	                viewingDate: today,
-	                freeDate: _this.isFreeMode() ? today : undefined,
+	                uncontrolled: _this.isUncontrolled() ? today : undefined,
 	                view: View.date
 	            });
 	        }, 0);
@@ -4688,7 +4740,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        }
 	        this.safeTimeout(function () {
 	            _this.setState({
-	                freeDate: undefined,
+	                uncontrolled: undefined,
 	                view: View.date
 	            });
 	        }, 0);
@@ -4755,10 +4807,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	        if (props.doSelect) {
 	            this.props.doSelect(selectedDate);
 	        }
-	        if (this.isFreeMode()) {
+	        if (this.isUncontrolled()) {
 	            this.setState({
 	                viewingDate: selectedDate,
-	                freeDate: selectedDate
+	                uncontrolled: selectedDate
 	            });
 	        }
 	    };
@@ -5259,7 +5311,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	    function Popup(props) {
 	        _super.call(this, props);
 	        this.dismissCount = 0;
-	        this.state.hidden = undefined === props.hidden ? true : props.hidden;
+	        if (undefined === this.state.visible) {
+	            this.state.visible = false;
+	        }
 	    }
 	    Popup.prototype.getId = function () {
 	        var id = _super.prototype.getId.call(this);
@@ -5289,7 +5343,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        var dom = this.getDOM();
 	        var jqdom = Jq(dom);
 	        var jqp = jqdom.parent();
-	        var zIndex = this.state.zIndex ? this.state.zIndex : exports.zIndexStart;
+	        var zIndex = exports.zIndexStart;
 	        jqp.children().each(function (idx, each) {
 	            if (each === dom) {
 	                return;
@@ -5369,9 +5423,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	        }
 	        this.removeBodyListener();
 	    };
-	    Popup.prototype.afterAnimation = function (hidden) {
-	        _super.prototype.afterAnimation.call(this, hidden);
-	        if (hidden) {
+	    Popup.prototype.afterAnimation = function (finalVisible) {
+	        _super.prototype.afterAnimation.call(this, finalVisible);
+	        if (!finalVisible) {
 	            this.setState({ zIndex: undefined });
 	        }
 	    };
@@ -5656,8 +5710,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	        if (modal) {
 	            var key = modal.getPseudoId();
 	            var clz = [this.getWidgetSubSclass('content'), modal.getWidgetSubSclass('content')].join(' ');
-	            var content = Widget.createReactElement('div', { key: key, className: clz }, modal.getModalRenderChildren());
-	            return React.createElement(layout_1.Box, { hflex: 1, vflex: 1, align: 'center middle' }, content, React.createElement("a", { ref: 'keyAnchor', href: 'javascript: void(0)' }));
+	            var content = Widget.createReactElement('div', { className: clz }, modal.getModalRenderChildren());
+	            return React.createElement(layout_1.Box, { key: key, hflex: 1, vflex: 1, align: 'center middle', animation: modal.props.animation }, content, React.createElement("a", { ref: 'keyAnchor', href: 'javascript: void(0)' }));
 	        }
 	        return undefined;
 	    };

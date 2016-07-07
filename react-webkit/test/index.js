@@ -26,6 +26,7 @@ var __extends = (this && this.__extends) || function (d, b) {
     var p = require('../main/popup');
     var l = require('../main/layout');
     var ls = require('../main/list');
+    var ga = window.ga;
     var testcaseurl = function (testcase) {
         return 'cases.html?testcase=' + testcase;
     };
@@ -73,6 +74,7 @@ var __extends = (this && this.__extends) || function (d, b) {
             };
             this.state = {
                 showSidebar: true,
+                showSrcCode: false,
                 content: React.createElement(l.Box, {hflex: 1, vflex: 1, align: 'middle center'}, React.createElement("h4", null, "Select left list item to load specific test case, ", React.createElement("br", null), " Double click to open test in new tab"))
             };
         }
@@ -93,15 +95,25 @@ var __extends = (this && this.__extends) || function (d, b) {
                             highlighter.highlight({}, jqsrc[0]);
                         }
                     });
+                    if (ga) {
+                        ga('set', 'page', 'test/index/' + item.module);
+                        ga('send', 'pageview');
+                    }
                 }.bind(this));
+                if (ga) {
+                    ga('send', 'event', 'TestPage', 'selectCase');
+                }
             }
         };
         App.prototype.onCaseDoubleClick = function (evt, idx, item) {
             window.open(item.html ? item.html : testcaseurl(item.module), '_blank');
+            if (ga) {
+                ga('send', 'event', 'TestPage', 'openCase');
+            }
         };
         App.prototype.toggleMenu = function () {
             var menu = this.refs['menu'];
-            if (menu.state.hidden) {
+            if (!menu.state.visible) {
                 menu.show('#banner', {
                     autoDismiss: true, autoDismissHolders: ['.menubtn'],
                     targetHPos: w.HPos.left, targetVPos: w.VPos.bottom,
@@ -111,18 +123,27 @@ var __extends = (this && this.__extends) || function (d, b) {
             else {
                 menu.hide();
             }
+            if (ga) {
+                ga('send', 'event', 'TestPage', 'toggleMenu');
+            }
         };
         App.prototype.doMenuSelect = function (select, idx, item) {
             this.toggleMenu();
         };
         App.prototype.toggleSidebar = function () {
             this.setState({ showSidebar: !this.state.showSidebar });
+            if (ga) {
+                ga('send', 'event', 'TestPage', 'toggleSidebar');
+            }
         };
         App.prototype.toggleSrcCode = function () {
             this.setState({ showSrcCode: !this.state.showSrcCode });
+            if (ga) {
+                ga('send', 'event', 'TestPage', 'toggleSrc');
+            }
         };
         App.prototype.render = function () {
-            return (React.createElement(l.Vlayout, {hflex: 1, vflex: 1}, React.createElement(l.Hlayout, {id: 'banner', align: 'middle', space: 4, hflex: 1}, React.createElement(l.Box, {className: 'menubtn', vflex: 1, align: 'middle center', onClick: this.toggleMenu.bind(this), tooltip: 'Toggle menu'}, React.createElement(w.Fonticon, {className: 'fa fa-bars'})), React.createElement("span", {className: 'title'}, "WebKit - Tests"), React.createElement(l.Hlayout, {vflex: 1, hflex: 1, align: 'bottom right'}, React.createElement(l.Box, {className: 'fnbtn ' + (this.state.showSrcCode ? 'fnbtn-active' : ''), align: 'middle center', onClick: this.toggleSrcCode.bind(this), hidden: this.state.selectedCase ? false : true, tooltip: "Toggle source"}, React.createElement(w.Fonticon, {className: 'fa fa-code '})))), React.createElement(p.Popup, {id: 'menu', ref: 'menu', animation: { effect: w.AniEffect.fade }}, React.createElement("div", {className: 'title'}, React.createElement(l.Hlayout, {align: 'left middle', space: 10}, React.createElement("div", {className: 'avatar'}, React.createElement("img", {src: 'https://s.gravatar.com/avatar/d41e19c6709fe2ef85bb163b6654bd26?size=50&default=retro'})), "User XYZ")), React.createElement(l.Vlayout, {hflex: 1, vflex: 1, space: 10}, React.createElement(ls.List, {hflex: 1, doSelect: this.doMenuSelect.bind(this)}, React.createElement(w.Anchor, {className: 'menuItem'}, "Menu 1"), React.createElement(w.Anchor, {className: 'menuItem'}, "Menu 2"), React.createElement(w.Anchor, {className: 'menuItem'}, "Menu 3"), React.createElement(w.Anchor, {className: 'menuItem'}, "Menu 4"), React.createElement(w.Anchor, {className: 'menuItem'}, "Menu 5"), React.createElement(w.Anchor, {className: 'menuItem'}, "Menu 6"), React.createElement(w.Anchor, {className: 'menuItem'}, "Menu 7")))), React.createElement(l.Hlayout, {vflex: 1, hflex: 1}, React.createElement(l.Sider, {id: 'siderbar', vflex: 1, minSize: 100, maxSize: 300, hidden: !this.state.showSidebar, animation: { effect: w.AniEffect.slideWidth }}, React.createElement(ls.List, {id: 'function', vflex: 1, hflex: 1, style: { paddingTop: 4 }, onItemDoubleClick: this.onCaseDoubleClick.bind(this), model: testCases, itemRenderer: this.caseRenderer, selection: { isSelected: this.isCaseSelected.bind(this) }, doSelect: this.doCaseSelect.bind(this)})), React.createElement(l.Box, {id: 'testBody', hflex: 1, vflex: 1}, this.state.content)), React.createElement(l.Hlayout, {id: 'footer', align: 'middle'}, React.createElement(l.Box, {className: 'fnbtn ' + (this.state.showSidebar ? 'fnbtn-active' : ''), vflex: 1, align: 'middle center', onClick: this.toggleSidebar.bind(this), tooltip: 'Toggle sidebar'}, React.createElement(w.Fonticon, {className: 'fa fa-angle-double-' + (this.state.showSidebar ? 'left' : 'right')})), React.createElement(l.Box, {id: 'srcName', align: 'middle center', hidden: this.state.showSrcCode ? false : true, onClick: this.toggleSrcCode.bind(this)}, this.state.selectedCase ? this.state.selectedCase.module + '.tsx' : ''), React.createElement(l.Box, {className: 'copyright', vflex: 1, hflex: 1, align: 'middle right'}, "React WebKit © 2016")), React.createElement(l.Box, {id: 'src', hflex: 1, hidden: !this.state.showSrcCode, animation: { effect: w.AniEffect.slide }})));
+            return (React.createElement(l.Vlayout, {hflex: 1, vflex: 1}, React.createElement(l.Hlayout, {id: 'banner', align: 'middle', space: 4, hflex: 1}, React.createElement(l.Box, {className: 'menubtn', vflex: 1, align: 'middle center', onClick: this.toggleMenu.bind(this), tooltip: 'Toggle menu'}, React.createElement(w.Fonticon, {className: 'fa fa-bars'})), React.createElement("span", {className: 'title'}, "WebKit - Tests"), React.createElement(l.Hlayout, {vflex: 1, hflex: 1, align: 'bottom right'}, React.createElement(l.Box, {className: 'fnbtn ' + (this.state.showSrcCode ? 'fnbtn-active' : ''), align: 'middle center', onClick: this.toggleSrcCode.bind(this), visible: this.state.selectedCase ? true : false, tooltip: "Toggle source"}, React.createElement(w.Fonticon, {className: 'fa fa-code '})))), React.createElement(p.Popup, {id: 'menu', ref: 'menu', animation: { effect: w.AniEffect.fade }}, React.createElement("div", {className: 'title'}, React.createElement(l.Hlayout, {align: 'left middle', space: 10}, React.createElement("div", {className: 'avatar'}, React.createElement("img", {src: 'https://s.gravatar.com/avatar/d41e19c6709fe2ef85bb163b6654bd26?size=50&default=retro'})), "User XYZ")), React.createElement(l.Vlayout, {hflex: 1, vflex: 1, space: 10}, React.createElement(ls.List, {hflex: 1, doSelect: this.doMenuSelect.bind(this)}, React.createElement(w.Anchor, {className: 'menuItem'}, "Menu 1"), React.createElement(w.Anchor, {className: 'menuItem'}, "Menu 2"), React.createElement(w.Anchor, {className: 'menuItem'}, "Menu 3"), React.createElement(w.Anchor, {className: 'menuItem'}, "Menu 4"), React.createElement(w.Anchor, {className: 'menuItem'}, "Menu 5"), React.createElement(w.Anchor, {className: 'menuItem'}, "Menu 6"), React.createElement(w.Anchor, {className: 'menuItem'}, "Menu 7")))), React.createElement(l.Hlayout, {vflex: 1, hflex: 1}, React.createElement(l.Sider, {id: 'siderbar', vflex: 1, minSize: 100, maxSize: 300, visible: this.state.showSidebar, animation: { effect: w.AniEffect.slideWidth }}, React.createElement(ls.List, {id: 'function', vflex: 1, hflex: 1, style: { paddingTop: 4 }, onItemDoubleClick: this.onCaseDoubleClick.bind(this), model: testCases, itemRenderer: this.caseRenderer, selection: { isSelected: this.isCaseSelected.bind(this) }, doSelect: this.doCaseSelect.bind(this)})), React.createElement(l.Box, {id: 'testBody', hflex: 1, vflex: 1}, this.state.content)), React.createElement(l.Hlayout, {id: 'footer', align: 'middle'}, React.createElement(l.Box, {className: 'fnbtn ' + (this.state.showSidebar ? 'fnbtn-active' : ''), vflex: 1, align: 'middle center', onClick: this.toggleSidebar.bind(this), tooltip: 'Toggle sidebar'}, React.createElement(w.Fonticon, {className: 'fa fa-angle-double-' + (this.state.showSidebar ? 'left' : 'right')})), React.createElement(l.Box, {id: 'srcName', align: 'middle center', visible: this.state.showSrcCode, onClick: this.toggleSrcCode.bind(this)}, this.state.selectedCase ? this.state.selectedCase.module + '.tsx' : ''), React.createElement(l.Box, {className: 'copyright', vflex: 1, hflex: 1, align: 'middle right'}, "React WebKit © 2016")), React.createElement(l.Box, {id: 'src', hflex: 1, visible: this.state.showSrcCode, animation: { effect: w.AniEffect.slide }})));
         };
         return App;
     }(React.Component));

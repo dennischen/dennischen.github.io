@@ -19,19 +19,19 @@ export declare enum View {
     time = 4,
 }
 export interface CalendarProps extends Widget.WidgetProps {
-    date?: Date;
+    selected?: Date;
     firstDayOfWeek?: number;
     doSelect?: (date: Date) => void;
 }
 export interface CalendarState {
     viewingDate?: Date;
     view?: View;
-    freeDate?: Date;
+    uncontrolled?: Date;
 }
 export declare class Calendar extends Widget.Widget<CalendarProps, CalendarState> {
     static defaultProps: CalendarProps;
     constructor(props: CalendarProps);
-    private isFreeMode();
+    private isUncontrolled();
     private getSelectedDate();
     componentWillReceiveProps(nextProps: CalendarProps): void;
     private doReset();

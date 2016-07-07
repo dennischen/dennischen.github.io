@@ -41,7 +41,7 @@ var __extends = (this && this.__extends) || function (d, b) {
             });
         };
         App.prototype.render = function () {
-            return (React.createElement(layout_1.Vlayout, {space: 10, style: { padding: 10 }}, this.state.msg, React.createElement(layout_1.Hlayout, {space: 10}, React.createElement(datetime_1.Calendar, {date: this.state.date1, doSelect: this.doSelect.bind(this)}), React.createElement(datetime_1.Calendar, {date: this.state.date2, doSelect: this.doSelect.bind(this), firstDayOfWeek: 1})), React.createElement(datetime_1.Calendar, {doSelect: this.doSelect.bind(this), style: { width: 400, height: 400 }})));
+            return (React.createElement(layout_1.Vlayout, {space: 10, style: { padding: 10 }}, this.state.msg, React.createElement(layout_1.Hlayout, {space: 10}, React.createElement(datetime_1.Calendar, {selected: this.state.date1, doSelect: this.doSelect.bind(this)}), React.createElement(datetime_1.Calendar, {selected: this.state.date2, doSelect: this.doSelect.bind(this), firstDayOfWeek: 1})), React.createElement(datetime_1.Calendar, {doSelect: this.doSelect.bind(this), style: { width: 400, height: 400 }})));
         };
         return App;
     }(React.Component));

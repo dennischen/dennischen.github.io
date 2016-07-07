@@ -58,25 +58,25 @@ var __extends = (this && this.__extends) || function (d, b) {
         __extends(Calendar, _super);
         function Calendar(props) {
             _super.call(this, props);
-            this.state.viewingDate = props.date ? new Date(props.date.getTime()) : new Date();
+            this.state.viewingDate = props.selected ? new Date(props.selected.getTime()) : new Date();
             this.state.view = View.date;
         }
-        Calendar.prototype.isFreeMode = function () {
-            return 'undefined' == typeof this.props.date;
+        Calendar.prototype.isUncontrolled = function () {
+            return undefined == this.props.selected;
         };
         Calendar.prototype.getSelectedDate = function () {
-            if (this.isFreeMode()) {
-                return this.state.freeDate;
+            if (this.isUncontrolled()) {
+                return this.state.uncontrolled;
             }
-            return this.props.date;
+            return this.props.selected;
         };
         Calendar.prototype.componentWillReceiveProps = function (nextProps) {
             _super.prototype.componentWillReceiveProps.call(this, nextProps);
             var props = this.props;
-            if (props.date != nextProps.date) {
-                if (nextProps.date) {
+            if (props.selected != nextProps.selected) {
+                if (nextProps.selected) {
                     this.setState({
-                        viewingDate: new Date(nextProps.date.getTime())
+                        viewingDate: new Date(nextProps.selected.getTime())
                     });
                 }
             }
@@ -98,7 +98,7 @@ var __extends = (this && this.__extends) || function (d, b) {
             this.safeTimeout(function () {
                 _this.setState({
                     viewingDate: today,
-                    freeDate: _this.isFreeMode() ? today : undefined,
+                    uncontrolled: _this.isUncontrolled() ? today : undefined,
                     view: View.date
                 });
             }, 0);
@@ -111,7 +111,7 @@ var __extends = (this && this.__extends) || function (d, b) {
             }
             this.safeTimeout(function () {
                 _this.setState({
-                    freeDate: undefined,
+                    uncontrolled: undefined,
                     view: View.date
                 });
             }, 0);
@@ -178,10 +178,10 @@ var __extends = (this && this.__extends) || function (d, b) {
             if (props.doSelect) {
                 this.props.doSelect(selectedDate);
             }
-            if (this.isFreeMode()) {
+            if (this.isUncontrolled()) {
                 this.setState({
                     viewingDate: selectedDate,
-                    freeDate: selectedDate
+                    uncontrolled: selectedDate
                 });
             }
         };

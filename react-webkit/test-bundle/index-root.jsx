@@ -9,11 +9,11 @@ var dt = wk.Datetime;
 
 var RootApp = React.createClass({
     getInitialState: function() {
-        return {clickCount: 0, hidden: false, selection: new w.IndexSelection() };
+        return {clickCount: 0, visible: true, selection: new w.IndexSelection() };
     },
     handleClick:function() {
         let c = this.state.clickCount + 1;
-        this.setState({ clickCount: c, hidden: !this.state.hidden });
+        this.setState({ clickCount: c, visible: !this.state.visible });
     },
     render:function() {
         let doSelect = (select, idx, item) => {
@@ -27,7 +27,7 @@ var RootApp = React.createClass({
         return (
             <l.Vlayout vflex={1} hflex={1} style={{ padding: '2px' }}>
                 <button onClick={() => { this.handleClick() } }>Toggle visibility {this.state.clickCount}</button>
-                <l.Hlayout hidden={this.state.hidden} style={{ background: 'lightblue', padding: '2px' }} hflex={1} animation={{ effect: w.AniEffect.fade }}>
+                <l.Hlayout visible={this.state.visible} style={{ background: 'lightblue', padding: '2px' }} hflex={1} animation={{ effect: w.AniEffect.fade }}>
                     <l.Box hflex={1}><span>abc {this.state.clickCount}</span> </l.Box>
                     <l.Box hflex={1}><span>def {this.state.clickCount}</span> </l.Box>
                     <span><span>this is long long long<br/> long long long long text</span></span>
@@ -38,7 +38,7 @@ var RootApp = React.createClass({
                         <span>xyz1 {this.state.clickCount} </span>
                         <dt.Calendar hflex={1} vflex={1}/>
                     </l.Vlayout>
-                    <l.Vlayout hidden={this.state.hidden} style={{ background: 'lightseagreen', padding: '2px' }} hflex={2} animation={{ effect: w.AniEffect.slide }}>
+                    <l.Vlayout visible={this.state.visible} style={{ background: 'lightseagreen', padding: '2px' }} hflex={2} animation={{ effect: w.AniEffect.slide }}>
                         <span>xyz2 {this.state.clickCount} </span>
                         <span>ijk2 {this.state.clickCount} </span>
                     </l.Vlayout>

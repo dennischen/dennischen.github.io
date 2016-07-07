@@ -107,7 +107,7 @@ var __extends = (this && this.__extends) || function (d, b) {
         };
         App.prototype.componentDidUpdate = function (prevProps, prevState) {
             var pop = this.refs['popup'];
-            if (!pop.state.hidden) {
+            if (pop.state.visible) {
                 pop.reposition('#btn1', this.getShowOpt());
             }
         };
