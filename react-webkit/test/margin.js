@@ -22,7 +22,7 @@ var __extends = (this && this.__extends) || function (d, b) {
     "use strict";
     var React = require('react');
     var ReactDOM = require('react-dom');
-    var l = require('../main/layout');
+    var layout_1 = require('../main/layout');
     var App = (function (_super) {
         __extends(App, _super);
         function App(props) {
@@ -36,7 +36,7 @@ var __extends = (this && this.__extends) || function (d, b) {
             this.setState({ clickCount: c });
         };
         App.prototype.render = function () {
-            return (React.createElement(l.Box, {hflex: 1, vflex: 1}, "There should not has any scrollbar even you resize the windows", React.createElement(l.Hlayout, {hflex: 1, vflex: 1, style: { background: 'lightgreen', width: 600.65, marginLeft: 60.6, paddingLeft: 40.2, borderLeft: 'blue solid 20px', borderLeftWidth: 20 }}, React.createElement(l.Box, {hflex: 1, style: { border: '1px solid' }}, "A"), React.createElement(l.Box, {style: { border: '1px solid' }}, React.createElement("div", null, React.createElement("span", null, "B1")), React.createElement("div", null, React.createElement("span", null, "B2"))), React.createElement(l.Box, {hflex: 1, style: { border: '1px solid' }}, "C"))));
+            return (React.createElement(layout_1.Box, {hflex: 1, vflex: 1}, "There should not has any scrollbar even you resize the windows", React.createElement(layout_1.Hlayout, {hflex: 1, vflex: 1, style: { background: 'lightgreen', width: 600.65, marginLeft: 60.6, paddingLeft: 40.2, borderLeft: 'blue solid 20px', borderLeftWidth: 20 }}, React.createElement(layout_1.Box, {hflex: 1, style: { border: '1px solid' }}, "A"), React.createElement(layout_1.Box, {style: { border: '1px solid' }}, React.createElement("div", null, React.createElement("span", null, "B1")), React.createElement("div", null, React.createElement("span", null, "B2"))), React.createElement(layout_1.Box, {hflex: 1, style: { border: '1px solid' }}, "C"))));
         };
         return App;
     }(React.Component));

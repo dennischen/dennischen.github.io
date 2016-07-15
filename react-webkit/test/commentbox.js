@@ -22,9 +22,9 @@ var __extends = (this && this.__extends) || function (d, b) {
     "use strict";
     var React = require('react');
     var jq = require('jquery');
-    var w = require('../main/widget');
-    var l = require('../main/layout');
-    var inp = require('../main/input');
+    var widget_1 = require('../main/widget');
+    var layout_1 = require('../main/layout');
+    var input_1 = require('../main/input');
     var CommentBox = (function (_super) {
         __extends(CommentBox, _super);
         function CommentBox(props) {
@@ -150,7 +150,7 @@ var __extends = (this && this.__extends) || function (d, b) {
         };
         CommentItem.prototype.render = function () {
             var _this = this;
-            return (React.createElement(l.Vlayout, {className: "comment", space: 6}, React.createElement("h2", {className: "commentAuthor"}, this.props.comment.author), React.createElement(l.Hlayout, {space: 10, align: 'middle'}, React.createElement("span", {dangerouslySetInnerHTML: this.rawMarkup()}), React.createElement(inp.Textbox, {type: "text", placeholder: this.props.comment.text, value: this.state.text, disabled: this.props.comment.fresh, onChange: function (e) { return _this.handleTextChange(e); }})), React.createElement(l.Hlayout, {space: 10}, React.createElement(w.Button, {onClick: function (e) { return _this.handleDelete(); }, disabled: this.props.comment.fresh}, "Delete"), React.createElement(w.Button, {onClick: function (e) { return _this.handleUpdate(); }, disabled: this.props.comment.fresh}, "Update"))));
+            return (React.createElement(layout_1.Vlayout, {className: "comment", space: 6}, React.createElement("h2", {className: "commentAuthor"}, this.props.comment.author), React.createElement(layout_1.Hlayout, {space: 10, align: 'middle'}, React.createElement("span", {dangerouslySetInnerHTML: this.rawMarkup()}), React.createElement(input_1.Textbox, {type: "text", placeholder: this.props.comment.text, value: this.state.text, disabled: this.props.comment.fresh, onChange: function (e) { return _this.handleTextChange(e); }})), React.createElement(layout_1.Hlayout, {space: 10}, React.createElement(widget_1.Button, {onClick: function (e) { return _this.handleDelete(); }, disabled: this.props.comment.fresh}, "Delete"), React.createElement(widget_1.Button, {onClick: function (e) { return _this.handleUpdate(); }, disabled: this.props.comment.fresh}, "Update"))));
         };
         return CommentItem;
     }(React.Component));
@@ -178,7 +178,7 @@ var __extends = (this && this.__extends) || function (d, b) {
         };
         CommentForm.prototype.render = function () {
             var _this = this;
-            return (React.createElement("form", {className: "commentForm", onSubmit: function (e) { return _this.handleSubmit(e); }}, React.createElement(l.Hlayout, {space: 10, align: 'middle'}, React.createElement(inp.Textbox, {type: "text", placeholder: "Your name", value: this.state.author, onChange: function (e) { return _this.handleAuthorChange(e); }}), React.createElement(inp.Textbox, {type: "text", placeholder: "Say something...", value: this.state.text, onChange: function (e) { return _this.handleTextChange(e); }}), React.createElement(w.Button, {type: "submit", label: "Post"}))));
+            return (React.createElement("form", {className: "commentForm", onSubmit: function (e) { return _this.handleSubmit(e); }}, React.createElement(layout_1.Hlayout, {space: 10, align: 'middle'}, React.createElement(input_1.Textbox, {type: "text", placeholder: "Your name", value: this.state.author, onChange: function (e) { return _this.handleAuthorChange(e); }}), React.createElement(input_1.Textbox, {type: "text", placeholder: "Say something...", value: this.state.text, onChange: function (e) { return _this.handleTextChange(e); }}), React.createElement(widget_1.Button, {type: "submit", label: "Post"}))));
         };
         return CommentForm;
     }(React.Component));

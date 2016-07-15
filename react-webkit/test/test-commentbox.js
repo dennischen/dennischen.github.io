@@ -22,14 +22,14 @@ var __extends = (this && this.__extends) || function (d, b) {
     "use strict";
     var React = require('react');
     var ReactDOM = require('react-dom');
-    var commentbox = require('./commentbox');
+    var commentbox_1 = require('./commentbox');
     var App = (function (_super) {
         __extends(App, _super);
         function App() {
             _super.apply(this, arguments);
         }
         App.prototype.render = function () {
-            return (React.createElement("div", null, React.createElement(commentbox.CommentBox, {url: "/comments", pollInterval: 2000})));
+            return (React.createElement("div", null, React.createElement(commentbox_1.CommentBox, {url: "/comments", pollInterval: 2000})));
         };
         return App;
     }(React.Component));

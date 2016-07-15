@@ -75,17 +75,8 @@ class H extends Base {
 }
 
 export class App extends React.Component<any, any>{
-    visible = false
     constructor(props: any) {
         super(props);
-        this.state = { clickCount: 0 };
-    }
-    componentDidMount(): void {
-    }
-    handleClick() {
-        let c = this.state.clickCount + 1;
-        this.setState({ clickCount: c });
-        this.visible = !this.visible
     }
     render() {
         return (

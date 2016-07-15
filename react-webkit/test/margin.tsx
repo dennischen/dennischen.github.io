@@ -3,8 +3,8 @@
 import React = require('react');
 import ReactDOM = require('react-dom');
 
-import w = require('../main/widget');
-import l = require('../main/layout');
+import {} from '../main/widget';
+import {Box, Hlayout,Vlayout} from '../main/layout';
 
 
 export class App extends React.Component<any, any>{
@@ -20,15 +20,15 @@ export class App extends React.Component<any, any>{
     }
     render() {
         return (
-            <l.Box hflex={1} vflex={1}>
+            <Box hflex={1} vflex={1}>
                 There should not has any scrollbar even you resize the windows
-                <l.Hlayout hflex={1}  vflex={1}
+                <Hlayout hflex={1}  vflex={1}
                     style={{ background: 'lightgreen', width: 600.65, marginLeft: 60.6, paddingLeft: 40.2, borderLeft: 'blue solid 20px', borderLeftWidth: 20 }} >
-                    <l.Box hflex={1} style={{ border: '1px solid' }} >A</l.Box>
-                    <l.Box style={{ border: '1px solid' }} ><div><span>B1</span></div><div><span>B2</span></div></l.Box>
-                    <l.Box hflex={1} style={{ border: '1px solid' }} >C</l.Box>
-                </l.Hlayout>
-            </l.Box>
+                    <Box hflex={1} style={{ border: '1px solid' }} >A</Box>
+                    <Box style={{ border: '1px solid' }} ><div><span>B1</span></div><div><span>B2</span></div></Box>
+                    <Box hflex={1} style={{ border: '1px solid' }} >C</Box>
+                </Hlayout>
+            </Box>
 
         )
     }

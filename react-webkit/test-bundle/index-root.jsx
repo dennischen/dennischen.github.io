@@ -5,15 +5,15 @@ var w = wk.Widget;
 var i = wk.Input;
 var l = wk.Layout;
 var ls = wk.List;
-var dt = wk.Datetime;
+var cal = wk.Calendar;
 
 var RootApp = React.createClass({
     getInitialState: function() {
-        return {clickCount: 0, visible: true, selection: new w.IndexSelection() };
+        return {clickCount: 0, invisible: false, selection: new w.IndexSelection() };
     },
     handleClick:function() {
         let c = this.state.clickCount + 1;
-        this.setState({ clickCount: c, visible: !this.state.visible });
+        this.setState({ clickCount: c, invisible: !this.state.invisible });
     },
     render:function() {
         let doSelect = (select, idx, item) => {
@@ -27,7 +27,7 @@ var RootApp = React.createClass({
         return (
             <l.Vlayout vflex={1} hflex={1} style={{ padding: '2px' }}>
                 <button onClick={() => { this.handleClick() } }>Toggle visibility {this.state.clickCount}</button>
-                <l.Hlayout visible={this.state.visible} style={{ background: 'lightblue', padding: '2px' }} hflex={1} animation={{ effect: w.AniEffect.fade }}>
+                <l.Hlayout invisible={this.state.invisible} style={{ background: 'lightblue', padding: '2px' }} hflex={1} animation={{ effect: w.AniEffect.fade }}>
                     <l.Box hflex={1}><span>abc {this.state.clickCount}</span> </l.Box>
                     <l.Box hflex={1}><span>def {this.state.clickCount}</span> </l.Box>
                     <span><span>this is long long long<br/> long long long long text</span></span>
@@ -36,9 +36,9 @@ var RootApp = React.createClass({
                     <span>123  {this.state.clickCount} </span>
                     <l.Vlayout style={{ background: 'lightpink', padding: '2px', overflowY: 'auto' }} hflex={1} vflex={1}>
                         <span>xyz1 {this.state.clickCount} </span>
-                        <dt.Calendar hflex={1} vflex={1}/>
+                        <cal.Calendar hflex={1} vflex={1}/>
                     </l.Vlayout>
-                    <l.Vlayout visible={this.state.visible} style={{ background: 'lightseagreen', padding: '2px' }} hflex={2} animation={{ effect: w.AniEffect.slide }}>
+                    <l.Vlayout invisible={this.state.invisible} style={{ background: 'lightseagreen', padding: '2px' }} hflex={2} animation={{ effect: w.AniEffect.slide }}>
                         <span>xyz2 {this.state.clickCount} </span>
                         <span>ijk2 {this.state.clickCount} </span>
                     </l.Vlayout>
@@ -55,12 +55,13 @@ var RootApp = React.createClass({
                     <span>DEF</span>
                     <span>IJK</span>
                     <span>LMN</span>
-                    <span>XYZ</span>
+                    <span>AAA</span>
                 </ls.List>
                 <l.Hlayout align='middle' space={4} tooltip='A tool tip'>
                     <i.Checkbox label='A Checkbox'/>
                     <i.Radiobox label='A Radio'/>
                     <i.Textbox tooltip='Another tool tip'/>
+                    <cal.Datebox/>
                 </l.Hlayout>
             </l.Vlayout>
         )

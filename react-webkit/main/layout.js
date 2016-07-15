@@ -132,7 +132,7 @@ var __extends = (this && this.__extends) || function (d, b) {
             var css = _super.prototype.getRenderContentStyle.call(this, child, idx, ctx);
             if (Widget.isWidgetElemnt(child)) {
                 var props = Widget.getWidgetProps(child);
-                if (undefined == props.visible || props.visible) {
+                if (!props.invisible) {
                     if (this.props.space && ctx.anyVisible) {
                         css.marginLeft = this.props.space;
                     }
@@ -186,7 +186,7 @@ var __extends = (this && this.__extends) || function (d, b) {
             var css = _super.prototype.getRenderContentStyle.call(this, child, idx, ctx);
             if (Widget.isWidgetElemnt(child)) {
                 var props = Widget.getWidgetProps(child);
-                if (undefined == props.visible || props.visible) {
+                if (!props.invisible) {
                     if (this.props.space && ctx.anyVisible) {
                         css.marginTop = this.props.space;
                     }
@@ -230,18 +230,18 @@ var __extends = (this && this.__extends) || function (d, b) {
         return Vlayout;
     }(Layout));
     exports.Vlayout = Vlayout;
-    var Buttongroup = (function (_super) {
-        __extends(Buttongroup, _super);
-        function Buttongroup() {
+    var Hgroup = (function (_super) {
+        __extends(Hgroup, _super);
+        function Hgroup() {
             _super.apply(this, arguments);
         }
-        Buttongroup.prototype.getRenderSclass = function () {
-            var sclass = [_super.prototype.getRenderSclass.call(this), 'wkw-buttongroup'];
+        Hgroup.prototype.getRenderSclass = function () {
+            var sclass = [_super.prototype.getRenderSclass.call(this), 'wkw-hgroup'];
             return sclass.join(' ');
         };
-        return Buttongroup;
+        return Hgroup;
     }(Hlayout));
-    exports.Buttongroup = Buttongroup;
+    exports.Hgroup = Hgroup;
     var Sider = (function (_super) {
         __extends(Sider, _super);
         function Sider(props) {

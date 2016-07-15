@@ -22,9 +22,9 @@ var __extends = (this && this.__extends) || function (d, b) {
     "use strict";
     var React = require('react');
     var ReactDOM = require('react-dom');
-    var w = require('../main/widget');
-    var l = require('../main/layout');
-    var ls = require('../main/list');
+    var widget_1 = require('../main/widget');
+    var layout_1 = require('../main/layout');
+    var list_1 = require('../main/list');
     var tipOpt = {
         position: {
             target: false,
@@ -50,7 +50,7 @@ var __extends = (this && this.__extends) || function (d, b) {
         };
         App.prototype.render = function () {
             var onClick = this.onClick.bind(this);
-            return (React.createElement(l.Vlayout, {vflex: 1, hflex: 1, style: { padding: '10px' }, space: 10}, React.createElement(l.Vlayout, {space: 6}, React.createElement(w.Anchor, {href: "#A", onClick: onClick, tooltip: 'Open the file'}, "Open File"), React.createElement(w.Anchor, {href: "#B", onClick: onClick, tooltip: 'Save the file', tooltipOption: tipOpt}, "Save File"), React.createElement(w.Anchor, {href: "#C", onClick: onClick, tooltip: 'Close the file', tooltipOption: tipOpt}, "Close File"), React.createElement(w.Anchor, {href: 'http://dennischen.github.io', onClick: onClick}, "dennischen.github.io")), React.createElement(ls.List, {doSelect: this.doSelect.bind(this)}, React.createElement(w.Anchor, null, "Open File"), React.createElement(w.Anchor, null, "Save File"), React.createElement(w.Anchor, null, "Close File"), React.createElement(w.Anchor, {href: 'http://dennischen.github.io'}, "dennischen.github.io"))));
+            return (React.createElement(layout_1.Vlayout, {vflex: 1, hflex: 1, style: { padding: '10px' }, space: 10}, React.createElement(layout_1.Vlayout, {space: 6}, React.createElement(widget_1.Anchor, {href: "#A", onClick: onClick, tooltip: 'Open the file'}, "Open File"), React.createElement(widget_1.Anchor, {href: "#B", onClick: onClick, tooltip: 'Save the file', tooltipOption: tipOpt}, "Save File"), React.createElement(widget_1.Anchor, {href: "#C", onClick: onClick, tooltip: 'Close the file', tooltipOption: tipOpt}, "Close File"), React.createElement(widget_1.Anchor, {href: 'http://dennischen.github.io', onClick: onClick}, "dennischen.github.io")), React.createElement(list_1.List, {doSelect: this.doSelect.bind(this)}, React.createElement(widget_1.Anchor, null, "Open File"), React.createElement(widget_1.Anchor, null, "Save File"), React.createElement(widget_1.Anchor, null, "Close File"), React.createElement(widget_1.Anchor, {href: 'http://dennischen.github.io'}, "dennischen.github.io"))));
         };
         return App;
     }(React.Component));

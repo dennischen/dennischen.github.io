@@ -135,16 +135,7 @@ var __extends = (this && this.__extends) || function (d, b) {
         __extends(App, _super);
         function App(props) {
             _super.call(this, props);
-            this.visible = false;
-            this.state = { clickCount: 0 };
         }
-        App.prototype.componentDidMount = function () {
-        };
-        App.prototype.handleClick = function () {
-            var c = this.state.clickCount + 1;
-            this.setState({ clickCount: c });
-            this.visible = !this.visible;
-        };
         App.prototype.render = function () {
             return (React.createElement(A, null, React.createElement(B, null, React.createElement(E, null), React.createElement(F, null, React.createElement(H, null))), React.createElement(C, null, React.createElement(G, null)), React.createElement(D, null)));
         };

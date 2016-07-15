@@ -3,9 +3,9 @@
 import React = require('react');
 import ReactDOM = require('react-dom');
 
-import w = require('../main/widget');
-import i = require('../main/input');
-import l = require('../main/layout');
+import {} from '../main/widget';
+import {Box, Hlayout,Vlayout} from '../main/layout';
+import {Radiobox} from '../main/input'
 
 export interface State {
     msg?: string
@@ -28,26 +28,26 @@ export class App extends React.Component<any, State>{
     }
     render() {
         return (
-            <l.Vlayout vflex={1} style={{ padding: 10, background: 'lightblue' }} space={10}>
-                <l.Hlayout >
+            <Vlayout vflex={1} style={{ padding: 10, background: 'lightblue' }} space={10}>
+                <Hlayout >
                     {this.state.msg}
-                </l.Hlayout>
+                </Hlayout>
 
-                <l.Hlayout align='top' space={20}>
-                    <i.Radiobox id='cb1' label='Option 1' name='group1'
-                        doCheck={this.doCheck.bind(this) } value='one'></i.Radiobox>
-                    <i.Radiobox label='Option 2'  name='group1'
-                        doCheck={this.doCheck.bind(this) } value='two'></i.Radiobox>
-                    <i.Radiobox label='Option 3' name='group1'
-                        doCheck={this.doCheck.bind(this) } value='three'></i.Radiobox>
-                </l.Hlayout>
-                <i.Radiobox doCheck={this.doCheck.bind(this) }/>
+                <Hlayout align='top' space={20}>
+                    <Radiobox id='cb1' label='Option 1' name='group1'
+                        doCheck={this.doCheck.bind(this) } value='one'></Radiobox>
+                    <Radiobox label='Option 2'  name='group1'
+                        doCheck={this.doCheck.bind(this) } value='two'></Radiobox>
+                    <Radiobox label='Option 3' name='group1'
+                        doCheck={this.doCheck.bind(this) } value='three'></Radiobox>
+                </Hlayout>
+                <Radiobox doCheck={this.doCheck.bind(this) }/>
                 ---------
-                <i.Radiobox checked={this.state.checked} label='You can\' check this, the status follow the last checking' />
+                <Radiobox checked={this.state.checked} label='You can\' check this, the status follow the last checking' />
                 ---------
-                <i.Radiobox label='Free radiobox' />
-                <i.Radiobox label='Disabled radiobox' disabled />
-            </l.Vlayout>
+                <Radiobox label='Free radiobox' />
+                <Radiobox label='Disabled radiobox' disabled />
+            </Vlayout>
         )
     }
 }

@@ -91,16 +91,18 @@ export interface ComponentProps {
 export declare abstract class Component<P extends ComponentProps, S> extends React.Component<P, S> {
     private pseudoId;
     private safeTimeoutKeeper;
+    private unmounted;
     getPseudoId(): string;
     private clearPseudoId();
     safeTimeout(fn: () => void, timeout: number): number;
     clearSafeTimeout(): void;
     componentWillUnmount(): void;
+    isUnmounted(): boolean;
 }
 export interface WidgetProps extends ComponentProps {
     className?: string;
     style?: React.CSSProperties;
-    visible?: boolean;
+    invisible?: boolean;
     hflex?: number;
     vflex?: number;
     animation?: Animation;
@@ -114,14 +116,14 @@ export interface WidgetProps extends ComponentProps {
     onContextMenu?: (evt: Event) => void;
 }
 export interface WidgetState {
-    visible?: boolean;
+    invisible?: boolean;
 }
 export declare abstract class Widget<P extends WidgetProps, S extends WidgetState> extends Component<P, S> implements Util.QueueListener<WidgetQueueEvent> {
     static defaultProps: WidgetProps;
     static __wgtmgc: boolean;
     private _registedQueue;
     private _willAnimate;
-    private _willAnimateVisible;
+    private _willAnimateInvisible;
     constructor(props: P);
     protected getId(): string;
     protected registerQueue(): void;
@@ -133,7 +135,7 @@ export declare abstract class Widget<P extends WidgetProps, S extends WidgetStat
     componentWillUpdate(nextProps: P, nextState: any): void;
     componentDidUpdate(prevProps: P, prevState: any): void;
     protected doAnimate(): boolean;
-    protected afterAnimation(finalVisible: boolean): void;
+    protected afterAnimation(): void;
     protected show(): void;
     protected hide(): void;
     onQueueEvent(evt: WidgetQueueEvent): void;
@@ -142,12 +144,12 @@ export declare abstract class Widget<P extends WidgetProps, S extends WidgetStat
     abstract getWidgetSclass(): string;
     getWidgetSubSclass(sub: string): string;
     getDOM(): any;
-    protected getRenderTag(): string;
+    protected getRenderType(): string | React.ComponentClass<any> | React.SFC<any>;
     protected getRenderSclass(): string;
-    protected getRenderVisible(): boolean;
+    protected getRenderInvisible(): boolean;
     protected getRenderStyle(): React.CSSProperties;
     protected getRenderChildren(): React.ReactNode;
-    protected renderElementProps(): any;
+    protected getRenderProps(): any;
     render(): JSX.Element;
     stating(): void;
 }
@@ -157,7 +159,7 @@ export declare class Fonticon extends Widget<FonticonProps, any> {
     static defaultProps: FonticonProps;
     getWidgetSclass(): string;
     protected getRenderChildren(): React.ReactNode;
-    protected getRenderTag(): string;
+    protected getRenderType(): string | React.ComponentClass<any> | React.SFC<any>;
 }
 export interface ButtonProps extends WidgetProps {
     label?: string;
@@ -169,8 +171,8 @@ export declare class Button extends Widget<ButtonProps, any> {
     static defaultProps: ButtonProps;
     getWidgetSclass(): string;
     protected getRenderChildren(): React.ReactNode;
-    protected renderElementProps(): any;
-    protected getRenderTag(): string;
+    protected getRenderProps(): any;
+    protected getRenderType(): string | React.ComponentClass<any> | React.SFC<any>;
 }
 export interface AnchorProps extends WidgetProps {
     label?: string;
@@ -181,8 +183,8 @@ export declare class Anchor extends Widget<AnchorProps, any> {
     static defaultProps: AnchorProps;
     getWidgetSclass(): string;
     protected getRenderChildren(): React.ReactNode;
-    protected renderElementProps(): any;
-    protected getRenderTag(): string;
+    protected getRenderProps(): any;
+    protected getRenderType(): string | React.ComponentClass<any> | React.SFC<any>;
 }
 export interface AlertProps extends WidgetProps {
     fonticon?: string;

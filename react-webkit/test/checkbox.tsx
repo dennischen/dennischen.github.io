@@ -3,9 +3,9 @@
 import React = require('react');
 import ReactDOM = require('react-dom');
 
-import w = require('../main/widget');
-import i = require('../main/input')
-import l = require('../main/layout');
+import {} from '../main/widget';
+import {Box, Hlayout,Vlayout} from '../main/layout';
+import {Checkbox} from '../main/input';
 
 export interface State {
     msg?: string
@@ -28,20 +28,20 @@ export class App extends React.Component<any, State>{
     }
     render() {
         return (
-            <l.Vlayout vflex={1} style={{ padding: 10, background: 'lightblue' }} space={10}>
-                <l.Hlayout >
+            <Vlayout vflex={1} style={{ padding: 10, background: 'lightblue' }} space={10}>
+                <Hlayout >
                     {this.state.msg}
-                </l.Hlayout>
-                <i.Checkbox id='cb1' label='Label checkable' style={{fontSize:40,background:'lightpink'}} 
-                    doCheck={this.doCheck.bind(this)} value={{text:'one'}}></i.Checkbox>
-                <i.Checkbox doCheck={this.doCheck.bind(this)}/>
-                <i.Checkbox doCheck={this.doCheck.bind(this)} value='two'/>
+                </Hlayout>
+                <Checkbox id='cb1' label='Label checkable' style={{fontSize:40,background:'lightpink'}} 
+                    doCheck={this.doCheck.bind(this)} value={{text:'one'}}></Checkbox>
+                <Checkbox doCheck={this.doCheck.bind(this)}/>
+                <Checkbox doCheck={this.doCheck.bind(this)} value='two'/>
                 ---------
-                <i.Checkbox checked={this.state.checked} label='You can\' check this, the status follow the last checking' />
+                <Checkbox checked={this.state.checked} label='You can\' check this, the status follow the last checking' />
                 ---------
-                <i.Checkbox label='Free checkbox' />
-                <i.Checkbox label='Disabled checkbox' disabled />
-            </l.Vlayout>
+                <Checkbox label='Free checkbox' />
+                <Checkbox label='Disabled checkbox' disabled />
+            </Vlayout>
         )
     }
 }

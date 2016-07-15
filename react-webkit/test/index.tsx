@@ -7,11 +7,10 @@ import ReactDOM = require('react-dom');
 //for requirejs load callback
 import requirejs = require('module');
 
-import w = require('../main/widget');
-import p = require('../main/popup');
-import l = require('../main/layout');
-import ls = require('../main/list');
-
+import {Anchor,Button,Fonticon,AniEffect,ItemRenderer,VPos,HPos} from '../main/widget';
+import {Box, Hlayout,Vlayout, Sider} from '../main/layout';
+import {Popup} from '../main/popup';
+import {List} from '../main/list';
 let ga = (window as any).ga;
 
 interface TestCase {
@@ -27,8 +26,9 @@ let testcaseurl = function(testcase:string) {
 
 let testCases: TestCase[] = [
     //Higlighted
-    { name: 'Calender', module: 'calendar',priority:10},
-    { name: 'Modal', module: 'modal', priority:10},
+    { name: 'Datebox', module: 'datebox',priority:10},
+    { name: 'Calender', module: 'calendar',priority:9},
+    { name: 'Modal', module: 'modal', priority:9},
     { name: 'Align', module: 'align'},
     { name: 'Alert', module: 'alert'},
     { name: 'Animate', module: 'animate'},
@@ -79,12 +79,12 @@ class App extends React.Component<any, State>{
             showSidebar: true,
             showSrcCode: false,
             content:
-            <l.Box hflex={1} vflex={1} align='middle center'>
+            <Box hflex={1} vflex={1} align='middle center'>
                 <h4>Select left list item to load specific test case, <br/> Double click to open test in new tab</h4>
-            </l.Box>
+            </Box>
         };
     }
-    caseRenderer: w.ItemRenderer<TestCase> = {
+    caseRenderer: ItemRenderer<TestCase> = {
         key(idx: number, each: TestCase) {
             return idx;
         },
@@ -127,12 +127,12 @@ class App extends React.Component<any, State>{
         }
     }
     toggleMenu() {
-        let menu = this.refs['menu'] as p.Popup;
-        if (!menu.state.visible) {
+        let menu = this.refs['menu'] as Popup;
+        if (menu.state.invisible) {
             menu.show('#banner', {
                 autoDismiss: true, autoDismissHolders:['.menubtn'],
-                targetHPos: w.HPos.left, targetVPos: w.VPos.bottom,
-                selfHPos: w.HPos.left, selfVPos: w.VPos.top, adjustX: 1, adjustY: 1
+                targetHPos: HPos.left, targetVPos: VPos.bottom,
+                selfHPos: HPos.left, selfVPos: VPos.top, adjustX: 1, adjustY: 1
             });
         } else {
             menu.hide();
@@ -158,72 +158,72 @@ class App extends React.Component<any, State>{
     }
     render() {
         return (
-            <l.Vlayout hflex={1} vflex={1}>
-                <l.Hlayout id='banner' align={'middle'} space={4} hflex={1}>
-                    <l.Box className='menubtn' vflex={1} align={'middle center'} onClick={this.toggleMenu.bind(this) } tooltip='Toggle menu'>
-                        <w.Fonticon className='fa fa-bars' />
-                    </l.Box>
+            <Vlayout hflex={1} vflex={1}>
+                <Hlayout id='banner' align={'middle'} space={4} hflex={1}>
+                    <Box className='menubtn' vflex={1} align={'middle center'} onClick={this.toggleMenu.bind(this) } tooltip='Toggle menu'>
+                        <Fonticon className='fa fa-bars' />
+                    </Box>
                     <span className='title'>WebKit - Tests</span>
-                    <l.Hlayout vflex={1} hflex={1} align='bottom right' >
-                        <l.Box className={'fnbtn ' + (this.state.showSrcCode ? 'fnbtn-active' : '') } align={'middle center'} 
-                            onClick={this.toggleSrcCode.bind(this) } visible={this.state.selectedCase ? true : false}
+                    <Hlayout vflex={1} hflex={1} align='bottom right' >
+                        <Box className={'fnbtn ' + (this.state.showSrcCode ? 'fnbtn-active' : '') } align={'middle center'} 
+                            onClick={this.toggleSrcCode.bind(this) } invisible={this.state.selectedCase ? false : true}
                             tooltip="Toggle source">
-                            <w.Fonticon className='fa fa-code '/>
-                        </l.Box>
-                    </l.Hlayout>
-                </l.Hlayout>
-                <p.Popup id='menu' ref='menu' animation={{ effect: w.AniEffect.fade }}>
+                            <Fonticon className='fa fa-code '/>
+                        </Box>
+                    </Hlayout>
+                </Hlayout>
+                <Popup id='menu' ref='menu' animation={{ effect: AniEffect.fade }}>
                     <div className='title'>
-                        <l.Hlayout align={'left middle'} space={10}>
+                        <Hlayout align={'left middle'} space={10}>
                             <div className='avatar' >
                                 <img src='https://s.gravatar.com/avatar/d41e19c6709fe2ef85bb163b6654bd26?size=50&default=retro'/>
                             </div>
                             User XYZ
-                        </l.Hlayout>
+                        </Hlayout>
                     </div>
-                    <l.Vlayout hflex={1} vflex={1} space={10}>
-                        <ls.List hflex={1} doSelect={this.doMenuSelect.bind(this)}>
-                            <w.Anchor className='menuItem'>Menu 1</w.Anchor>
-                            <w.Anchor className='menuItem'>Menu 2</w.Anchor>
-                            <w.Anchor className='menuItem'>Menu 3</w.Anchor>
-                            <w.Anchor className='menuItem'>Menu 4</w.Anchor>
-                            <w.Anchor className='menuItem'>Menu 5</w.Anchor>
-                            <w.Anchor className='menuItem'>Menu 6</w.Anchor>
-                            <w.Anchor className='menuItem'>Menu 7</w.Anchor> 
-                        </ls.List>    
-                    </l.Vlayout>
-                </p.Popup>                
-                <l.Hlayout vflex={1} hflex={1}>
-                    <l.Sider id='siderbar' vflex={1} minSize={100} maxSize={300}
-                        visible={this.state.showSidebar} animation={{ effect: w.AniEffect.slideWidth }}>
-                        <ls.List id='function' vflex={1} hflex={1} style={{ paddingTop: 4 }}
+                    <Vlayout hflex={1} vflex={1} space={10}>
+                        <List hflex={1} doSelect={this.doMenuSelect.bind(this)}>
+                            <Anchor className='menuItem'>Menu 1</Anchor>
+                            <Anchor className='menuItem'>Menu 2</Anchor>
+                            <Anchor className='menuItem'>Menu 3</Anchor>
+                            <Anchor className='menuItem'>Menu 4</Anchor>
+                            <Anchor className='menuItem'>Menu 5</Anchor>
+                            <Anchor className='menuItem'>Menu 6</Anchor>
+                            <Anchor className='menuItem'>Menu 7</Anchor> 
+                        </List>    
+                    </Vlayout>
+                </Popup>                
+                <Hlayout vflex={1} hflex={1}>
+                    <Sider id='siderbar' vflex={1} minSize={100} maxSize={300}
+                        invisible={!this.state.showSidebar} animation={{ effect: AniEffect.slideWidth }}>
+                        <List id='function' vflex={1} hflex={1} style={{ paddingTop: 4 }}
                             onItemDoubleClick={this.onCaseDoubleClick.bind(this) }
                             model={testCases} itemRenderer={this.caseRenderer}
                             selection={{ isSelected: this.isCaseSelected.bind(this) }}
                             doSelect={this.doCaseSelect.bind(this) }
                             >
-                        </ls.List>
-                    </l.Sider>
-                    <l.Box id='testBody' hflex={1} vflex={1}>
+                        </List>
+                    </Sider>
+                    <Box id='testBody' hflex={1} vflex={1}>
                         {this.state.content}
-                    </l.Box>
-                </l.Hlayout>
-                <l.Hlayout id='footer' align={'middle'}>
-                    <l.Box className={'fnbtn ' + (this.state.showSidebar ? 'fnbtn-active' : '') } vflex={1} align={'middle center'} onClick={this.toggleSidebar.bind(this) }
+                    </Box>
+                </Hlayout>
+                <Hlayout id='footer' align={'middle'}>
+                    <Box className={'fnbtn ' + (this.state.showSidebar ? 'fnbtn-active' : '') } vflex={1} align={'middle center'} onClick={this.toggleSidebar.bind(this) }
                         tooltip='Toggle sidebar'>
-                        <w.Fonticon className={'fa fa-angle-double-' + (this.state.showSidebar ? 'left' : 'right') } />
-                    </l.Box>
-                    <l.Box id='srcName' align={'middle center'} visible={this.state.showSrcCode} onClick={this.toggleSrcCode.bind(this) } > 
+                        <Fonticon className={'fa fa-angle-double-' + (this.state.showSidebar ? 'left' : 'right') } />
+                    </Box>
+                    <Box id='srcName' align={'middle center'} invisible={!this.state.showSrcCode} onClick={this.toggleSrcCode.bind(this) } > 
                         {this.state.selectedCase?this.state.selectedCase.module+'.tsx':''}
-                    </l.Box>
-                    <l.Box className='copyright' vflex={1} hflex={1} align={'middle right'}>
+                    </Box>
+                    <Box className='copyright' vflex={1} hflex={1} align={'middle right'}>
                         React WebKit © 2016
-                    </l.Box>
-                </l.Hlayout>
-                <l.Box id='src' hflex={1}
-                    visible={this.state.showSrcCode} animation={{ effect: w.AniEffect.slide }}>
-                </l.Box>
-            </l.Vlayout >
+                    </Box>
+                </Hlayout>
+                <Box id='src' hflex={1}
+                    invisible={!this.state.showSrcCode} animation={{ effect: AniEffect.slide }}>
+                </Box>
+            </Vlayout >
         )
     }
 }

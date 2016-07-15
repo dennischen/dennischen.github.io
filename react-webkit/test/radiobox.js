@@ -16,14 +16,14 @@ var __extends = (this && this.__extends) || function (d, b) {
         var v = factory(require, exports); if (v !== undefined) module.exports = v;
     }
     else if (typeof define === 'function' && define.amd) {
-        define(["require", "exports", 'react', 'react-dom', '../main/input', '../main/layout'], factory);
+        define(["require", "exports", 'react', 'react-dom', '../main/layout', '../main/input'], factory);
     }
 })(function (require, exports) {
     "use strict";
     var React = require('react');
     var ReactDOM = require('react-dom');
-    var i = require('../main/input');
-    var l = require('../main/layout');
+    var layout_1 = require('../main/layout');
+    var input_1 = require('../main/input');
     var App = (function (_super) {
         __extends(App, _super);
         function App(props) {
@@ -41,7 +41,7 @@ var __extends = (this && this.__extends) || function (d, b) {
             this.setState({ msg: 'Checked ' + checked, checked: checked });
         };
         App.prototype.render = function () {
-            return (React.createElement(l.Vlayout, {vflex: 1, style: { padding: 10, background: 'lightblue' }, space: 10}, React.createElement(l.Hlayout, null, this.state.msg), React.createElement(l.Hlayout, {align: 'top', space: 20}, React.createElement(i.Radiobox, {id: 'cb1', label: 'Option 1', name: 'group1', doCheck: this.doCheck.bind(this), value: 'one'}), React.createElement(i.Radiobox, {label: 'Option 2', name: 'group1', doCheck: this.doCheck.bind(this), value: 'two'}), React.createElement(i.Radiobox, {label: 'Option 3', name: 'group1', doCheck: this.doCheck.bind(this), value: 'three'})), React.createElement(i.Radiobox, {doCheck: this.doCheck.bind(this)}), "---------", React.createElement(i.Radiobox, {checked: this.state.checked, label: 'You can\' check this, the status follow the last checking'}), "---------", React.createElement(i.Radiobox, {label: 'Free radiobox'}), React.createElement(i.Radiobox, {label: 'Disabled radiobox', disabled: true})));
+            return (React.createElement(layout_1.Vlayout, {vflex: 1, style: { padding: 10, background: 'lightblue' }, space: 10}, React.createElement(layout_1.Hlayout, null, this.state.msg), React.createElement(layout_1.Hlayout, {align: 'top', space: 20}, React.createElement(input_1.Radiobox, {id: 'cb1', label: 'Option 1', name: 'group1', doCheck: this.doCheck.bind(this), value: 'one'}), React.createElement(input_1.Radiobox, {label: 'Option 2', name: 'group1', doCheck: this.doCheck.bind(this), value: 'two'}), React.createElement(input_1.Radiobox, {label: 'Option 3', name: 'group1', doCheck: this.doCheck.bind(this), value: 'three'})), React.createElement(input_1.Radiobox, {doCheck: this.doCheck.bind(this)}), "---------", React.createElement(input_1.Radiobox, {checked: this.state.checked, label: 'You can\' check this, the status follow the last checking'}), "---------", React.createElement(input_1.Radiobox, {label: 'Free radiobox'}), React.createElement(input_1.Radiobox, {label: 'Disabled radiobox', disabled: true})));
         };
         return App;
     }(React.Component));

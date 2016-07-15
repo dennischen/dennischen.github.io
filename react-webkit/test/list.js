@@ -22,9 +22,9 @@ var __extends = (this && this.__extends) || function (d, b) {
     "use strict";
     var React = require('react');
     var ReactDOM = require('react-dom');
-    var w = require('../main/widget');
-    var l = require('../main/layout');
-    var ls = require('../main/list');
+    var widget_1 = require('../main/widget');
+    var layout_1 = require('../main/layout');
+    var list_1 = require('../main/list');
     var Color = (function () {
         function Color() {
         }
@@ -39,9 +39,9 @@ var __extends = (this && this.__extends) || function (d, b) {
                 { code: 'gr1', name: 'Green1' }, { code: 'gr2', name: 'Green2' }, { code: 'gr3', name: 'Green3' }, { code: 'gr4', name: 'Green4' }];
             this.state = {
                 msg: 'start to operation',
-                instanceSelection: new w.InstanceSelection(this.data[1]),
-                keySelection: new w.KeySelection(function (item) { return item.code; }, this.data[3]),
-                indexSelection: new w.IndexSelection(),
+                instanceSelection: new widget_1.InstanceSelection(this.data[1]),
+                keySelection: new widget_1.KeySelection(function (item) { return item.code; }, this.data[3]),
+                indexSelection: new widget_1.IndexSelection(),
                 count: 0,
                 enabledDisselect: true
             };
@@ -77,7 +77,7 @@ var __extends = (this && this.__extends) || function (d, b) {
             var _this = this;
             var instanceDoSelect = function (select, idx, item) {
                 if (select) {
-                    _this.setState({ msg: 'Instance Select ' + item.name, instanceSelection: new w.InstanceSelection(item) });
+                    _this.setState({ msg: 'Instance Select ' + item.name, instanceSelection: new widget_1.InstanceSelection(item) });
                 }
                 else if (_this.state.enabledDisselect) {
                     _this.setState({ msg: 'Instance Unselect ' + item.name, instanceSelection: _this.state.instanceSelection.unselect(item) });
@@ -96,7 +96,7 @@ var __extends = (this && this.__extends) || function (d, b) {
                     return each.code;
                 },
                 render: function (idx, each) {
-                    return (React.createElement(l.Vlayout, {ref: 'item' + idx, onClick: function (e) { _this.onItemClick(e, each); }, onDoubleClick: function (e) { _this.onItemDoubleClick(e, each); }}, React.createElement("span", null, each.name), React.createElement("span", {style: { paddingLeft: 20 }}, "(", each.code, ") ")));
+                    return (React.createElement(layout_1.Vlayout, {ref: 'item' + idx, onClick: function (e) { _this.onItemClick(e, each); }, onDoubleClick: function (e) { _this.onItemDoubleClick(e, each); }}, React.createElement("span", null, each.name), React.createElement("span", {style: { paddingLeft: 20 }}, "(", each.code, ") ")));
                 }
             };
             var indexDoSelect = function (select, idx, item) {
@@ -110,7 +110,7 @@ var __extends = (this && this.__extends) || function (d, b) {
             console.log('>> instance selection ', this.state.instanceSelection.getSelection());
             console.log('>> instance key selection ', this.state.keySelection.getSelection());
             console.log('>> index selection ', this.state.indexSelection.getSelection());
-            return (React.createElement(l.Vlayout, {vflex: 1, hflex: 1}, React.createElement(l.Hlayout, {align: 'middle'}, React.createElement("input", {onChange: this.onCheck.bind(this), type: 'checkbox', checked: this.state.enabledDisselect}), React.createElement("span", null, "enable disselect"), ", ", this.state.count), React.createElement(l.Hlayout, {align: 'middle'}, this.state.msg), React.createElement("h4", null, "Model List"), React.createElement("button", {onClick: this.onMoveUp.bind(this)}, "Move up"), React.createElement(l.Hlayout, {vflex: 1, hflex: 1}, React.createElement(ls.List, {vflex: 1, hflex: 1, model: this.data, itemRenderer: itemRenderer, selection: this.state.instanceSelection, doSelect: instanceDoSelect, onDoubleClick: this.onListDoubleClick.bind(this)}), React.createElement(ls.List, {vflex: 1, hflex: 1, model: this.data, style: { background: 'lightblue' }, itemRenderer: itemRenderer, selection: this.state.keySelection, doSelect: instanceKeyDoSelect, onDoubleClick: this.onListDoubleClick.bind(this)})), React.createElement("h4", null, "Static List"), React.createElement(l.Hlayout, {vflex: 1, hflex: 1}, React.createElement(ls.List, {vflex: 1, hflex: 1, style: { background: 'gray' }, selection: this.state.indexSelection, doSelect: indexDoSelect}, React.createElement("span", null, "MULTIPLE Selection List"), React.createElement("span", null, "DEF"), React.createElement("span", null, "IJK"), React.createElement("span", null, "LMN"), React.createElement("span", null, "XYZ")), React.createElement(ls.List, {vflex: 1, hflex: 1, style: { background: 'lightpink' }, onItemClick: function (evt, idx) { _this.setState({ msg: 'Item Clicked' + idx }); }, onItemDoubleClick: function (evt, idx) { _this.setState({ msg: 'Item Dbclicked' + idx }); }, onItemContextMenu: function (evt, idx) { _this.setState({ msg: 'Item Contextmenu' + idx }), evt.preventDefault(); }}, React.createElement("span", null, "NO Selection List"), React.createElement("span", null, "DEF"), React.createElement("span", null, "IJK"), React.createElement("span", null, "LMN"), React.createElement("span", null, "XYZ"))), React.createElement("h4", null, "Disabled List"), React.createElement(l.Hlayout, {vflex: 1, hflex: 1}, React.createElement(ls.List, {vflex: 1, hflex: 1, disabled: true, style: { background: 'lightblue' }, selection: this.state.indexSelection}, React.createElement("span", null, "ABC"), React.createElement("span", null, "DEF"), React.createElement("span", null, "IJK"), React.createElement("span", null, "LMN"), React.createElement("span", null, "XYZ")))));
+            return (React.createElement(layout_1.Vlayout, {vflex: 1, hflex: 1}, React.createElement(layout_1.Hlayout, {align: 'middle'}, React.createElement("input", {onChange: this.onCheck.bind(this), type: 'checkbox', checked: this.state.enabledDisselect}), React.createElement("span", null, "enable disselect"), ", ", this.state.count), React.createElement(layout_1.Hlayout, {align: 'middle'}, this.state.msg), React.createElement("h4", null, "Model List"), React.createElement("button", {onClick: this.onMoveUp.bind(this)}, "Move up"), React.createElement(layout_1.Hlayout, {vflex: 1, hflex: 1}, React.createElement(list_1.List, {vflex: 1, hflex: 1, model: this.data, itemRenderer: itemRenderer, selection: this.state.instanceSelection, doSelect: instanceDoSelect, onDoubleClick: this.onListDoubleClick.bind(this)}), React.createElement(list_1.List, {vflex: 1, hflex: 1, model: this.data, style: { background: 'lightblue' }, itemRenderer: itemRenderer, selection: this.state.keySelection, doSelect: instanceKeyDoSelect, onDoubleClick: this.onListDoubleClick.bind(this)})), React.createElement("h4", null, "Static List"), React.createElement(layout_1.Hlayout, {vflex: 1, hflex: 1}, React.createElement(list_1.List, {vflex: 1, hflex: 1, style: { background: 'gray' }, selection: this.state.indexSelection, doSelect: indexDoSelect}, React.createElement("span", null, "MULTIPLE Selection List"), React.createElement("span", null, "DEF"), React.createElement("span", null, "IJK"), React.createElement("span", null, "LMN"), React.createElement("span", null, "XYZ")), React.createElement(list_1.List, {vflex: 1, hflex: 1, style: { background: 'lightpink' }, onItemClick: function (evt, idx) { _this.setState({ msg: 'Item Clicked' + idx }); }, onItemDoubleClick: function (evt, idx) { _this.setState({ msg: 'Item Dbclicked' + idx }); }, onItemContextMenu: function (evt, idx) { _this.setState({ msg: 'Item Contextmenu' + idx }), evt.preventDefault(); }}, React.createElement("span", null, "NO Selection List"), React.createElement("span", null, "DEF"), React.createElement("span", null, "IJK"), React.createElement("span", null, "LMN"), React.createElement("span", null, "XYZ"))), React.createElement("h4", null, "Disabled List"), React.createElement(layout_1.Hlayout, {vflex: 1, hflex: 1}, React.createElement(list_1.List, {vflex: 1, hflex: 1, disabled: true, style: { background: 'lightblue' }, selection: this.state.indexSelection}, React.createElement("span", null, "ABC"), React.createElement("span", null, "DEF"), React.createElement("span", null, "IJK"), React.createElement("span", null, "LMN"), React.createElement("span", null, "XYZ")))));
         };
         return App;
     }(React.Component));

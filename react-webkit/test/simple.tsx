@@ -3,30 +3,21 @@
 import React = require('react');
 import ReactDOM = require('react-dom');
 
-import w = require('../main/widget');
-import l = require('../main/layout');
+import {} from '../main/widget';
+import {Box, Hlayout,Vlayout} from '../main/layout';
 
 
 class App extends React.Component<any, any>{
-    visible = false
     constructor(props: any) {
         super(props);
-        this.state = { clickCount: 0 };
-    }
-    componentDidMount(): void {
-    }
-    handleClick() {
-        let c = this.state.clickCount + 1;
-        this.setState({ clickCount: c });
-        this.visible = !this.visible
     }
     render() {
         return (
 
-            <l.Hlayout vflex={1} style={{ padding: 20 }} >
-                <l.Box hflex={1} >A</l.Box>
-                <l.Box hflex={2} >B</l.Box>
-            </l.Hlayout>
+            <Hlayout vflex={1} style={{ padding: 20 }} >
+                <Box hflex={1} >A</Box>
+                <Box hflex={2} >B</Box>
+            </Hlayout>
 
 
         )

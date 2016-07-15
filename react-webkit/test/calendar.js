@@ -16,14 +16,14 @@ var __extends = (this && this.__extends) || function (d, b) {
         var v = factory(require, exports); if (v !== undefined) module.exports = v;
     }
     else if (typeof define === 'function' && define.amd) {
-        define(["require", "exports", 'react', 'react-dom', '../main/layout', '../main/datetime'], factory);
+        define(["require", "exports", 'react', 'react-dom', '../main/layout', '../main/calendar'], factory);
     }
 })(function (require, exports) {
     "use strict";
     var React = require('react');
     var ReactDOM = require('react-dom');
     var layout_1 = require('../main/layout');
-    var datetime_1 = require('../main/datetime');
+    var calendar_1 = require('../main/calendar');
     var App = (function (_super) {
         __extends(App, _super);
         function App(props) {
@@ -41,7 +41,7 @@ var __extends = (this && this.__extends) || function (d, b) {
             });
         };
         App.prototype.render = function () {
-            return (React.createElement(layout_1.Vlayout, {space: 10, style: { padding: 10 }}, this.state.msg, React.createElement(layout_1.Hlayout, {space: 10}, React.createElement(datetime_1.Calendar, {selected: this.state.date1, doSelect: this.doSelect.bind(this)}), React.createElement(datetime_1.Calendar, {selected: this.state.date2, doSelect: this.doSelect.bind(this), firstDayOfWeek: 1})), React.createElement(datetime_1.Calendar, {doSelect: this.doSelect.bind(this), style: { width: 400, height: 400 }})));
+            return (React.createElement(layout_1.Vlayout, {space: 10, style: { padding: 10 }}, this.state.msg, React.createElement(layout_1.Hlayout, {space: 10}, React.createElement(calendar_1.Calendar, {selected: this.state.date1, doSelect: this.doSelect.bind(this)}), React.createElement(calendar_1.Calendar, {selected: this.state.date2, doSelect: this.doSelect.bind(this), firstDayOfWeek: 1})), React.createElement(calendar_1.Calendar, {doSelect: this.doSelect.bind(this), style: { width: 400, height: 400 }})));
         };
         return App;
     }(React.Component));

@@ -5,15 +5,15 @@ var w = wk.Widget;
 var i = wk.Input;
 var l = wk.Layout;
 var ls = wk.List;
-var dt = wk.Datetime;
+var cal = wk.Calendar;
 
 var RootApp = React.createClass({
     getInitialState: function getInitialState() {
-        return { clickCount: 0, visible: true, selection: new w.IndexSelection() };
+        return { clickCount: 0, invisible: false, selection: new w.IndexSelection() };
     },
     handleClick: function handleClick() {
         var c = this.state.clickCount + 1;
-        this.setState({ clickCount: c, visible: !this.state.visible });
+        this.setState({ clickCount: c, invisible: !this.state.invisible });
     },
     render: function render() {
         var _this = this;
@@ -39,7 +39,7 @@ var RootApp = React.createClass({
             ),
             React.createElement(
                 l.Hlayout,
-                { visible: this.state.visible, style: { background: 'lightblue', padding: '2px' }, hflex: 1, animation: { effect: w.AniEffect.fade } },
+                { invisible: this.state.invisible, style: { background: 'lightblue', padding: '2px' }, hflex: 1, animation: { effect: w.AniEffect.fade } },
                 React.createElement(
                     l.Box,
                     { hflex: 1 },
@@ -94,11 +94,11 @@ var RootApp = React.createClass({
                         this.state.clickCount,
                         ' '
                     ),
-                    React.createElement(dt.Calendar, { hflex: 1, vflex: 1 })
+                    React.createElement(cal.Calendar, { hflex: 1, vflex: 1 })
                 ),
                 React.createElement(
                     l.Vlayout,
-                    { visible: this.state.visible, style: { background: 'lightseagreen', padding: '2px' }, hflex: 2, animation: { effect: w.AniEffect.slide } },
+                    { invisible: this.state.invisible, style: { background: 'lightseagreen', padding: '2px' }, hflex: 2, animation: { effect: w.AniEffect.slide } },
                     React.createElement(
                         'span',
                         null,
@@ -168,7 +168,7 @@ var RootApp = React.createClass({
                 React.createElement(
                     'span',
                     null,
-                    'XYZ'
+                    'AAA'
                 )
             ),
             React.createElement(
@@ -176,7 +176,8 @@ var RootApp = React.createClass({
                 { align: 'middle', space: 4, tooltip: 'A tool tip' },
                 React.createElement(i.Checkbox, { label: 'A Checkbox' }),
                 React.createElement(i.Radiobox, { label: 'A Radio' }),
-                React.createElement(i.Textbox, { tooltip: 'Another tool tip' })
+                React.createElement(i.Textbox, { tooltip: 'Another tool tip' }),
+                React.createElement(cal.Datebox, null)
             )
         );
     }

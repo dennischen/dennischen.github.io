@@ -3,16 +3,14 @@
 import React = require('react');
 import ReactDOM = require('react-dom');
 
-import commentbox = require('./commentbox');
-import w = require('../main/widget');
-import l = require('../main/layout');
+import {CommentBox} from './commentbox';
 
 
 export class App extends React.Component<any, any>{
     render() {
         return (
             <div>
-                <commentbox.CommentBox url="/comments" pollInterval={2000}/>
+                <CommentBox url="/comments" pollInterval={2000}/>
             </div>
         )
     }

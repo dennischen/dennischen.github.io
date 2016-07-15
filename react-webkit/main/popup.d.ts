@@ -11,6 +11,7 @@
 /// <reference path="../3rd-definition/jquery.d.ts" />
 import React = require('react');
 import Widget = require('./widget');
+import { VPos, HPos } from './widget';
 export declare var zIndexStart: number;
 export declare enum AdjustMethod {
     shift = 1,
@@ -20,13 +21,14 @@ export interface ShowOption {
     autoDismiss?: boolean;
     autoDismissHolders?: any[];
     dismissTimeout?: number;
-    targetHPos?: Widget.HPos | string;
-    targetVPos?: Widget.VPos | string;
-    selfHPos?: Widget.HPos | string;
-    selfVPos?: Widget.VPos | string;
+    targetHPos?: HPos | string;
+    targetVPos?: VPos | string;
+    selfHPos?: HPos | string;
+    selfVPos?: VPos | string;
     adjustX?: number;
     adjustY?: number;
     adjust?: AdjustMethod | string;
+    adjustViewport?: JQuery | Element | string;
 }
 export interface PopupProps extends Widget.WidgetProps {
     showOption?: ShowOption;
@@ -43,11 +45,12 @@ export declare class Popup extends Widget.Widget<PopupProps, PopupState> {
     protected getId(): string;
     componentWillUnmount(): void;
     private onBodyClick;
+    private onBodyKeyUp;
     private removeBodyListener();
     show(target?: string | Element | MouseEvent, showOpt?: ShowOption): void;
     reposition(target: string | Element | MouseEvent, showOpt: ShowOption): void;
     hide(): void;
-    protected afterAnimation(finalVisible: boolean): void;
+    protected afterAnimation(): void;
     getWidgetSclass(): string;
     protected getRenderStyle(): React.CSSProperties;
 }

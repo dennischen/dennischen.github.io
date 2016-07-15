@@ -3,9 +3,10 @@
 import React = require('react');
 import ReactDOM = require('react-dom');
 
-import w = require('../main/widget');
-import i = require('../main/input')
-import l = require('../main/layout');
+import {} from '../main/widget';
+import {Box, Hlayout,Vlayout} from '../main/layout';
+import {Textbox,TextboxType} from '../main/input';
+
 
 export interface State {
     msg?: string
@@ -27,25 +28,25 @@ export class App extends React.Component<any, State>{
     }
     render() {
         return (
-            <l.Vlayout vflex={1} hflex={1} space={10} style={{padding:10, overflow:'auto'}}>
-                <l.Hlayout >
+            <Vlayout vflex={1} hflex={1} space={10} style={{padding:10, overflow:'auto'}}>
+                <Hlayout >
                     {this.state.msg}
-                </l.Hlayout>
-                <label><i.Textbox onChange={this.onChange.bind(this)} value={this.state.value} placeholder='Simple text' /> onChange</label>
-                <label><i.Textbox doChange={this.doChange.bind(this)}  value={this.state.value} placeholder='Password' type={i.TextboxType.password} /> doChange (password) </label>
-                <label><i.Textbox value={this.state.value} /> text follow last edit(can't chage this)</label>
-                <i.Textbox defaultValue={this.state.value} hflex={1} />
-                <i.Textbox defaultValue={this.state.value} style={{width:250, height:100}} 
-                    doChange={this.doChange.bind(this)} type={i.TextboxType.textarea} />
-                <l.Box style={{width:300, height:120}}>
-                    <i.Textbox defaultValue={this.state.value} hflex={1} vflex={1}  placeholder='Text area'
+                </Hlayout>
+                <label><Textbox onChange={this.onChange.bind(this)} value={this.state.value} placeholder='Simple text' /> onChange</label>
+                <label><Textbox doChange={this.doChange.bind(this)}  value={this.state.value} placeholder='Password' type={TextboxType.password} /> doChange (password) </label>
+                <label><Textbox value={this.state.value} /> text follow last edit(can't chage this)</label>
+                <Textbox defaultValue={this.state.value} hflex={1} />
+                <Textbox defaultValue={this.state.value} style={{width:250, height:100}} 
+                    doChange={this.doChange.bind(this)} type={TextboxType.textarea} />
+                <Box style={{width:300, height:120}}>
+                    <Textbox defaultValue={this.state.value} hflex={1} vflex={1}  placeholder='Text area'
                         doChange={this.doChange.bind(this)} type='textarea'/>
-                </l.Box>
+                </Box>
                 
                 ---------
-                <label>Free Textbox : <i.Textbox /></label>
-                <label>Disabled Textbox : <i.Textbox value={this.state.value} disabled /></label>
-            </l.Vlayout>
+                <label>Free Textbox : <Textbox /></label>
+                <label>Disabled Textbox : <Textbox value={this.state.value} disabled /></label>
+            </Vlayout>
         )
     }
 }

@@ -9,9 +9,19 @@
 /// <reference path="../3rd-definition/react.d.ts" />
 /// <reference path="../3rd-definition/react-dom.d.ts" />
 /// <reference path="../3rd-definition/jquery.d.ts" />
-/// <reference path="embedded/moment.d.ts" />
+/// <reference path="../3rd-definition/moment.d.ts" />
 import React = require('react');
 import Widget = require('./widget');
+export declare let defaultDateboxIcon: string;
+export declare let i18n: {
+    dayNames: string[];
+    longDayNames: string[];
+    monthNames: string[];
+    longMonthNames: string[];
+    today: string;
+    reset: string;
+    clean: string;
+};
 export declare enum View {
     year = 1,
     month = 2,
@@ -90,4 +100,30 @@ export interface TitlebarProps extends Widget.ComponentProps {
     title: string;
     doTitleShift?: (increase: boolean) => void;
     doTitleClick?: () => void;
+}
+export interface DateboxProps extends Widget.WidgetProps {
+    disabled?: boolean;
+    name?: string;
+    readOnly?: boolean;
+    value?: Date;
+    format?: string;
+    placeholder?: string;
+    doChange?: (value: Date) => boolean;
+    icon?: string;
+    firstDayOfWeek?: number;
+    calendarViewport?: JQuery | Element | string;
+}
+export interface DateboxState {
+    calendar?: boolean;
+    uncontrolled?: Date;
+}
+export declare class Datebox extends Widget.Widget<DateboxProps, DateboxState> {
+    static defaultProps: DateboxProps;
+    protected getId(): string;
+    getWidgetSclass(): string;
+    private isUncontrolled();
+    private doCalendarToggle();
+    private doCalendarSelect(date);
+    private onTextboxKeyUp(evt);
+    protected getRenderChildren(): React.ReactNode;
 }

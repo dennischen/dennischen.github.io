@@ -3,8 +3,8 @@
 import React = require('react');
 import ReactDOM = require('react-dom');
 
-import w = require('../main/widget');
-import l = require('../main/layout');
+import {Button,Fonticon,Widget,Anchor} from '../main/widget';
+import {Vlayout,Hlayout,Hgroup} from '../main/layout';
 import p = require('../main/popup');
 import ls = require('../main/list');
 
@@ -14,11 +14,11 @@ export class App extends React.Component<any, any>{
     }
     doShowMenu(){
         let pop = this.refs['popup'] as p.Popup;
-        let target = (this.refs['popupBtn'] as w.Widget<any,any>).getDOM(); 
-        if(pop.state.visible){
-            pop.hide();
-        }else{
+        let target = (this.refs['popupBtn'] as Widget<any,any>).getDOM(); 
+        if(pop.state.invisible){
             pop.show(target);
+        }else{
+            pop.hide();
         }
         
     }
@@ -31,66 +31,66 @@ export class App extends React.Component<any, any>{
     }
     render() {
         return (
-            <l.Vlayout vflex={1} hflex={1} style={{ padding: '10px' }} space={10}>
-                <l.Hlayout hflex={1} style={{padding: '10px' }} space={6} >
-                    <w.Button label="click me"/>
-                </l.Hlayout>
-                <l.Hlayout hflex={1} style={{padding: '10px' }} space={6}>
-                    <w.Button> 
-                        Button 1 <w.Fonticon className='fa fa-bars' /> 
-                    </w.Button>
-                    <w.Button disabled> 
-                        <w.Fonticon className='fa fa-bars' /> Button 2 Disabled
-                    </w.Button>
-                </l.Hlayout>
-                <l.Hlayout hflex={1} style={{padding: '10px', height:100 }}  space={6}>
-                    <w.Button hflex={1} vflex={1}> 
-                        Button 3 <w.Fonticon className='fa fa-bars' /> 
-                    </w.Button>
-                    <w.Button label="Button 4"> 
-                    </w.Button>
-                    <w.Button hflex={1}> 
-                        <w.Fonticon className='fa fa-bars' /> Button 5 
-                    </w.Button>
-                </l.Hlayout>
+            <Vlayout vflex={1} hflex={1} style={{ padding: '10px' }} space={10}>
+                <Hlayout hflex={1} style={{padding: '10px' }} space={6} >
+                    <Button label="click me"/>
+                </Hlayout>
+                <Hlayout hflex={1} style={{padding: '10px' }} space={6}>
+                    <Button> 
+                        Button 1 <Fonticon className='fa fa-bars' /> 
+                    </Button>
+                    <Button disabled> 
+                        <Fonticon className='fa fa-bars' /> Button 2 Disabled
+                    </Button>
+                </Hlayout>
+                <Hlayout hflex={1} style={{padding: '10px', height:100 }}  space={6}>
+                    <Button hflex={1} vflex={1}> 
+                        Button 3 <Fonticon className='fa fa-bars' /> 
+                    </Button>
+                    <Button label="Button 4"> 
+                    </Button>
+                    <Button hflex={1}> 
+                        <Fonticon className='fa fa-bars' /> Button 5 
+                    </Button>
+                </Hlayout>
                 Buttongroup : 
-                <l.Buttongroup style={{padding: '10px'}} >
-                    <w.Button > 
-                        Button 6 <w.Fonticon className='fa fa-bars' /> 
-                    </w.Button>
-                    <w.Button label="Button 7 Disabled" disabled> 
-                    </w.Button>
-                    <w.Button > 
-                        <w.Fonticon className='fa fa-bars' /> Button 8 
-                    </w.Button>
-                </l.Buttongroup>
-                <l.Buttongroup hflex={1} style={{padding: '10px'}} >
-                    <w.Button hflex={1} > 
-                        Button 9 <w.Fonticon className='fa fa-bars' /> 
-                    </w.Button>
-                    <w.Button label="Button 10"> 
-                    </w.Button>
-                    <w.Button hflex={1}> 
-                        <w.Fonticon className='fa fa-bars' /> Button 11 
-                    </w.Button>
-                </l.Buttongroup>
-                <l.Buttongroup style={{padding: '10px'}} >
-                    <w.Button  ref="popupBtn"> 
+                <Hgroup style={{padding: '10px'}} >
+                    <Button > 
+                        Button 6 <Fonticon className='fa fa-bars' /> 
+                    </Button>
+                    <Button label="Button 7 Disabled" disabled> 
+                    </Button>
+                    <Button > 
+                        <Fonticon className='fa fa-bars' /> Button 8 
+                    </Button>
+                </Hgroup>
+                <Hgroup hflex={1} style={{padding: '10px'}} >
+                    <Button hflex={1} > 
+                        Button 9 <Fonticon className='fa fa-bars' /> 
+                    </Button>
+                    <Button label="Button 10"> 
+                    </Button>
+                    <Button hflex={1}> 
+                        <Fonticon className='fa fa-bars' /> Button 11 
+                    </Button>
+                </Hgroup>
+                <Hgroup style={{padding: '10px'}} >
+                    <Button  ref="popupBtn"> 
                         Menu 
-                    </w.Button>
-                    <w.Button id='toggleBtn' style={{paddingLeft:6,paddingRight:6}} onClick={this.doShowMenu.bind(this)}> 
-                        <w.Fonticon className='fa fa-caret-down' /> 
-                    </w.Button>
-                </l.Buttongroup>
+                    </Button>
+                    <Button id='toggleBtn' style={{paddingLeft:6,paddingRight:6}} onClick={this.doShowMenu.bind(this)}> 
+                        <Fonticon className='fa fa-caret-down' /> 
+                    </Button>
+                </Hgroup>
                 <p.Popup ref="popup" style={{padding:'2px 0px',fontSize:'0.9rem'}} showOption={{autoDismiss:true,autoDismissHolders:['#toggleBtn'],targetVPos:'bottom',targetHPos:'left'}} animation={{effect:'fade'}}>
                     <ls.List doSelect={this.doSelectMenu.bind(this)}>
-                        <w.Anchor >Open File</w.Anchor>
-                        <w.Anchor >Save File</w.Anchor>
-                        <w.Anchor >Close File</w.Anchor>
-                        <w.Anchor href='http://dennischen.github.io'>dennischen.github.io</w.Anchor>
+                        <Anchor >Open File</Anchor>
+                        <Anchor >Save File</Anchor>
+                        <Anchor >Close File</Anchor>
+                        <Anchor href='http://dennischen.github.io'>dennischen.github.io</Anchor>
                     </ls.List>
                 </p.Popup>
-            </l.Vlayout>
+            </Vlayout>
         )
     }
 }

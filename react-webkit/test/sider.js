@@ -16,15 +16,15 @@ var __extends = (this && this.__extends) || function (d, b) {
         var v = factory(require, exports); if (v !== undefined) module.exports = v;
     }
     else if (typeof define === 'function' && define.amd) {
-        define(["require", "exports", 'react', 'react-dom', '../main/widget', '../main/layout', '../main/list'], factory);
+        define(["require", "exports", 'react', 'react-dom', '../main/widget', '../main/layout', '../main/List'], factory);
     }
 })(function (require, exports) {
     "use strict";
     var React = require('react');
     var ReactDOM = require('react-dom');
-    var w = require('../main/widget');
-    var l = require('../main/layout');
-    var ls = require('../main/list');
+    var widget_1 = require('../main/widget');
+    var layout_1 = require('../main/layout');
+    var List_1 = require('../main/List');
     var App = (function (_super) {
         __extends(App, _super);
         function App(props) {
@@ -39,7 +39,7 @@ var __extends = (this && this.__extends) || function (d, b) {
             this.setState({ clickCount: c, longContent: longContent });
         };
         App.prototype.render = function () {
-            return (React.createElement(l.Hlayout, {vflex: 1, hflex: 1, style: { background: 'lightgreen', padding: 10 }}, React.createElement(l.Sider, {vflex: 1, size: 200, minSize: 100, maxSize: 400, style: { background: 'lightpink' }}, "The sider 1"), React.createElement(l.Sider, {vflex: 1, size: 200, style: { background: 'lightgray' }}, React.createElement(ls.List, {vflex: 1, hflex: 1}, React.createElement("span", null, "ABC"), React.createElement("span", null, "DEF"), React.createElement("span", null, "IJK"), React.createElement("span", null, "LMN"), React.createElement("span", null, "XYZ"), React.createElement("span", null, "ABC"), React.createElement("span", null, "DEF"), React.createElement("span", null, "IJK"), React.createElement("span", null, "LMN"), React.createElement("span", null, "XYZ"), React.createElement("span", null, "ABC"), React.createElement("span", null, "DEF"), React.createElement("span", null, "IJK"), React.createElement("span", null, "LMN"), React.createElement("span", null, "XYZ"))), React.createElement(l.Vlayout, {hflex: 1, vflex: 1, style: { background: 'lightblue', padding: 10 }}, React.createElement(l.Sider, {hflex: 1, orient: w.Orient.vertical, size: 150, minSize: 100, maxSize: 200, style: { background: 'lightpink' }}, "The sider 2"), React.createElement(l.Sider, {hflex: 1, orient: w.Orient.vertical, size: 200, style: { background: 'lightgray' }}, "The sider 3"), React.createElement(ls.List, {vflex: 1, hflex: 1}, React.createElement("span", null, "ABC"), React.createElement("span", null, "DEF"), React.createElement("span", null, "IJK"), React.createElement("span", null, "LMN"), React.createElement("span", null, "XYZ"), React.createElement("span", null, "ABC"), React.createElement("span", null, "DEF"), React.createElement("span", null, "IJK"), React.createElement("span", null, "LMN"), React.createElement("span", null, "XYZ"), React.createElement("span", null, "ABC"), React.createElement("span", null, "DEF"), React.createElement("span", null, "IJK"), React.createElement("span", null, "LMN"), React.createElement("span", null, "XYZ")))));
+            return (React.createElement(layout_1.Hlayout, {vflex: 1, hflex: 1, style: { background: 'lightgreen', padding: 10 }}, React.createElement(layout_1.Sider, {vflex: 1, size: 200, minSize: 100, maxSize: 400, style: { background: 'lightpink' }}, "The sider 1"), React.createElement(layout_1.Sider, {vflex: 1, size: 200, style: { background: 'lightgray' }}, React.createElement(List_1.List, {vflex: 1, hflex: 1}, React.createElement("span", null, "ABC"), React.createElement("span", null, "DEF"), React.createElement("span", null, "IJK"), React.createElement("span", null, "LMN"), React.createElement("span", null, "XYZ"), React.createElement("span", null, "ABC"), React.createElement("span", null, "DEF"), React.createElement("span", null, "IJK"), React.createElement("span", null, "LMN"), React.createElement("span", null, "XYZ"), React.createElement("span", null, "ABC"), React.createElement("span", null, "DEF"), React.createElement("span", null, "IJK"), React.createElement("span", null, "LMN"), React.createElement("span", null, "XYZ"))), React.createElement(layout_1.Vlayout, {hflex: 1, vflex: 1, style: { background: 'lightblue', padding: 10 }}, React.createElement(layout_1.Sider, {hflex: 1, orient: widget_1.Orient.vertical, size: 150, minSize: 100, maxSize: 200, style: { background: 'lightpink' }}, "The sider 2"), React.createElement(layout_1.Sider, {hflex: 1, orient: widget_1.Orient.vertical, size: 200, style: { background: 'lightgray' }}, "The sider 3"), React.createElement(List_1.List, {vflex: 1, hflex: 1}, React.createElement("span", null, "ABC"), React.createElement("span", null, "DEF"), React.createElement("span", null, "IJK"), React.createElement("span", null, "LMN"), React.createElement("span", null, "XYZ"), React.createElement("span", null, "ABC"), React.createElement("span", null, "DEF"), React.createElement("span", null, "IJK"), React.createElement("span", null, "LMN"), React.createElement("span", null, "XYZ"), React.createElement("span", null, "ABC"), React.createElement("span", null, "DEF"), React.createElement("span", null, "IJK"), React.createElement("span", null, "LMN"), React.createElement("span", null, "XYZ")))));
         };
         return App;
     }(React.Component));

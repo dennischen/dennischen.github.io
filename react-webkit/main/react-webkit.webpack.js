@@ -15,17 +15,21 @@
  */
 var Widget = require('./widget')
 var Layout = require('./layout')
-var Datetime = require('./datetime')
-var Input = require('./input')
+
 var Popup = require('./popup')
 var Modal = require('./modal')
+
+var Input = require('./input')
 var List = require('./list')
+
+var Calendar = require('./calendar')
 
 module.exports = {
     Widget,
     Layout,
-    Datetime,
     Input,
     Popup,
-    List
+    Modal,
+    List,
+    Calendar
 }

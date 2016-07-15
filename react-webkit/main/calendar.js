@@ -16,17 +16,21 @@ var __extends = (this && this.__extends) || function (d, b) {
         var v = factory(require, exports); if (v !== undefined) module.exports = v;
     }
     else if (typeof define === 'function' && define.amd) {
-        define(["require", "exports", 'react', 'jquery', './widget', './widget', './util', './layout'], factory);
+        define(["require", "exports", 'react', 'jquery', 'moment', './widget', './util', './widget', './layout', './input', './popup'], factory);
     }
 })(function (require, exports) {
     "use strict";
     var React = require('react');
     var Jq = require('jquery');
+    var moment = require('moment');
     var Widget = require('./widget');
-    var widget_1 = require('./widget');
     var Util = require('./util');
+    var widget_1 = require('./widget');
     var layout_1 = require('./layout');
-    var i18n = {
+    var input_1 = require('./input');
+    var popup_1 = require('./popup');
+    exports.defaultDateboxIcon = 'fa fa-calendar';
+    exports.i18n = {
         dayNames: [
             "Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"
         ],
@@ -216,7 +220,7 @@ var __extends = (this && this.__extends) || function (d, b) {
                     break;
                 case View.time:
             }
-            childrenNodes.push(React.createElement(layout_1.Buttongroup, {className: this.getWidgetSubSclass('bottombar'), hflex: 1, align: 'center'}, React.createElement(widget_1.Button, {className: 'wk-aux', onClick: this.doToday.bind(this)}, i18n.today), React.createElement(widget_1.Button, {className: 'wk-aux', onClick: this.doClean.bind(this)}, i18n.clean), React.createElement(widget_1.Button, {className: 'wk-aux', onClick: this.doReset.bind(this)}, i18n.reset)));
+            childrenNodes.push(React.createElement(layout_1.Hgroup, {className: this.getWidgetSubSclass('bottombar'), hflex: 1, align: 'center'}, React.createElement(widget_1.Button, {className: 'wk-aux', onClick: this.doToday.bind(this)}, exports.i18n.today), React.createElement(widget_1.Button, {className: 'wk-aux', onClick: this.doClean.bind(this)}, exports.i18n.clean), React.createElement(widget_1.Button, {className: 'wk-aux', onClick: this.doReset.bind(this)}, exports.i18n.reset)));
             return Widget.createReactElement(layout_1.Box, { hflex: 1, vflex: 1 }, childrenNodes);
         };
         Calendar.prototype.getRenderStyle = function () {
@@ -324,7 +328,7 @@ var __extends = (this && this.__extends) || function (d, b) {
                     if (viewingYear == todayYear && month == todayMonth) {
                         clz.push('wk-today');
                     }
-                    rowChildren.push(React.createElement("td", {className: clz.join(' '), onMouseDown: onActive, onMouseUp: onUnactive, onMouseLeave: onUnactive, onClick: this.doSelect.bind(this, month)}, i18n.monthNames[month]));
+                    rowChildren.push(React.createElement("td", {className: clz.join(' '), onMouseDown: onActive, onMouseUp: onUnactive, onMouseLeave: onUnactive, onClick: this.doSelect.bind(this, month)}, exports.i18n.monthNames[month]));
                     count++;
                     if (count >= 12) {
                         break;
@@ -377,7 +381,7 @@ var __extends = (this && this.__extends) || function (d, b) {
             var onUnactive = function (evt) {
                 Jq(evt.currentTarget).removeClass('wk-active');
             };
-            var title = Util.formatString("{} {}", i18n.longMonthNames[viewingMonth], viewingYear);
+            var title = Util.formatString("{} {}", exports.i18n.longMonthNames[viewingMonth], viewingYear);
             var tableRows = [];
             var firstDayOfWeek = props.firstDayOfWeek ? props.firstDayOfWeek : 0;
             var sundayIdx = firstDayOfWeek == 0 ? 0 : 7 - firstDayOfWeek;
@@ -392,7 +396,7 @@ var __extends = (this && this.__extends) || function (d, b) {
                     idx -= 7;
                 }
                 var clz = (c == sundayIdx) ? 'wk-sunday' : undefined;
-                headerChildren.push(React.createElement("th", {className: clz}, i18n.dayNames[idx]));
+                headerChildren.push(React.createElement("th", {className: clz}, exports.i18n.dayNames[idx]));
             }
             tableRows.push(Widget.createReactElement('tr', {}, headerChildren));
             for (var r = 0; r < 6; r++) {
@@ -465,6 +469,83 @@ var __extends = (this && this.__extends) || function (d, b) {
         };
         return Titlebar;
     }(Widget.Component));
+    var defaultDateboxPopupOption = {
+        autoDismiss: true,
+        targetHPos: widget_1.HPos.left,
+        targetVPos: widget_1.VPos.bottom,
+        selfHPos: widget_1.HPos.left,
+        selfVPos: widget_1.VPos.top,
+        adjust: popup_1.AdjustMethod.flip
+    };
+    function onNothing() { }
+    var Datebox = (function (_super) {
+        __extends(Datebox, _super);
+        function Datebox() {
+            _super.apply(this, arguments);
+        }
+        Datebox.prototype.getId = function () {
+            var id = _super.prototype.getId.call(this);
+            return undefined != id ? id : this.getPseudoId();
+        };
+        Datebox.prototype.getWidgetSclass = function () {
+            return 'wkw-datebox';
+        };
+        Datebox.prototype.isUncontrolled = function () {
+            return undefined == this.props.value;
+        };
+        Datebox.prototype.doCalendarToggle = function () {
+            var props = this.props;
+            var popup = this.refs['popup'];
+            if (popup.state.invisible) {
+                var opt = {
+                    adjustViewport: props.calendarViewport,
+                    autoDismissHolders: ['#' + this.getId()]
+                };
+                popup.show(this.getDOM(), Jq.extend(opt, defaultDateboxPopupOption));
+            }
+            else {
+                popup.hide();
+            }
+        };
+        Datebox.prototype.doCalendarSelect = function (date) {
+            var props = this.props;
+            if (props.doChange && !Util.isDateEquals(props.value, date, Util.DateField.date)
+                && props.doChange(date)) {
+                this.refs['popup'].hide();
+            }
+            if (this.isUncontrolled()) {
+                this.setState({ uncontrolled: date });
+                this.refs['popup'].hide();
+            }
+        };
+        Datebox.prototype.onTextboxKeyUp = function (evt) {
+            var popup = this.refs['popup'];
+            var invisible = popup.state.invisible;
+            if (invisible && evt.keyCode != 27) {
+                var opt = {
+                    autoDismissHolders: ['#' + this.getId()]
+                };
+                popup.show(this.getDOM(), Jq.extend(opt, defaultDateboxPopupOption));
+            }
+            else if (!invisible && evt.keyCode == 27) {
+                popup.hide();
+            }
+        };
+        Datebox.prototype.getRenderChildren = function () {
+            var props = this.props;
+            var id = this.getId();
+            var icon = props.icon ? props.icon : exports.defaultDateboxIcon;
+            var value = this.isUncontrolled() ? this.state.uncontrolled : props.value;
+            var display = value ? moment(value).format(props.format ? props.format : 'LL') : '';
+            var childrenNodes = [];
+            childrenNodes.push(React.createElement(layout_1.Hgroup, {hflex: props.hflex, vflex: props.vflex, ref: 'inpgroup'}, React.createElement(input_1.Textbox, {hflex: props.hflex, vflex: props.vflex, value: display, disabled: props.disabled, placeholder: props.placeholder, name: props.name, onChange: onNothing, onKeyUp: this.onTextboxKeyUp.bind(this)}), React.createElement(widget_1.Button, {vflex: 1, disabled: props.disabled, onClick: this.doCalendarToggle.bind(this)}, React.createElement(widget_1.Fonticon, {className: icon}))));
+            childrenNodes.push(React.createElement(popup_1.Popup, {ref: 'popup', animation: { effect: 'fade', eager: true, duration: 50 }}, React.createElement(Calendar, {className: 'wk-borderless', selected: value, firstDayOfWeek: props.firstDayOfWeek, doSelect: this.doCalendarSelect.bind(this)})));
+            return childrenNodes;
+        };
+        Datebox.defaultProps = Util.supplyProps({}, Widget.Widget.defaultProps);
+        return Datebox;
+    }(Widget.Widget));
+    exports.Datebox = Datebox;
 });
 
-//# sourceMappingURL=srcmap/datetime.js.map
+//# sourceMappingURL=srcmap/calendar.js.map

@@ -13,6 +13,9 @@ import React = require('react');
 import Widget = require('./widget');
 export interface InputProps extends Widget.WidgetProps {
     onChange?: (evt: Event) => void;
+    onKeyPress?: (evt: React.KeyboardEvent) => void;
+    onKeyDown?: (evt: React.KeyboardEvent) => void;
+    onKeyUp?: (evt: React.KeyboardEvent) => void;
     disabled?: boolean;
     readOnly?: boolean;
     name?: string;
@@ -21,7 +24,6 @@ export declare abstract class Input<P extends InputProps, S> extends Widget.Widg
     static defaultProps: InputProps;
     protected onChange(evt: Event): void;
     protected getRenderSclass(): string;
-    getInputDOM(): Element;
 }
 export declare enum TextboxType {
     text = 1,

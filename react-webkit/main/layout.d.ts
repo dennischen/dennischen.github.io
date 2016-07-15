@@ -62,7 +62,7 @@ export declare class Vlayout extends Layout<VlayoutProps, any> {
     protected getRenderContentStyle(child: React.ReactChild, idx: number, ctx: LayoutRenderContext): React.CSSProperties;
     protected getRenderSclass(): string;
 }
-export declare class Buttongroup extends Hlayout {
+export declare class Hgroup extends Hlayout {
     protected getRenderSclass(): string;
 }
 export interface SiderProps extends Widget.WidgetProps {

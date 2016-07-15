@@ -24,13 +24,13 @@ var __assign = (this && this.__assign) || Object.assign || function(t) {
         var v = factory(require, exports); if (v !== undefined) module.exports = v;
     }
     else if (typeof define === 'function' && define.amd) {
-        define(["require", "exports", 'react', './widget', './util'], factory);
+        define(["require", "exports", 'react', './util', './widget'], factory);
     }
 })(function (require, exports) {
     "use strict";
     var React = require('react');
-    var Widget = require('./widget');
     var Util = require('./util');
+    var Widget = require('./widget');
     var Input = (function (_super) {
         __extends(Input, _super);
         function Input() {
@@ -47,9 +47,6 @@ var __assign = (this && this.__assign) || Object.assign || function(t) {
                 str.push('wk-disabled');
             }
             return str.join(' ');
-        };
-        Input.prototype.getInputDOM = function () {
-            return this.refs['input'];
         };
         Input.defaultProps = Util.supplyProps({}, Widget.Widget.defaultProps);
         return Input;
@@ -86,8 +83,6 @@ var __assign = (this && this.__assign) || Object.assign || function(t) {
                 css.height = '100%';
             }
             var inpProps = {
-                ref: 'input',
-                onChange: onChange,
                 disabled: props.disabled,
                 readOnly: props.readOnly,
                 style: css,
@@ -95,7 +90,11 @@ var __assign = (this && this.__assign) || Object.assign || function(t) {
                 defaultValue: props.defaultValue,
                 name: props.name,
                 value: props.value,
-                maxLength: props.maxLength
+                maxLength: props.maxLength,
+                onChange: onChange,
+                onKeyUp: props.onKeyUp,
+                onKeyDown: props.onKeyDown,
+                onKeyPress: props.onKeyPress
             };
             var inpType = 'text';
             switch (props.type) {
@@ -155,7 +154,7 @@ var __assign = (this && this.__assign) || Object.assign || function(t) {
             var inputType = this.getInputType();
             var onChange = (props.onChange || props.doCheck) ? this.onChange.bind(this) : undefined;
             var value = 'string' == typeof props.value ? props.value : undefined;
-            return [React.createElement("input", {id: inpid, type: inputType, ref: 'input', onChange: onChange, checked: props.checked, disabled: props.disabled, readOnly: props.readOnly, defaultChecked: props.defaultChecked, name: props.name, value: value}), label];
+            return [React.createElement("input", {id: inpid, type: inputType, onChange: onChange, checked: props.checked, disabled: props.disabled, readOnly: props.readOnly, defaultChecked: props.defaultChecked, onKeyUp: props.onKeyUp, onKeyDown: props.onKeyDown, onKeyPress: props.onKeyPress, name: props.name, value: value}), label];
         };
         Checkbox.defaultProps = Util.supplyProps({}, Input.defaultProps);
         return Checkbox;

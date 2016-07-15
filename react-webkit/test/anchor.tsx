@@ -5,10 +5,9 @@ import React = require('react');
 import ReactDOM = require('react-dom');
 import Jq = require('jquery');
 
-import w = require('../main/widget');
-import l = require('../main/layout');
-import p = require('../main/popup');
-import ls = require('../main/list');
+import {Anchor} from '../main/widget';
+import {Box, Hlayout,Vlayout} from '../main/layout';
+import {List} from '../main/list';
 
 let tipOpt = {
     position:{
@@ -36,20 +35,20 @@ export class App extends React.Component<any, any>{
     render() {
         let onClick = this.onClick.bind(this);
         return (
-            <l.Vlayout vflex={1} hflex={1} style={{ padding: '10px' }} space={10}>
-                <l.Vlayout space={6} >
-                    <w.Anchor href="#A" onClick={onClick} tooltip='Open the file' >Open File</w.Anchor>
-                    <w.Anchor href="#B" onClick={onClick} tooltip='Save the file' tooltipOption={tipOpt}>Save File</w.Anchor>
-                    <w.Anchor href="#C" onClick={onClick} tooltip='Close the file' tooltipOption={tipOpt}>Close File</w.Anchor>
-                    <w.Anchor href='http://dennischen.github.io'  onClick={onClick}>dennischen.github.io</w.Anchor>
-                </l.Vlayout>
-                <ls.List doSelect={this.doSelect.bind(this)}>
-                    <w.Anchor >Open File</w.Anchor>
-                    <w.Anchor >Save File</w.Anchor>
-                    <w.Anchor >Close File</w.Anchor>
-                    <w.Anchor href='http://dennischen.github.io'>dennischen.github.io</w.Anchor>
-                </ls.List>
-            </l.Vlayout>
+            <Vlayout vflex={1} hflex={1} style={{ padding: '10px' }} space={10}>
+                <Vlayout space={6} >
+                    <Anchor href="#A" onClick={onClick} tooltip='Open the file' >Open File</Anchor>
+                    <Anchor href="#B" onClick={onClick} tooltip='Save the file' tooltipOption={tipOpt}>Save File</Anchor>
+                    <Anchor href="#C" onClick={onClick} tooltip='Close the file' tooltipOption={tipOpt}>Close File</Anchor>
+                    <Anchor href='http://dennischen.github.io'  onClick={onClick}>dennischen.github.io</Anchor>
+                </Vlayout>
+                <List doSelect={this.doSelect.bind(this)}>
+                    <Anchor >Open File</Anchor>
+                    <Anchor >Save File</Anchor>
+                    <Anchor >Close File</Anchor>
+                    <Anchor href='http://dennischen.github.io'>dennischen.github.io</Anchor>
+                </List>
+            </Vlayout>
         )
     }
 }

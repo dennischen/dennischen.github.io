@@ -3,9 +3,9 @@
 import React = require('react');
 import ReactDOM = require('react-dom');
 
-import w = require('../main/widget');
-import l = require('../main/layout');
-import ls = require('../main/list');
+import {InstanceSelection,KeySelection,IndexSelection,ItemRenderer} from '../main/widget';
+import {Box, Hlayout,Vlayout} from '../main/layout';
+import {List} from '../main/list';
 
 
 export class Color {
@@ -16,9 +16,9 @@ export class Color {
 export interface State {
     msg?: string
     count?: number
-    instanceSelection?: w.InstanceSelection<Color>
-    keySelection?: w.KeySelection<Color>
-    indexSelection?: w.IndexSelection
+    instanceSelection?: InstanceSelection<Color>
+    keySelection?: KeySelection<Color>
+    indexSelection?: IndexSelection
     enabledDisselect?: boolean
 }
 
@@ -31,9 +31,9 @@ export class App extends React.Component<any, State>{
         super(props);
         this.state = {
             msg: 'start to operation',
-            instanceSelection: new w.InstanceSelection(this.data[1]),
-            keySelection: new w.KeySelection((item) => { return item.code }, this.data[3]),
-            indexSelection: new w.IndexSelection(),
+            instanceSelection: new InstanceSelection(this.data[1]),
+            keySelection: new KeySelection((item) => { return item.code }, this.data[3]),
+            indexSelection: new IndexSelection(),
             count: 0,
             enabledDisselect: true
         };
@@ -73,7 +73,7 @@ export class App extends React.Component<any, State>{
         let instanceDoSelect = (select: boolean, idx: number, item: Color) => {
             if (select) {
                 //new instane for single select
-                this.setState({ msg: 'Instance Select ' + item.name, instanceSelection: new w.InstanceSelection(item) });
+                this.setState({ msg: 'Instance Select ' + item.name, instanceSelection: new InstanceSelection(item) });
             } else if (this.state.enabledDisselect) {
                 this.setState({ msg: 'Instance Unselect ' + item.name, instanceSelection: this.state.instanceSelection.unselect(item) });
             }
@@ -88,17 +88,17 @@ export class App extends React.Component<any, State>{
             }
         }
 
-        let itemRenderer: w.ItemRenderer<Color> = {
+        let itemRenderer: ItemRenderer<Color> = {
             key: (idx: number, each: Color) => {
                 return each.code;
             },
             render: (idx: number, each: Color) => {
                 //NOTE the ref will store in List (which calls this render method)
-                return (<l.Vlayout ref={'item' + idx} onClick={e => { this.onItemClick(e, each) } }
+                return (<Vlayout ref={'item' + idx} onClick={e => { this.onItemClick(e, each) } }
                     onDoubleClick={e => { this.onItemDoubleClick(e, each) } } >
                     <span >{each.name}</span>
                     <span style={{ paddingLeft: 20 }}>({each.code}) </span>
-                </l.Vlayout>)
+                </Vlayout>)
             }
         }
         let indexDoSelect = (select: boolean, idx: number, item: any) => {
@@ -112,42 +112,42 @@ export class App extends React.Component<any, State>{
         console.log('>> instance key selection ', this.state.keySelection.getSelection());
         console.log('>> index selection ', this.state.indexSelection.getSelection());
         return (
-            <l.Vlayout vflex={1} hflex={1}>
-                <l.Hlayout align='middle'>
+            <Vlayout vflex={1} hflex={1}>
+                <Hlayout align='middle'>
                     <input onChange={this.onCheck.bind(this) } type='checkbox' checked={this.state.enabledDisselect}/>
                     <span>enable disselect</span>
                     , {this.state.count}
-                </l.Hlayout>
-                <l.Hlayout align='middle'>
+                </Hlayout>
+                <Hlayout align='middle'>
                     {this.state.msg}
-                </l.Hlayout>
+                </Hlayout>
                 <h4>Model List</h4>
                 <button onClick={this.onMoveUp.bind(this) }>Move up</button>
-                <l.Hlayout vflex={1} hflex={1}>
-                    <ls.List vflex={1} hflex={1} model={this.data}
+                <Hlayout vflex={1} hflex={1}>
+                    <List vflex={1} hflex={1} model={this.data}
                         itemRenderer={itemRenderer}
                         selection={this.state.instanceSelection}
                         doSelect={instanceDoSelect}
                         onDoubleClick={this.onListDoubleClick.bind(this) }>
-                    </ls.List>
-                    <ls.List vflex={1}  hflex={1} model={this.data} style={{ background: 'lightblue' }}
+                    </List>
+                    <List vflex={1}  hflex={1} model={this.data} style={{ background: 'lightblue' }}
                         itemRenderer={itemRenderer}
                         selection={this.state.keySelection}
                         doSelect={instanceKeyDoSelect}
                         onDoubleClick={this.onListDoubleClick.bind(this) }>
-                    </ls.List>
-                </l.Hlayout>
+                    </List>
+                </Hlayout>
                 <h4>Static List</h4>
-                <l.Hlayout vflex={1} hflex={1} >
-                    <ls.List vflex={1} hflex={1} style={{ background: 'gray' }}
+                <Hlayout vflex={1} hflex={1} >
+                    <List vflex={1} hflex={1} style={{ background: 'gray' }}
                         selection={this.state.indexSelection} doSelect={indexDoSelect}>
                         <span>MULTIPLE Selection List</span>
                         <span>DEF</span>
                         <span>IJK</span>
                         <span>LMN</span>
                         <span>XYZ</span>
-                    </ls.List>
-                    <ls.List  vflex={1} hflex={1} style={{ background: 'lightpink' }}
+                    </List>
+                    <List  vflex={1} hflex={1} style={{ background: 'lightpink' }}
                         onItemClick={(evt: Event, idx: number) => { this.setState({ msg: 'Item Clicked' + idx }) } }
                         onItemDoubleClick={(evt: Event, idx: number) => { this.setState({ msg: 'Item Dbclicked' + idx }) } }
                         onItemContextMenu={(evt: Event, idx: number) => { this.setState({ msg: 'Item Contextmenu' + idx }), evt.preventDefault() } }>
@@ -156,20 +156,20 @@ export class App extends React.Component<any, State>{
                         <span>IJK</span>
                         <span>LMN</span>
                         <span>XYZ</span>
-                    </ls.List>
-                </l.Hlayout>
+                    </List>
+                </Hlayout>
                 <h4>Disabled List</h4>
-                <l.Hlayout vflex={1} hflex={1} >
-                    <ls.List vflex={1} hflex={1} disabled style={{ background: 'lightblue' }}
+                <Hlayout vflex={1} hflex={1} >
+                    <List vflex={1} hflex={1} disabled style={{ background: 'lightblue' }}
                         selection={this.state.indexSelection}>
                         <span>ABC</span>
                         <span>DEF</span>
                         <span>IJK</span>
                         <span>LMN</span>
                         <span>XYZ</span>
-                    </ls.List>
-                </l.Hlayout>
-            </l.Vlayout>
+                    </List>
+                </Hlayout>
+            </Vlayout>
         )
     }
 }

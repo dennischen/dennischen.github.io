@@ -3,10 +3,9 @@
 import React = require('react');
 import ReactDOM = require('react-dom');
 
-import w = require('../main/widget');
 import {DateField, addDateField} from '../main/util';
 import {Box, Hlayout, Vlayout} from '../main/layout';
-import {Calendar} from '../main/datetime';
+import {Calendar} from '../main/calendar';
 
 export interface State {
     date1?: Date

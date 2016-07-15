@@ -8,14 +8,14 @@
  */
 (function webpackUniversalModuleDefinition(root, factory) {
 	if(typeof exports === 'object' && typeof module === 'object')
-		module.exports = factory(require("react"), require("react-dom"), require("jquery"));
+		module.exports = factory(require("react"), require("react-dom"), require("jquery"), require("moment"));
 	else if(typeof define === 'function' && define.amd)
-		define(["react", "react-dom", "jquery"], factory);
+		define(["react", "react-dom", "jquery", "moment"], factory);
 	else if(typeof exports === 'object')
-		exports["ReactWebKit"] = factory(require("react"), require("react-dom"), require("jquery"));
+		exports["ReactWebKit"] = factory(require("react"), require("react-dom"), require("jquery"), require("moment"));
 	else
-		root["ReactWebKit"] = factory(root["React"], root["ReactDOM"], root["jQuery"]);
-})(this, function(__WEBPACK_EXTERNAL_MODULE_2__, __WEBPACK_EXTERNAL_MODULE_3__, __WEBPACK_EXTERNAL_MODULE_4__) {
+		root["ReactWebKit"] = factory(root["React"], root["ReactDOM"], root["jQuery"], root["moment"]);
+})(this, function(__WEBPACK_EXTERNAL_MODULE_2__, __WEBPACK_EXTERNAL_MODULE_3__, __WEBPACK_EXTERNAL_MODULE_4__, __WEBPACK_EXTERNAL_MODULE_14__) {
 return /******/ (function(modules) { // webpackBootstrap
 /******/ 	// The module cache
 /******/ 	var installedModules = {};
@@ -72,19 +72,23 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var Widget = __webpack_require__(1);
 	var Layout = __webpack_require__(8);
-	var Datetime = __webpack_require__(9);
-	var Input = __webpack_require__(10);
-	var Popup = __webpack_require__(11);
-	var Modal = __webpack_require__(12);
-	var List = __webpack_require__(13);
+
+	var Popup = __webpack_require__(9);
+	var Modal = __webpack_require__(10);
+
+	var Input = __webpack_require__(11);
+	var List = __webpack_require__(12);
+
+	var Calendar = __webpack_require__(13);
 
 	module.exports = {
 	    Widget: Widget,
 	    Layout: Layout,
-	    Datetime: Datetime,
 	    Input: Input,
 	    Popup: Popup,
-	    List: List
+	    Modal: Modal,
+	    List: List,
+	    Calendar: Calendar
 	};
 
 /***/ },
@@ -370,6 +374,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	    Component.prototype.componentWillUnmount = function () {
 	        this.clearSafeTimeout();
 	        this.clearPseudoId();
+	        this.unmounted = true;
+	    };
+	    Component.prototype.isUnmounted = function () {
+	        return this.unmounted;
 	    };
 	    return Component;
 	}(React.Component);
@@ -431,7 +439,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    function Widget(props) {
 	        _super.call(this, props);
 	        this.state = {
-	            visible: props.visible
+	            invisible: props.invisible
 	        };
 	    }
 	    Widget.prototype.getId = function () {
@@ -451,9 +459,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	    };
 	    Widget.prototype.componentWillMount = function () {
 	        var props = this.props;
-	        if (props.animation && props.animation.eager && (undefined == props.visible || props.visible)) {
+	        if (props.animation && props.animation.eager && !props.invisible) {
 	            this._willAnimate = true;
-	            this._willAnimateVisible = false;
+	            this._willAnimateInvisible = true;
 	        }
 	    };
 	    Widget.prototype.componentDidMount = function () {
@@ -481,14 +489,14 @@ return /******/ (function(modules) { // webpackBootstrap
 	        }
 	    };
 	    Widget.prototype.componentWillReceiveProps = function (nextProps) {
-	        if (this.props.visible !== nextProps.visible) {
-	            this.setState({ visible: nextProps.visible });
+	        if (this.props.invisible !== nextProps.invisible) {
+	            this.setState({ invisible: nextProps.invisible });
 	        }
 	    };
 	    Widget.prototype.componentWillUpdate = function (nextProps, nextState) {
-	        if (nextProps.animation && this.state.visible != nextState.visible) {
+	        if (nextProps.animation && this.state.invisible != nextState.invisible) {
 	            this._willAnimate = true;
-	            this._willAnimateVisible = this.state.visible;
+	            this._willAnimateInvisible = this.state.invisible;
 	        }
 	    };
 	    Widget.prototype.componentDidUpdate = function (prevProps, prevState) {
@@ -525,17 +533,17 @@ return /******/ (function(modules) { // webpackBootstrap
 	        var _this = this;
 	        var props = this.props;
 	        var dom = this.getDOM();
-	        var visible = this.state.visible;
-	        if (undefined == visible) {
-	            visible = true;
-	        }
+	        var invisible = this.state.invisible;
 	        delete this._willAnimate;
-	        delete this._willAnimateVisible;
+	        delete this._willAnimateInvisible;
 	        var ani = props.animation;
 	        var jqd = Jq(dom);
 	        var dur = ani.duration ? ani.duration : exports.DEFAULT_ANIMATION_DURATION;
 	        var done = function done() {
-	            _this.afterAnimation(visible);
+	            if (_this.isUnmounted()) {
+	                return;
+	            }
+	            _this.afterAnimation();
 	            sendWidgetResize();
 	        };
 	        var step = function step() {
@@ -544,26 +552,26 @@ return /******/ (function(modules) { // webpackBootstrap
 	        switch (ani.effect) {
 	            case 'slide':
 	            case AniEffect.slide:
-	                jqd.animate({ height: visible ? 'show' : 'hide' }, { duration: dur, step: step, done: done });
+	                jqd.animate({ height: invisible ? 'hide' : 'show' }, { duration: dur, step: step, done: done });
 	                break;
 	            case 'slideWidth':
 	            case AniEffect.slideWidth:
-	                jqd.animate({ width: visible ? 'show' : 'hide' }, { duration: dur, step: step, done: done });
+	                jqd.animate({ width: invisible ? 'hide' : 'show' }, { duration: dur, step: step, done: done });
 	                break;
 	            default:
 	            case 'fade':
 	            case AniEffect.fade:
-	                jqd.animate({ opacity: visible ? 'show' : 'hide' }, { duration: dur, done: done });
+	                jqd.animate({ opacity: invisible ? 'hide' : 'show' }, { duration: dur, done: done });
 	                break;
 	        }
-	        return visible;
+	        return !invisible;
 	    };
-	    Widget.prototype.afterAnimation = function (finalVisible) {};
+	    Widget.prototype.afterAnimation = function () {};
 	    Widget.prototype.show = function () {
-	        this.setState({ visible: true });
+	        this.setState({ invisible: false });
 	    };
 	    Widget.prototype.hide = function () {
-	        this.setState({ visible: false });
+	        this.setState({ invisible: true });
 	    };
 	    Widget.prototype.onQueueEvent = function (evt) {};
 	    Widget.prototype.sendQueueEvent = function (name, data) {
@@ -590,7 +598,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    Widget.prototype.getDOM = function () {
 	        return ReactDOM.findDOMNode(this);
 	    };
-	    Widget.prototype.getRenderTag = function () {
+	    Widget.prototype.getRenderType = function () {
 	        return 'div';
 	    };
 	    Widget.prototype.getRenderSclass = function () {
@@ -607,18 +615,18 @@ return /******/ (function(modules) { // webpackBootstrap
 	        }
 	        return str.join(" ");
 	    };
-	    Widget.prototype.getRenderVisible = function () {
+	    Widget.prototype.getRenderInvisible = function () {
 	        if (this._willAnimate) {
-	            return this._willAnimateVisible;
+	            return this._willAnimateInvisible;
 	        }
-	        return undefined == this.state.visible ? true : this.state.visible;
+	        return this.state.invisible;
 	    };
 	    Widget.prototype.getRenderStyle = function () {
 	        var css = {};
 	        if (this.props.style) {
 	            Util.supplyProps(css, this.props.style);
 	        }
-	        if (!this.getRenderVisible()) {
+	        if (this.getRenderInvisible()) {
 	            css.display = 'none';
 	        }
 	        return css;
@@ -626,7 +634,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    Widget.prototype.getRenderChildren = function () {
 	        return this.props.children;
 	    };
-	    Widget.prototype.renderElementProps = function () {
+	    Widget.prototype.getRenderProps = function () {
 	        var props = this.props;
 	        return {
 	            id: this.getId(),
@@ -639,8 +647,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	        };
 	    };
 	    Widget.prototype.render = function () {
-	        var t = this.getRenderTag();
-	        var p = this.renderElementProps();
+	        var t = this.getRenderType();
+	        var p = this.getRenderProps();
 	        var c = this.getRenderChildren();
 	        return createReactElement(t, p, c);
 	    };
@@ -663,7 +671,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    Fonticon.prototype.getRenderChildren = function () {
 	        return null;
 	    };
-	    Fonticon.prototype.getRenderTag = function () {
+	    Fonticon.prototype.getRenderType = function () {
 	        return 'i';
 	    };
 	    Fonticon.defaultProps = Util.supplyProps({}, Widget.defaultProps);
@@ -691,9 +699,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	        }
 	        return children;
 	    };
-	    Button.prototype.renderElementProps = function () {
+	    Button.prototype.getRenderProps = function () {
 	        var props = this.props;
-	        var p = _super.prototype.renderElementProps.call(this);
+	        var p = _super.prototype.getRenderProps.call(this);
 	        Util.supplyProps(p, {
 	            disabled: props.disabled,
 	            type: props.type,
@@ -701,7 +709,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        });
 	        return p;
 	    };
-	    Button.prototype.getRenderTag = function () {
+	    Button.prototype.getRenderType = function () {
 	        return 'button';
 	    };
 	    Button.defaultProps = Util.supplyProps({}, Widget.defaultProps);
@@ -729,16 +737,16 @@ return /******/ (function(modules) { // webpackBootstrap
 	        }
 	        return children;
 	    };
-	    Anchor.prototype.renderElementProps = function () {
+	    Anchor.prototype.getRenderProps = function () {
 	        var props = this.props;
-	        var p = _super.prototype.renderElementProps.call(this);
+	        var p = _super.prototype.getRenderProps.call(this);
 	        Util.supplyProps(p, {
 	            href: props.href ? props.href : '#',
 	            target: props.target
 	        });
 	        return p;
 	    };
-	    Anchor.prototype.getRenderTag = function () {
+	    Anchor.prototype.getRenderType = function () {
 	        return 'a';
 	    };
 	    Anchor.defaultProps = Util.supplyProps({}, Widget.defaultProps);
@@ -4441,7 +4449,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        var css = _super.prototype.getRenderContentStyle.call(this, child, idx, ctx);
 	        if (Widget.isWidgetElemnt(child)) {
 	            var props = Widget.getWidgetProps(child);
-	            if (undefined == props.visible || props.visible) {
+	            if (!props.invisible) {
 	                if (this.props.space && ctx.anyVisible) {
 	                    css.marginLeft = this.props.space;
 	                }
@@ -4494,7 +4502,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        var css = _super.prototype.getRenderContentStyle.call(this, child, idx, ctx);
 	        if (Widget.isWidgetElemnt(child)) {
 	            var props = Widget.getWidgetProps(child);
-	            if (undefined == props.visible || props.visible) {
+	            if (!props.invisible) {
 	                if (this.props.space && ctx.anyVisible) {
 	                    css.marginTop = this.props.space;
 	                }
@@ -4537,18 +4545,18 @@ return /******/ (function(modules) { // webpackBootstrap
 	    return Vlayout;
 	}(Layout);
 	exports.Vlayout = Vlayout;
-	var Buttongroup = function (_super) {
-	    __extends(Buttongroup, _super);
-	    function Buttongroup() {
+	var Hgroup = function (_super) {
+	    __extends(Hgroup, _super);
+	    function Hgroup() {
 	        _super.apply(this, arguments);
 	    }
-	    Buttongroup.prototype.getRenderSclass = function () {
-	        var sclass = [_super.prototype.getRenderSclass.call(this), 'wkw-buttongroup'];
+	    Hgroup.prototype.getRenderSclass = function () {
+	        var sclass = [_super.prototype.getRenderSclass.call(this), 'wkw-hgroup'];
 	        return sclass.join(' ');
 	    };
-	    return Buttongroup;
+	    return Hgroup;
 	}(Hlayout);
-	exports.Buttongroup = Buttongroup;
+	exports.Hgroup = Hgroup;
 	var Sider = function (_super) {
 	    __extends(Sider, _super);
 	    function Sider(props) {
@@ -4657,648 +4665,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	    }
 	    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 	};
-	var React = __webpack_require__(2);
 	var Jq = __webpack_require__(4);
 	var Widget = __webpack_require__(1);
 	var widget_1 = __webpack_require__(1);
-	var Util = __webpack_require__(5);
-	var layout_1 = __webpack_require__(8);
-	var i18n = {
-	    dayNames: ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"],
-	    longDayNames: ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
-	    monthNames: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
-	    longMonthNames: ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"],
-	    today: 'Today',
-	    reset: 'Reset',
-	    clean: 'Clean'
-	};
-	var minComputerYear = 1971;
-	var yearGridBase = 3;
-	var yearGridNumber = yearGridBase * 4;
-	var monthGridBase = 3;
-	(function (View) {
-	    View[View["year"] = 1] = "year";
-	    View[View["month"] = 2] = "month";
-	    View[View["date"] = 3] = "date";
-	    View[View["time"] = 4] = "time";
-	})(exports.View || (exports.View = {}));
-	var View = exports.View;
-	var Calendar = function (_super) {
-	    __extends(Calendar, _super);
-	    function Calendar(props) {
-	        _super.call(this, props);
-	        this.state.viewingDate = props.selected ? new Date(props.selected.getTime()) : new Date();
-	        this.state.view = View.date;
-	    }
-	    Calendar.prototype.isUncontrolled = function () {
-	        return undefined == this.props.selected;
-	    };
-	    Calendar.prototype.getSelectedDate = function () {
-	        if (this.isUncontrolled()) {
-	            return this.state.uncontrolled;
-	        }
-	        return this.props.selected;
-	    };
-	    Calendar.prototype.componentWillReceiveProps = function (nextProps) {
-	        _super.prototype.componentWillReceiveProps.call(this, nextProps);
-	        var props = this.props;
-	        if (props.selected != nextProps.selected) {
-	            if (nextProps.selected) {
-	                this.setState({
-	                    viewingDate: new Date(nextProps.selected.getTime())
-	                });
-	            }
-	        }
-	    };
-	    Calendar.prototype.doReset = function () {
-	        var selectedDate = this.getSelectedDate();
-	        this.setState({
-	            viewingDate: !selectedDate ? new Date() : new Date(selectedDate.getTime()),
-	            view: View.date
-	        });
-	    };
-	    Calendar.prototype.doToday = function () {
-	        var _this = this;
-	        var props = this.props;
-	        var today = new Date();
-	        if (props.doSelect) {
-	            this.props.doSelect(today);
-	        }
-	        this.safeTimeout(function () {
-	            _this.setState({
-	                viewingDate: today,
-	                uncontrolled: _this.isUncontrolled() ? today : undefined,
-	                view: View.date
-	            });
-	        }, 0);
-	    };
-	    Calendar.prototype.doClean = function () {
-	        var _this = this;
-	        var props = this.props;
-	        if (props.doSelect) {
-	            this.props.doSelect(null);
-	        }
-	        this.safeTimeout(function () {
-	            _this.setState({
-	                uncontrolled: undefined,
-	                view: View.date
-	            });
-	        }, 0);
-	    };
-	    Calendar.prototype.doYearView = function () {
-	        this.setState({ view: View.year });
-	    };
-	    Calendar.prototype.doMonthView = function () {
-	        this.setState({ view: View.month });
-	    };
-	    Calendar.prototype.doDateView = function () {
-	        this.setState({ view: View.date });
-	    };
-	    Calendar.prototype.doTimeView = function () {
-	        this.setState({ view: View.time });
-	    };
-	    Calendar.prototype.doYearSelect = function (year) {
-	        var viewingDate = this.state.viewingDate;
-	        if (viewingDate.getFullYear() != year) {
-	            viewingDate = new Date(this.state.viewingDate.getTime());
-	            viewingDate.setFullYear(year);
-	        }
-	        this.setState({
-	            view: View.month,
-	            viewingDate: viewingDate
-	        });
-	    };
-	    Calendar.prototype.doYearShift = function (increase) {
-	        var viewingYear = this.state.viewingDate.getFullYear();
-	        var yearStart = viewingYear - (viewingYear - minComputerYear) % yearGridNumber;
-	        if (!increase && yearStart <= minComputerYear) {
-	            return;
-	        }
-	        var viewingDate = new Date(this.state.viewingDate.getTime());
-	        this.setState({
-	            viewingDate: Util.addDateField(viewingDate, Util.DateField.year, increase ? yearGridNumber : -yearGridNumber)
-	        });
-	    };
-	    Calendar.prototype.doMonthSelect = function (month) {
-	        var viewingDate = this.state.viewingDate;
-	        if (viewingDate.getMonth() != month) {
-	            viewingDate = new Date(this.state.viewingDate.getTime());
-	            viewingDate.setMonth(month);
-	        }
-	        this.setState({
-	            view: View.date,
-	            viewingDate: viewingDate
-	        });
-	    };
-	    Calendar.prototype.doMonthShift = function (increase) {
-	        var viewingYear = this.state.viewingDate.getFullYear();
-	        if (!increase && viewingYear <= minComputerYear) {
-	            return;
-	        }
-	        var viewingDate = new Date(this.state.viewingDate.getTime());
-	        this.setState({
-	            viewingDate: Util.addDateField(viewingDate, Util.DateField.year, increase ? 1 : -1)
-	        });
-	    };
-	    Calendar.prototype.doDateSelect = function (date) {
-	        var props = this.props;
-	        var selectedDate = new Date(this.state.viewingDate.getTime());
-	        selectedDate.setDate(date);
-	        if (props.doSelect) {
-	            this.props.doSelect(selectedDate);
-	        }
-	        if (this.isUncontrolled()) {
-	            this.setState({
-	                viewingDate: selectedDate,
-	                uncontrolled: selectedDate
-	            });
-	        }
-	    };
-	    Calendar.prototype.doDateShift = function (increase) {
-	        var viewingYear = this.state.viewingDate.getFullYear();
-	        var viewingMonth = this.state.viewingDate.getMonth();
-	        if (!increase && (viewingYear < minComputerYear || viewingYear == minComputerYear && viewingMonth == 0)) {
-	            return;
-	        }
-	        var viewingDate = new Date(this.state.viewingDate.getTime());
-	        this.setState({
-	            viewingDate: Util.addDateField(viewingDate, Util.DateField.month, increase ? 1 : -1)
-	        });
-	    };
-	    Calendar.prototype.getWidgetSclass = function () {
-	        return 'wkw-calendar';
-	    };
-	    Calendar.prototype.getRenderChildren = function () {
-	        var props = this.props;
-	        var state = this.state;
-	        var selectedDate = this.getSelectedDate();
-	        var childrenNodes = [];
-	        switch (state.view) {
-	            case View.year:
-	                childrenNodes.push(React.createElement(YearView, { key: 'year', selectedDate: selectedDate, viewingDate: state.viewingDate, doTitleShift: this.doYearShift.bind(this), doSelect: this.doYearSelect.bind(this) }));
-	                break;
-	            case View.month:
-	                childrenNodes.push(React.createElement(MonthView, { key: 'month', selectedDate: selectedDate, viewingDate: state.viewingDate, doTitleShift: this.doMonthShift.bind(this), doTitleClick: this.doYearView.bind(this), doSelect: this.doMonthSelect.bind(this) }));
-	                break;
-	            case View.date:
-	                childrenNodes.push(React.createElement(DateView, { key: 'date', selectedDate: selectedDate, viewingDate: state.viewingDate, firstDayOfWeek: props.firstDayOfWeek, doTitleShift: this.doDateShift.bind(this), doTitleClick: this.doMonthView.bind(this), doSelect: this.doDateSelect.bind(this) }));
-	                break;
-	            case View.time:
-	        }
-	        childrenNodes.push(React.createElement(layout_1.Buttongroup, { className: this.getWidgetSubSclass('bottombar'), hflex: 1, align: 'center' }, React.createElement(widget_1.Button, { className: 'wk-aux', onClick: this.doToday.bind(this) }, i18n.today), React.createElement(widget_1.Button, { className: 'wk-aux', onClick: this.doClean.bind(this) }, i18n.clean), React.createElement(widget_1.Button, { className: 'wk-aux', onClick: this.doReset.bind(this) }, i18n.reset)));
-	        return Widget.createReactElement(layout_1.Box, { hflex: 1, vflex: 1 }, childrenNodes);
-	    };
-	    Calendar.prototype.getRenderStyle = function () {
-	        var props = this.props;
-	        var css = _super.prototype.getRenderStyle.call(this);
-	        if (!props.hflex && !css.width) {
-	            css.width = 260;
-	        }
-	        if (!props.vflex && !css.height) {
-	            css.height = 302;
-	        }
-	        return css;
-	    };
-	    Calendar.defaultProps = Util.supplyProps({}, Widget.Widget.defaultProps);
-	    return Calendar;
-	}(Widget.Widget);
-	exports.Calendar = Calendar;
-	var YearView = function (_super) {
-	    __extends(YearView, _super);
-	    function YearView(props) {
-	        _super.call(this, props);
-	    }
-	    YearView.prototype.doSelect = function (year) {
-	        this.props.doSelect(year);
-	    };
-	    YearView.prototype.render = function () {
-	        var props = this.props;
-	        var now = new Date();
-	        var todayYear = now.getFullYear();
-	        var viewingYear = props.viewingDate.getFullYear();
-	        var yearStart = viewingYear - (viewingYear - minComputerYear) % yearGridNumber;
-	        var selectedYear = props.selectedDate ? props.selectedDate.getFullYear() : undefined;
-	        var title = Util.formatString("{} - {}", yearStart, yearStart + yearGridNumber - 1);
-	        var tableChildren = [];
-	        var count = 0;
-	        var onActive = function onActive(evt) {
-	            Jq(evt.currentTarget).addClass('wk-active');
-	        };
-	        var onUnactive = function onUnactive(evt) {
-	            Jq(evt.currentTarget).removeClass('wk-active');
-	        };
-	        for (var r = 0;; r++) {
-	            var rowChildren = [];
-	            for (var c = 0; c < yearGridBase; c++) {
-	                var year = yearStart + r * yearGridBase + c;
-	                var clz = [];
-	                if (year == selectedYear) {
-	                    clz.push('wk-selected');
-	                }
-	                if (year == todayYear) {
-	                    clz.push('wk-today');
-	                }
-	                rowChildren.push(React.createElement("td", { className: clz.join(' '), onMouseDown: onActive, onMouseUp: onUnactive, onMouseLeave: onUnactive, onClick: this.doSelect.bind(this, year) }, year));
-	                count++;
-	                if (count >= yearGridNumber) {
-	                    break;
-	                }
-	            }
-	            if (rowChildren.length > 0) {
-	                tableChildren.push(Widget.createReactElement('tr', {}, rowChildren));
-	            }
-	            if (count >= yearGridNumber) {
-	                break;
-	            }
-	        }
-	        var tbody = Widget.createReactElement('tbody', {}, tableChildren);
-	        return React.createElement(layout_1.Box, { className: 'wkw-calendar-yearview', hflex: 1, vflex: 1 }, React.createElement(Titlebar, { title: title, doTitleShift: props.doTitleShift }), React.createElement(layout_1.Box, { hflex: 1, vflex: 1 }, React.createElement("table", { className: 'wkw-calendar-table' }, tbody)));
-	    };
-	    return YearView;
-	}(Widget.Component);
-	var MonthView = function (_super) {
-	    __extends(MonthView, _super);
-	    function MonthView(props) {
-	        _super.call(this, props);
-	    }
-	    MonthView.prototype.doSelect = function (month) {
-	        this.props.doSelect(month);
-	    };
-	    MonthView.prototype.render = function () {
-	        var props = this.props;
-	        var now = new Date();
-	        var todayMonth = now.getMonth();
-	        var todayYear = now.getFullYear();
-	        var viewingMonth = props.viewingDate.getMonth();
-	        var viewingYear = props.viewingDate.getFullYear();
-	        var selectedMonth = props.selectedDate ? props.selectedDate.getMonth() : undefined;
-	        var selectedYear = props.selectedDate ? props.selectedDate.getFullYear() : undefined;
-	        var title = Util.formatString("{}", viewingYear);
-	        var tableChildren = [];
-	        var count = 0;
-	        var onActive = function onActive(evt) {
-	            Jq(evt.currentTarget).addClass('wk-active');
-	        };
-	        var onUnactive = function onUnactive(evt) {
-	            Jq(evt.currentTarget).removeClass('wk-active');
-	        };
-	        for (var r = 0;; r++) {
-	            var rowChildren = [];
-	            for (var c = 0; c < monthGridBase; c++) {
-	                var month = r * monthGridBase + c;
-	                var clz = [];
-	                if (viewingYear == selectedYear && month == selectedMonth) {
-	                    clz.push('wk-selected');
-	                }
-	                if (viewingYear == todayYear && month == todayMonth) {
-	                    clz.push('wk-today');
-	                }
-	                rowChildren.push(React.createElement("td", { className: clz.join(' '), onMouseDown: onActive, onMouseUp: onUnactive, onMouseLeave: onUnactive, onClick: this.doSelect.bind(this, month) }, i18n.monthNames[month]));
-	                count++;
-	                if (count >= 12) {
-	                    break;
-	                }
-	            }
-	            if (rowChildren.length > 0) {
-	                tableChildren.push(Widget.createReactElement('tr', {}, rowChildren));
-	            }
-	            if (count >= 12) {
-	                break;
-	            }
-	        }
-	        var tbody = Widget.createReactElement('tbody', {}, tableChildren);
-	        return React.createElement(layout_1.Box, { className: 'wkw-calendar-monthview', hflex: 1, vflex: 1 }, React.createElement(Titlebar, { title: title, doTitleClick: props.doTitleClick, doTitleShift: props.doTitleShift }), React.createElement(layout_1.Box, { hflex: 1, vflex: 1 }, React.createElement("table", { className: 'wkw-calendar-table' }, tbody)));
-	    };
-	    return MonthView;
-	}(Widget.Component);
-	function getDaysOfMonth(date) {
-	    return new Date(date.getFullYear(), date.getMonth() + 1, 0).getDate();
-	}
-	function getWeekDayOfMonth(date) {
-	    return new Date(date.getFullYear(), date.getMonth(), 1).getDay();
-	}
-	var DateView = function (_super) {
-	    __extends(DateView, _super);
-	    function DateView(props) {
-	        _super.call(this, props);
-	    }
-	    DateView.prototype.doSelect = function (date) {
-	        this.props.doSelect(date);
-	    };
-	    DateView.prototype.render = function () {
-	        var props = this.props;
-	        var now = new Date();
-	        var todayDate = now.getDate();
-	        var todayMonth = now.getMonth();
-	        var todayYear = now.getFullYear();
-	        var viewingDate = props.viewingDate.getDate();
-	        var viewingMonth = props.viewingDate.getMonth();
-	        var viewingYear = props.viewingDate.getFullYear();
-	        var selectedDate = props.selectedDate ? props.selectedDate.getDate() : undefined;
-	        var selectedYear = props.selectedDate ? props.selectedDate.getFullYear() : undefined;
-	        var selectedMonth = props.selectedDate ? props.selectedDate.getMonth() : undefined;
-	        var daysOfMonth = getDaysOfMonth(props.viewingDate);
-	        var weekDayOfMonth = getWeekDayOfMonth(props.viewingDate);
-	        var prevDaysOfMonth = getDaysOfMonth(Util.addDateField(new Date(props.viewingDate.getTime()), Util.DateField.month, -1));
-	        var onActive = function onActive(evt) {
-	            Jq(evt.currentTarget).addClass('wk-active');
-	        };
-	        var onUnactive = function onUnactive(evt) {
-	            Jq(evt.currentTarget).removeClass('wk-active');
-	        };
-	        var title = Util.formatString("{} {}", i18n.longMonthNames[viewingMonth], viewingYear);
-	        var tableRows = [];
-	        var firstDayOfWeek = props.firstDayOfWeek ? props.firstDayOfWeek : 0;
-	        var sundayIdx = firstDayOfWeek == 0 ? 0 : 7 - firstDayOfWeek;
-	        var firstDayIdx = sundayIdx == 0 ? weekDayOfMonth : weekDayOfMonth - 1;
-	        if (firstDayIdx <= 0) {
-	            firstDayIdx += 7;
-	        }
-	        var headerChildren = [];
-	        for (var c = 0; c < 7; c++) {
-	            var idx = firstDayOfWeek + c;
-	            while (idx >= 7) {
-	                idx -= 7;
-	            }
-	            var clz = c == sundayIdx ? 'wk-sunday' : undefined;
-	            headerChildren.push(React.createElement("th", { className: clz }, i18n.dayNames[idx]));
-	        }
-	        tableRows.push(Widget.createReactElement('tr', {}, headerChildren));
-	        for (var r = 0; r < 6; r++) {
-	            var rowChildren = [];
-	            for (var c = 0; c < 7; c++) {
-	                var date = r * 7 + c;
-	                date = date - firstDayIdx + 1;
-	                var clz = [];
-	                if (viewingYear == selectedYear && viewingMonth == selectedMonth && date == selectedDate) {
-	                    clz.push('wk-selected');
-	                }
-	                if (viewingYear == todayYear && viewingMonth == todayMonth && date == todayDate) {
-	                    clz.push('wk-today');
-	                }
-	                if (c == sundayIdx) {
-	                    clz.push('wk-sunday');
-	                }
-	                var label = void 0;
-	                if (date <= 0) {
-	                    label = prevDaysOfMonth + date;
-	                    clz.push('wk-date-prv-m');
-	                } else if (date > daysOfMonth) {
-	                    label = date - daysOfMonth;
-	                    clz.push('wk-date-next-m');
-	                } else {
-	                    clz.push('wk-date');
-	                    label = date;
-	                }
-	                rowChildren.push(React.createElement("td", { className: clz.join(' '), onMouseDown: onActive, onMouseUp: onUnactive, onMouseLeave: onUnactive, onClick: this.doSelect.bind(this, date) }, label));
-	            }
-	            if (rowChildren.length > 0) {
-	                tableRows.push(Widget.createReactElement('tr', {}, rowChildren));
-	            }
-	        }
-	        var tbody = Widget.createReactElement('tbody', {}, tableRows);
-	        return React.createElement(layout_1.Box, { className: 'wkw-calendar-dateview', hflex: 1, vflex: 1 }, React.createElement(Titlebar, { title: title, doTitleClick: props.doTitleClick, doTitleShift: props.doTitleShift }), React.createElement(layout_1.Box, { hflex: 1, vflex: 1 }, React.createElement("table", { className: 'wkw-calendar-table' }, tbody)));
-	    };
-	    return DateView;
-	}(Widget.Component);
-	var TimeView = function (_super) {
-	    __extends(TimeView, _super);
-	    function TimeView(props) {
-	        _super.call(this, props);
-	    }
-	    TimeView.prototype.render = function () {
-	        return React.createElement("div", { className: 'wkw-calendar-time' });
-	    };
-	    return TimeView;
-	}(Widget.Component);
-	var Titlebar = function (_super) {
-	    __extends(Titlebar, _super);
-	    function Titlebar(props) {
-	        _super.call(this, props);
-	    }
-	    Titlebar.prototype.render = function () {
-	        var props = this.props;
-	        var childrenNodes = [];
-	        if (props.doTitleShift) {
-	            childrenNodes.push(React.createElement("button", { className: 'wk-aux', onClick: function onClick() {
-	                    props.doTitleShift(false);
-	                } }, " < "));
-	        }
-	        childrenNodes.push(React.createElement(layout_1.Box, { hflex: 1, align: 'center' }, React.createElement("div", { className: props.doTitleClick ? 'wk-clickable' : undefined, onClick: props.doTitleClick }, " ", this.props.title)));
-	        if (props.doTitleShift) {
-	            childrenNodes.push(React.createElement("button", { className: 'wk-aux', onClick: function onClick() {
-	                    props.doTitleShift(true);
-	                } }, " > "));
-	        }
-	        return Widget.createReactElement(layout_1.Hlayout, { className: 'wkw-calendar-titlebar', hflex: 1, align: 'middle' }, childrenNodes);
-	    };
-	    return Titlebar;
-	}(Widget.Component);
-
-	//# sourceMappingURL=srcmap/datetime.js.map
-
-/***/ },
-/* 10 */
-/***/ function(module, exports, __webpack_require__) {
-
-	/**
-	 * React WebKit - v0.0.5
-	 * The react web widget kit base on typescript
-	 * 
-	 * Copyright 2016 - present, Dennis Chen, All rights reserved.
-	 * 
-	 * Released under MIT license
-	 */
-	"use strict";
-
-	var __extends = undefined && undefined.__extends || function (d, b) {
-	    for (var p in b) {
-	        if (b.hasOwnProperty(p)) d[p] = b[p];
-	    }function __() {
-	        this.constructor = d;
-	    }
-	    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-	};
-	var __assign = undefined && undefined.__assign || Object.assign || function (t) {
-	    for (var s, i = 1, n = arguments.length; i < n; i++) {
-	        s = arguments[i];
-	        for (var p in s) {
-	            if (Object.prototype.hasOwnProperty.call(s, p)) t[p] = s[p];
-	        }
-	    }
-	    return t;
-	};
-	var React = __webpack_require__(2);
-	var Widget = __webpack_require__(1);
-	var Util = __webpack_require__(5);
-	var Input = function (_super) {
-	    __extends(Input, _super);
-	    function Input() {
-	        _super.apply(this, arguments);
-	    }
-	    Input.prototype.onChange = function (evt) {
-	        if (this.props.onChange) {
-	            this.props.onChange(evt);
-	        }
-	    };
-	    Input.prototype.getRenderSclass = function () {
-	        var str = [_super.prototype.getRenderSclass.call(this)];
-	        if (this.props.disabled) {
-	            str.push('wk-disabled');
-	        }
-	        return str.join(' ');
-	    };
-	    Input.prototype.getInputDOM = function () {
-	        return this.refs['input'];
-	    };
-	    Input.defaultProps = Util.supplyProps({}, Widget.Widget.defaultProps);
-	    return Input;
-	}(Widget.Widget);
-	exports.Input = Input;
-	(function (TextboxType) {
-	    TextboxType[TextboxType["text"] = 1] = "text";
-	    TextboxType[TextboxType["textarea"] = 2] = "textarea";
-	    TextboxType[TextboxType["password"] = 3] = "password";
-	})(exports.TextboxType || (exports.TextboxType = {}));
-	var TextboxType = exports.TextboxType;
-	var Textbox = function (_super) {
-	    __extends(Textbox, _super);
-	    function Textbox() {
-	        _super.apply(this, arguments);
-	    }
-	    Textbox.prototype.getWidgetSclass = function () {
-	        return 'wkw-textbox';
-	    };
-	    Textbox.prototype.onChange = function (evt) {
-	        _super.prototype.onChange.call(this, evt);
-	        if (this.props.doChange) {
-	            this.props.doChange(evt.target.value);
-	        }
-	    };
-	    Textbox.prototype.getRenderChildren = function () {
-	        var props = this.props;
-	        var onChange = props.onChange || props.doChange ? this.onChange.bind(this) : undefined;
-	        var css = {};
-	        if (props.hflex || props.style && props.style.width) {
-	            css.width = '100%';
-	        }
-	        if (props.vflex || props.style && props.style.height) {
-	            css.height = '100%';
-	        }
-	        var inpProps = {
-	            ref: 'input',
-	            onChange: onChange,
-	            disabled: props.disabled,
-	            readOnly: props.readOnly,
-	            style: css,
-	            placeholder: props.placeholder,
-	            defaultValue: props.defaultValue,
-	            name: props.name,
-	            value: props.value,
-	            maxLength: props.maxLength
-	        };
-	        var inpType = 'text';
-	        switch (props.type) {
-	            case 'textarea':
-	            case TextboxType.textarea:
-	                if (props.hflex && props.vflex) {
-	                    css.resize = 'none';
-	                } else if (props.hflex) {
-	                    css.resize = 'vertical';
-	                } else if (props.vflex) {
-	                    css.resize = 'horizontal';
-	                }
-	                return React.createElement("textarea", __assign({}, inpProps));
-	            case 'password':
-	            case TextboxType.password:
-	                inpType = 'password';
-	            default:
-	                return React.createElement("input", __assign({ type: inpType }, inpProps));
-	        }
-	    };
-	    Textbox.defaultProps = Util.supplyProps({}, Input.defaultProps);
-	    return Textbox;
-	}(Input);
-	exports.Textbox = Textbox;
-	var Checkbox = function (_super) {
-	    __extends(Checkbox, _super);
-	    function Checkbox() {
-	        _super.apply(this, arguments);
-	    }
-	    Checkbox.prototype.getWidgetSclass = function () {
-	        return 'wkw-checkbox';
-	    };
-	    Checkbox.prototype.onChange = function (evt) {
-	        _super.prototype.onChange.call(this, evt);
-	        if (this.props.doCheck) {
-	            this.props.doCheck(evt.target.checked, this.props.value);
-	        }
-	    };
-	    Checkbox.prototype.getInputType = function () {
-	        return 'checkbox';
-	    };
-	    Checkbox.prototype.getRenderChildren = function () {
-	        var props = this.props;
-	        var inpid;
-	        if (props.id) {
-	            inpid = [props.id, '_inp'].join('');
-	        } else {
-	            inpid = [this.getPseudoId(), '_inp'].join('');
-	        }
-	        var label;
-	        if (props.label) {
-	            label = React.createElement("label", { htmlFor: inpid }, props.label);
-	        }
-	        var inputType = this.getInputType();
-	        var onChange = props.onChange || props.doCheck ? this.onChange.bind(this) : undefined;
-	        var value = 'string' == typeof props.value ? props.value : undefined;
-	        return [React.createElement("input", { id: inpid, type: inputType, ref: 'input', onChange: onChange, checked: props.checked, disabled: props.disabled, readOnly: props.readOnly, defaultChecked: props.defaultChecked, name: props.name, value: value }), label];
-	    };
-	    Checkbox.defaultProps = Util.supplyProps({}, Input.defaultProps);
-	    return Checkbox;
-	}(Input);
-	exports.Checkbox = Checkbox;
-	var Radiobox = function (_super) {
-	    __extends(Radiobox, _super);
-	    function Radiobox() {
-	        _super.apply(this, arguments);
-	    }
-	    Radiobox.prototype.getWidgetSclass = function () {
-	        return 'wkw-radiobox';
-	    };
-	    Radiobox.prototype.getInputType = function () {
-	        return 'radio';
-	    };
-	    return Radiobox;
-	}(Checkbox);
-	exports.Radiobox = Radiobox;
-
-	//# sourceMappingURL=srcmap/input.js.map
-
-/***/ },
-/* 11 */
-/***/ function(module, exports, __webpack_require__) {
-
-	/**
-	 * React WebKit - v0.0.5
-	 * The react web widget kit base on typescript
-	 * 
-	 * Copyright 2016 - present, Dennis Chen, All rights reserved.
-	 * 
-	 * Released under MIT license
-	 */
-	"use strict";
-
-	var __extends = undefined && undefined.__extends || function (d, b) {
-	    for (var p in b) {
-	        if (b.hasOwnProperty(p)) d[p] = b[p];
-	    }function __() {
-	        this.constructor = d;
-	    }
-	    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-	};
-	var Jq = __webpack_require__(4);
-	var Widget = __webpack_require__(1);
 	var Util = __webpack_require__(5);
 	exports.zIndexStart = 2000;
 	(function (AdjustMethod) {
@@ -5311,8 +4680,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	    function Popup(props) {
 	        _super.call(this, props);
 	        this.dismissCount = 0;
-	        if (undefined === this.state.visible) {
-	            this.state.visible = false;
+	        if (undefined == this.state.invisible) {
+	            this.state.invisible = true;
 	        }
 	    }
 	    Popup.prototype.getId = function () {
@@ -5325,8 +4694,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	    };
 	    Popup.prototype.removeBodyListener = function () {
 	        if (this.onBodyClick) {
-	            Jq('body').unbind('click', this.onBodyClick);
+	            Jq('body').off('click', this.onBodyClick);
 	            delete this.onBodyClick;
+	        }
+	        if (this.onBodyKeyUp) {
+	            Jq('body').off('keyup', this.onBodyKeyUp);
+	            delete this.onBodyKeyUp;
 	        }
 	    };
 	    Popup.prototype.show = function (target, showOpt) {
@@ -5384,7 +4757,15 @@ return /******/ (function(modules) { // webpackBootstrap
 	                        _this.hide();
 	                    }
 	                };
-	                Jq('body').bind('click', this.onBodyClick = fnDismiss);
+	                Jq('body').on('click', this.onBodyClick = fnDismiss);
+	            }
+	            if (!this.onBodyKeyUp) {
+	                var fnDismiss = function fnDismiss(evt) {
+	                    if (evt.keyCode == 27) {
+	                        _this.hide();
+	                    }
+	                };
+	                Jq('body').on('keyup', this.onBodyKeyUp = fnDismiss);
 	            }
 	        } else {
 	            this.removeBodyListener();
@@ -5395,26 +4776,60 @@ return /******/ (function(modules) { // webpackBootstrap
 	        var opt = showOpt ? showOpt : props.showOption ? props.showOption : {};
 	        var jqdom = Jq(this.getDOM());
 	        var jqp = jqdom.parent();
-	        var targetPos = { x: 0, y: 0 };
+	        var parentOffset = jqp.offset();
+	        var jqvp;
+	        if (undefined == opt.adjustViewport) {
+	            jqvp = Jq(document.body);
+	        } else if (opt.adjustViewport instanceof Jq) {
+	            jqvp = opt.adjustViewport;
+	        } else if ('boolean' == typeof opt.adjustViewport && opt.adjustViewport) {
+	            jqvp = jqp;
+	        } else {
+	            jqvp = Jq(opt.adjustViewport);
+	        }
+	        if (jqvp.length == 0) {
+	            throw 'can\'t find viewport dom for adjustment by ' + opt.adjustViewport;
+	        }
+	        var viewportScroll = {
+	            top: jqvp.scrollTop(),
+	            left: jqvp.scrollLeft()
+	        };
+	        var viewportOffset = jqvp.offset();
+	        var viewportSize = {
+	            height: jqvp[0].scrollHeight,
+	            width: jqvp[0].scrollWidth
+	        };
+	        var targetOffset;
+	        var targetSize;
 	        if (target) {
-	            targetPos = calculatPopupTargetPos(target, jqp, opt);
+	            var evt = target;
+	            if (evt.target && "pageX" in evt && "pageY" in evt) {
+	                targetOffset = { top: evt.pageY, left: evt.pageX };
+	                targetSize = { height: 0, width: 0 };
+	            } else {
+	                var jqt = Jq(target);
+	                targetOffset = jqt.offset();
+	                targetSize = { height: Widget.getOutterHeight(jqt[0]), width: Widget.getOutterWidth(jqt[0]) };
+	            }
+	        } else {
+	            targetOffset = jqdom.offset();
+	            targetSize = { height: 0, width: 0 };
 	        }
 	        var visible = jqdom.is(":visible");
 	        if (!visible) {
 	            jqdom.show();
 	        }
-	        var selfSize = { width: Widget.getOutterWidth(jqdom[0]), height: Widget.getOutterHeight(jqdom[0]) };
+	        var selfSize = { height: Widget.getOutterHeight(jqdom[0]), width: Widget.getOutterWidth(jqdom[0]) };
 	        if (!visible) {
 	            jqdom.hide();
 	        }
-	        var selfPos = calculatePopupSelfPos(targetPos, selfSize, opt);
-	        selfPos.x += opt.adjustX | 0;
-	        selfPos.y += opt.adjustY | 0;
+	        var selfOffset = calculatePopupOffset(targetOffset, targetSize, selfSize, opt);
+	        selfOffset.left += opt.adjustX | 0;
+	        selfOffset.top += opt.adjustY | 0;
 	        if (opt.adjust) {
-	            var parentScrollSize = { width: jqp[0].scrollWidth, height: jqp[0].scrollHeight };
-	            selfPos = calculatePopupAdjustPos(targetPos, selfPos, selfSize, parentScrollSize, opt);
+	            selfOffset = calculatePopupAdjustment(viewportScroll, viewportOffset, viewportSize, targetOffset, targetSize, selfOffset, selfSize, opt);
 	        }
-	        this.setState({ left: selfPos.x, top: selfPos.y });
+	        this.setState({ top: selfOffset.top - parentOffset.top + jqp.scrollTop(), left: selfOffset.left - parentOffset.left + jqp.scrollLeft() });
 	    };
 	    Popup.prototype.hide = function () {
 	        _super.prototype.hide.call(this);
@@ -5423,9 +4838,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	        }
 	        this.removeBodyListener();
 	    };
-	    Popup.prototype.afterAnimation = function (finalVisible) {
-	        _super.prototype.afterAnimation.call(this, finalVisible);
-	        if (!finalVisible) {
+	    Popup.prototype.afterAnimation = function () {
+	        _super.prototype.afterAnimation.call(this);
+	        if (this.state.invisible) {
 	            this.setState({ zIndex: undefined });
 	        }
 	    };
@@ -5444,133 +4859,139 @@ return /******/ (function(modules) { // webpackBootstrap
 	    return Popup;
 	}(Widget.Widget);
 	exports.Popup = Popup;
-	function calculatPopupTargetPos(target, jqParent, opt) {
+	function calculatePopupOffset(targetOffset, targetSize, selfSize, opt) {
 	    if (opt === void 0) {
 	        opt = {};
 	    }
-	    var targetPos = { x: 0, y: 0 };
-	    var parentOffset = jqParent.offset();
-	    var evt = target;
-	    if (evt.target && "pageX" in evt && "pageY" in evt) {
-	        targetPos.x = evt.pageX - parentOffset.left + jqParent.scrollLeft();
-	        targetPos.y = evt.pageY - parentOffset.top + jqParent.scrollTop();
-	    } else {
-	        var jqt = Jq(target);
-	        var targetOffset = jqt.offset();
-	        targetPos.x = targetOffset.left - parentOffset.left + jqParent.scrollLeft();
-	        targetPos.y = targetOffset.top - parentOffset.top + jqParent.scrollTop();
-	        var targetWidth = Widget.getOutterWidth(jqt[0]);
-	        var targetHeight = Widget.getOutterHeight(jqt[0]);
-	        var pos = opt.targetHPos ? opt.targetHPos : 'right';
-	        switch (pos) {
-	            case 'right':
-	            case Widget.HPos.right:
-	                targetPos.x += targetWidth;
-	                break;
-	            case 'center':
-	            case Widget.HPos.center:
-	                targetPos.x += targetWidth / 2;
-	                break;
-	        }
-	        pos = opt.targetVPos ? opt.targetVPos : 'top';
-	        switch (pos) {
-	            case 'bottom':
-	            case Widget.VPos.bottom:
-	                targetPos.y += targetHeight;
-	                break;
-	            case 'middle':
-	            case Widget.VPos.middle:
-	                targetPos.y += targetHeight / 2;
-	                break;
-	        }
-	    }
-	    return targetPos;
-	}
-	function calculatePopupSelfPos(targetPos, selfSize, opt) {
-	    if (opt === void 0) {
-	        opt = {};
-	    }
-	    var left = targetPos.x;
-	    var top = targetPos.y;
-	    var pos = opt.selfHPos ? opt.selfHPos : 'left';
+	    var left = targetOffset.left;
+	    var top = targetOffset.top;
+	    var pos = opt.targetHPos ? opt.targetHPos : 'right';
 	    switch (pos) {
 	        case 'right':
-	        case Widget.HPos.right:
+	        case widget_1.HPos.right:
+	            left += targetSize.width;
+	            break;
+	        case 'center':
+	        case widget_1.HPos.center:
+	            left += targetSize.width / 2;
+	            break;
+	    }
+	    pos = opt.targetVPos ? opt.targetVPos : 'top';
+	    switch (pos) {
+	        case 'bottom':
+	        case widget_1.VPos.bottom:
+	            top += targetSize.height;
+	            break;
+	        case 'middle':
+	        case widget_1.VPos.middle:
+	            top += targetSize.height / 2;
+	            break;
+	    }
+	    pos = opt.selfHPos ? opt.selfHPos : 'left';
+	    switch (pos) {
+	        case 'right':
+	        case widget_1.HPos.right:
 	            left -= selfSize.width;
 	            break;
 	        case 'center':
-	        case Widget.HPos.center:
+	        case widget_1.HPos.center:
 	            left -= selfSize.width / 2;
 	            break;
 	    }
 	    pos = opt.selfVPos ? opt.selfVPos : 'top';
-	    switch (opt.selfVPos) {
+	    switch (pos) {
 	        case 'bottom':
-	        case Widget.VPos.bottom:
+	        case widget_1.VPos.bottom:
 	            top -= selfSize.height;
 	            break;
 	        case 'middle':
-	        case Widget.VPos.middle:
+	        case widget_1.VPos.middle:
 	            top -= selfSize.height / 2;
 	            break;
 	    }
-	    return { x: left, y: top };
+	    return { top: top, left: left };
 	}
-	function calculatePopupAdjustPos(targetPos, selfPos, selfSize, parentScrollSize, opt) {
+	function calculatePopupAdjustment(viewportScroll, viewportOffset, viewportSize, targetOffset, targetSize, selfOffset, selfSize, opt) {
 	    if (opt === void 0) {
 	        opt = {};
 	    }
-	    var psw = parentScrollSize.width;
-	    var psh = parentScrollSize.height;
-	    var adjPos = Util.overrideProps({}, selfPos);
+	    var adjOffset = {
+	        top: selfOffset.top,
+	        left: selfOffset.left
+	    };
 	    switch (opt.adjust) {
 	        case 'shift':
 	        case AdjustMethod.shift:
-	            if (adjPos.x + selfSize.width > psw) {
-	                adjPos.x = psw - selfSize.width;
+	            var v1 = adjOffset.left + selfSize.width;
+	            var v2 = viewportOffset.left + viewportSize.width - viewportScroll.left;
+	            if (v1 > v2) {
+	                adjOffset.left -= v1 - v2;
 	            }
-	            if (adjPos.y + selfSize.height > psh) {
-	                adjPos.y = psh - selfSize.height;
+	            v1 = adjOffset.top + selfSize.height;
+	            v2 = viewportOffset.top + viewportSize.height - viewportScroll.top;
+	            if (v1 > v2) {
+	                adjOffset.top -= v1 - v2;
 	            }
-	            if (adjPos.x < 0) {
-	                adjPos.x = 0;
+	            if (adjOffset.left + viewportScroll.left < viewportOffset.left) {
+	                adjOffset.left = viewportOffset.left - viewportScroll.left;
 	            }
-	            if (adjPos.y < 0) {
-	                adjPos.y = 0;
+	            if (adjOffset.top + viewportScroll.top < viewportOffset.top) {
+	                adjOffset.top = viewportOffset.top - viewportScroll.top;
 	            }
 	            break;
 	        case 'flip':
 	        case AdjustMethod.flip:
-	            var adjOpt = Util.overrideProps({}, opt);
-	            var adj = 0;
-	            if (adjPos.x + selfSize.width > psw) {
-	                adjOpt.selfHPos = Widget.HPos.right;
-	                adj++;
+	            var adjOpt = Util.supplyProps({ adjust: 'shift' }, opt);
+	            var flipped = false;
+	            v1 = adjOffset.left + selfSize.width;
+	            v2 = viewportOffset.left + viewportSize.width - viewportScroll.left;
+	            if (adjOffset.left + viewportScroll.left < viewportOffset.left || v1 > v2) {
+	                adjOpt.selfHPos = flipHPos(adjOpt.selfHPos);
+	                adjOpt.targetHPos = flipHPos(adjOpt.targetHPos);
+	                flipped = true;
 	            }
-	            if (adjPos.y + selfSize.height > psh) {
-	                adjOpt.selfVPos = Widget.VPos.bottom;
-	                adj++;
+	            v1 = adjOffset.top + selfSize.height;
+	            v2 = viewportOffset.top + viewportSize.height - viewportScroll.top;
+	            if (adjOffset.top + viewportScroll.top < viewportOffset.top || v1 > v2) {
+	                adjOpt.selfVPos = flipVPos(adjOpt.selfVPos);
+	                adjOpt.targetVPos = flipVPos(adjOpt.targetVPos);
+	                flipped = true;
 	            }
-	            if (adjPos.x < 0) {
-	                adjOpt.selfHPos = Widget.HPos.left;
-	                adj++;
-	            }
-	            if (adjPos.y < 0) {
-	                adjOpt.selfVPos = Widget.VPos.top;
-	                adj++;
-	            }
-	            if (adj > 0) {
-	                adjPos = calculatePopupSelfPos(targetPos, selfSize, adjOpt);
+	            if (flipped) {
+	                adjOffset = calculatePopupOffset(targetOffset, targetSize, selfSize, adjOpt);
+	                adjOffset = calculatePopupAdjustment(viewportScroll, viewportOffset, viewportSize, targetOffset, targetSize, adjOffset, selfSize, adjOpt);
 	            }
 	            break;
 	    }
-	    return adjPos;
+	    return adjOffset;
+	}
+	function flipVPos(pos) {
+	    switch (pos) {
+	        case 'top':
+	        case widget_1.VPos.top:
+	            return widget_1.VPos.bottom;
+	        case 'bottom':
+	        case widget_1.VPos.bottom:
+	            return widget_1.VPos.top;
+	    }
+	    return pos;
+	}
+	function flipHPos(pos) {
+	    switch (pos) {
+	        case 'left':
+	        case widget_1.HPos.left:
+	            return widget_1.HPos.right;
+	        case 'right':
+	        case widget_1.HPos.right:
+	            return widget_1.HPos.left;
+	    }
+	    return pos;
 	}
 
 	//# sourceMappingURL=srcmap/popup.js.map
 
 /***/ },
-/* 12 */
+/* 10 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -5806,7 +5227,184 @@ return /******/ (function(modules) { // webpackBootstrap
 	//# sourceMappingURL=srcmap/modal.js.map
 
 /***/ },
-/* 13 */
+/* 11 */
+/***/ function(module, exports, __webpack_require__) {
+
+	/**
+	 * React WebKit - v0.0.5
+	 * The react web widget kit base on typescript
+	 * 
+	 * Copyright 2016 - present, Dennis Chen, All rights reserved.
+	 * 
+	 * Released under MIT license
+	 */
+	"use strict";
+
+	var __extends = undefined && undefined.__extends || function (d, b) {
+	    for (var p in b) {
+	        if (b.hasOwnProperty(p)) d[p] = b[p];
+	    }function __() {
+	        this.constructor = d;
+	    }
+	    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+	};
+	var __assign = undefined && undefined.__assign || Object.assign || function (t) {
+	    for (var s, i = 1, n = arguments.length; i < n; i++) {
+	        s = arguments[i];
+	        for (var p in s) {
+	            if (Object.prototype.hasOwnProperty.call(s, p)) t[p] = s[p];
+	        }
+	    }
+	    return t;
+	};
+	var React = __webpack_require__(2);
+	var Util = __webpack_require__(5);
+	var Widget = __webpack_require__(1);
+	var Input = function (_super) {
+	    __extends(Input, _super);
+	    function Input() {
+	        _super.apply(this, arguments);
+	    }
+	    Input.prototype.onChange = function (evt) {
+	        if (this.props.onChange) {
+	            this.props.onChange(evt);
+	        }
+	    };
+	    Input.prototype.getRenderSclass = function () {
+	        var str = [_super.prototype.getRenderSclass.call(this)];
+	        if (this.props.disabled) {
+	            str.push('wk-disabled');
+	        }
+	        return str.join(' ');
+	    };
+	    Input.defaultProps = Util.supplyProps({}, Widget.Widget.defaultProps);
+	    return Input;
+	}(Widget.Widget);
+	exports.Input = Input;
+	(function (TextboxType) {
+	    TextboxType[TextboxType["text"] = 1] = "text";
+	    TextboxType[TextboxType["textarea"] = 2] = "textarea";
+	    TextboxType[TextboxType["password"] = 3] = "password";
+	})(exports.TextboxType || (exports.TextboxType = {}));
+	var TextboxType = exports.TextboxType;
+	var Textbox = function (_super) {
+	    __extends(Textbox, _super);
+	    function Textbox() {
+	        _super.apply(this, arguments);
+	    }
+	    Textbox.prototype.getWidgetSclass = function () {
+	        return 'wkw-textbox';
+	    };
+	    Textbox.prototype.onChange = function (evt) {
+	        _super.prototype.onChange.call(this, evt);
+	        if (this.props.doChange) {
+	            this.props.doChange(evt.target.value);
+	        }
+	    };
+	    Textbox.prototype.getRenderChildren = function () {
+	        var props = this.props;
+	        var onChange = props.onChange || props.doChange ? this.onChange.bind(this) : undefined;
+	        var css = {};
+	        if (props.hflex || props.style && props.style.width) {
+	            css.width = '100%';
+	        }
+	        if (props.vflex || props.style && props.style.height) {
+	            css.height = '100%';
+	        }
+	        var inpProps = {
+	            disabled: props.disabled,
+	            readOnly: props.readOnly,
+	            style: css,
+	            placeholder: props.placeholder,
+	            defaultValue: props.defaultValue,
+	            name: props.name,
+	            value: props.value,
+	            maxLength: props.maxLength,
+	            onChange: onChange,
+	            onKeyUp: props.onKeyUp,
+	            onKeyDown: props.onKeyDown,
+	            onKeyPress: props.onKeyPress
+	        };
+	        var inpType = 'text';
+	        switch (props.type) {
+	            case 'textarea':
+	            case TextboxType.textarea:
+	                if (props.hflex && props.vflex) {
+	                    css.resize = 'none';
+	                } else if (props.hflex) {
+	                    css.resize = 'vertical';
+	                } else if (props.vflex) {
+	                    css.resize = 'horizontal';
+	                }
+	                return React.createElement("textarea", __assign({}, inpProps));
+	            case 'password':
+	            case TextboxType.password:
+	                inpType = 'password';
+	            default:
+	                return React.createElement("input", __assign({ type: inpType }, inpProps));
+	        }
+	    };
+	    Textbox.defaultProps = Util.supplyProps({}, Input.defaultProps);
+	    return Textbox;
+	}(Input);
+	exports.Textbox = Textbox;
+	var Checkbox = function (_super) {
+	    __extends(Checkbox, _super);
+	    function Checkbox() {
+	        _super.apply(this, arguments);
+	    }
+	    Checkbox.prototype.getWidgetSclass = function () {
+	        return 'wkw-checkbox';
+	    };
+	    Checkbox.prototype.onChange = function (evt) {
+	        _super.prototype.onChange.call(this, evt);
+	        if (this.props.doCheck) {
+	            this.props.doCheck(evt.target.checked, this.props.value);
+	        }
+	    };
+	    Checkbox.prototype.getInputType = function () {
+	        return 'checkbox';
+	    };
+	    Checkbox.prototype.getRenderChildren = function () {
+	        var props = this.props;
+	        var inpid;
+	        if (props.id) {
+	            inpid = [props.id, '_inp'].join('');
+	        } else {
+	            inpid = [this.getPseudoId(), '_inp'].join('');
+	        }
+	        var label;
+	        if (props.label) {
+	            label = React.createElement("label", { htmlFor: inpid }, props.label);
+	        }
+	        var inputType = this.getInputType();
+	        var onChange = props.onChange || props.doCheck ? this.onChange.bind(this) : undefined;
+	        var value = 'string' == typeof props.value ? props.value : undefined;
+	        return [React.createElement("input", { id: inpid, type: inputType, onChange: onChange, checked: props.checked, disabled: props.disabled, readOnly: props.readOnly, defaultChecked: props.defaultChecked, onKeyUp: props.onKeyUp, onKeyDown: props.onKeyDown, onKeyPress: props.onKeyPress, name: props.name, value: value }), label];
+	    };
+	    Checkbox.defaultProps = Util.supplyProps({}, Input.defaultProps);
+	    return Checkbox;
+	}(Input);
+	exports.Checkbox = Checkbox;
+	var Radiobox = function (_super) {
+	    __extends(Radiobox, _super);
+	    function Radiobox() {
+	        _super.apply(this, arguments);
+	    }
+	    Radiobox.prototype.getWidgetSclass = function () {
+	        return 'wkw-radiobox';
+	    };
+	    Radiobox.prototype.getInputType = function () {
+	        return 'radio';
+	    };
+	    return Radiobox;
+	}(Checkbox);
+	exports.Radiobox = Radiobox;
+
+	//# sourceMappingURL=srcmap/input.js.map
+
+/***/ },
+/* 12 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -5908,6 +5506,552 @@ return /******/ (function(modules) { // webpackBootstrap
 	exports.List = List;
 
 	//# sourceMappingURL=srcmap/list.js.map
+
+/***/ },
+/* 13 */
+/***/ function(module, exports, __webpack_require__) {
+
+	/**
+	 * React WebKit - v0.0.5
+	 * The react web widget kit base on typescript
+	 * 
+	 * Copyright 2016 - present, Dennis Chen, All rights reserved.
+	 * 
+	 * Released under MIT license
+	 */
+	"use strict";
+
+	var __extends = undefined && undefined.__extends || function (d, b) {
+	    for (var p in b) {
+	        if (b.hasOwnProperty(p)) d[p] = b[p];
+	    }function __() {
+	        this.constructor = d;
+	    }
+	    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+	};
+	var React = __webpack_require__(2);
+	var Jq = __webpack_require__(4);
+	var moment = __webpack_require__(14);
+	var Widget = __webpack_require__(1);
+	var Util = __webpack_require__(5);
+	var widget_1 = __webpack_require__(1);
+	var layout_1 = __webpack_require__(8);
+	var input_1 = __webpack_require__(11);
+	var popup_1 = __webpack_require__(9);
+	exports.defaultDateboxIcon = 'fa fa-calendar';
+	exports.i18n = {
+	    dayNames: ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"],
+	    longDayNames: ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
+	    monthNames: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
+	    longMonthNames: ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"],
+	    today: 'Today',
+	    reset: 'Reset',
+	    clean: 'Clean'
+	};
+	var minComputerYear = 1971;
+	var yearGridBase = 3;
+	var yearGridNumber = yearGridBase * 4;
+	var monthGridBase = 3;
+	(function (View) {
+	    View[View["year"] = 1] = "year";
+	    View[View["month"] = 2] = "month";
+	    View[View["date"] = 3] = "date";
+	    View[View["time"] = 4] = "time";
+	})(exports.View || (exports.View = {}));
+	var View = exports.View;
+	var Calendar = function (_super) {
+	    __extends(Calendar, _super);
+	    function Calendar(props) {
+	        _super.call(this, props);
+	        this.state.viewingDate = props.selected ? new Date(props.selected.getTime()) : new Date();
+	        this.state.view = View.date;
+	    }
+	    Calendar.prototype.isUncontrolled = function () {
+	        return undefined == this.props.selected;
+	    };
+	    Calendar.prototype.getSelectedDate = function () {
+	        if (this.isUncontrolled()) {
+	            return this.state.uncontrolled;
+	        }
+	        return this.props.selected;
+	    };
+	    Calendar.prototype.componentWillReceiveProps = function (nextProps) {
+	        _super.prototype.componentWillReceiveProps.call(this, nextProps);
+	        var props = this.props;
+	        if (props.selected != nextProps.selected) {
+	            if (nextProps.selected) {
+	                this.setState({
+	                    viewingDate: new Date(nextProps.selected.getTime())
+	                });
+	            }
+	        }
+	    };
+	    Calendar.prototype.doReset = function () {
+	        var selectedDate = this.getSelectedDate();
+	        this.setState({
+	            viewingDate: !selectedDate ? new Date() : new Date(selectedDate.getTime()),
+	            view: View.date
+	        });
+	    };
+	    Calendar.prototype.doToday = function () {
+	        var _this = this;
+	        var props = this.props;
+	        var today = new Date();
+	        if (props.doSelect) {
+	            this.props.doSelect(today);
+	        }
+	        this.safeTimeout(function () {
+	            _this.setState({
+	                viewingDate: today,
+	                uncontrolled: _this.isUncontrolled() ? today : undefined,
+	                view: View.date
+	            });
+	        }, 0);
+	    };
+	    Calendar.prototype.doClean = function () {
+	        var _this = this;
+	        var props = this.props;
+	        if (props.doSelect) {
+	            this.props.doSelect(null);
+	        }
+	        this.safeTimeout(function () {
+	            _this.setState({
+	                uncontrolled: undefined,
+	                view: View.date
+	            });
+	        }, 0);
+	    };
+	    Calendar.prototype.doYearView = function () {
+	        this.setState({ view: View.year });
+	    };
+	    Calendar.prototype.doMonthView = function () {
+	        this.setState({ view: View.month });
+	    };
+	    Calendar.prototype.doDateView = function () {
+	        this.setState({ view: View.date });
+	    };
+	    Calendar.prototype.doTimeView = function () {
+	        this.setState({ view: View.time });
+	    };
+	    Calendar.prototype.doYearSelect = function (year) {
+	        var viewingDate = this.state.viewingDate;
+	        if (viewingDate.getFullYear() != year) {
+	            viewingDate = new Date(this.state.viewingDate.getTime());
+	            viewingDate.setFullYear(year);
+	        }
+	        this.setState({
+	            view: View.month,
+	            viewingDate: viewingDate
+	        });
+	    };
+	    Calendar.prototype.doYearShift = function (increase) {
+	        var viewingYear = this.state.viewingDate.getFullYear();
+	        var yearStart = viewingYear - (viewingYear - minComputerYear) % yearGridNumber;
+	        if (!increase && yearStart <= minComputerYear) {
+	            return;
+	        }
+	        var viewingDate = new Date(this.state.viewingDate.getTime());
+	        this.setState({
+	            viewingDate: Util.addDateField(viewingDate, Util.DateField.year, increase ? yearGridNumber : -yearGridNumber)
+	        });
+	    };
+	    Calendar.prototype.doMonthSelect = function (month) {
+	        var viewingDate = this.state.viewingDate;
+	        if (viewingDate.getMonth() != month) {
+	            viewingDate = new Date(this.state.viewingDate.getTime());
+	            viewingDate.setMonth(month);
+	        }
+	        this.setState({
+	            view: View.date,
+	            viewingDate: viewingDate
+	        });
+	    };
+	    Calendar.prototype.doMonthShift = function (increase) {
+	        var viewingYear = this.state.viewingDate.getFullYear();
+	        if (!increase && viewingYear <= minComputerYear) {
+	            return;
+	        }
+	        var viewingDate = new Date(this.state.viewingDate.getTime());
+	        this.setState({
+	            viewingDate: Util.addDateField(viewingDate, Util.DateField.year, increase ? 1 : -1)
+	        });
+	    };
+	    Calendar.prototype.doDateSelect = function (date) {
+	        var props = this.props;
+	        var selectedDate = new Date(this.state.viewingDate.getTime());
+	        selectedDate.setDate(date);
+	        if (props.doSelect) {
+	            this.props.doSelect(selectedDate);
+	        }
+	        if (this.isUncontrolled()) {
+	            this.setState({
+	                viewingDate: selectedDate,
+	                uncontrolled: selectedDate
+	            });
+	        }
+	    };
+	    Calendar.prototype.doDateShift = function (increase) {
+	        var viewingYear = this.state.viewingDate.getFullYear();
+	        var viewingMonth = this.state.viewingDate.getMonth();
+	        if (!increase && (viewingYear < minComputerYear || viewingYear == minComputerYear && viewingMonth == 0)) {
+	            return;
+	        }
+	        var viewingDate = new Date(this.state.viewingDate.getTime());
+	        this.setState({
+	            viewingDate: Util.addDateField(viewingDate, Util.DateField.month, increase ? 1 : -1)
+	        });
+	    };
+	    Calendar.prototype.getWidgetSclass = function () {
+	        return 'wkw-calendar';
+	    };
+	    Calendar.prototype.getRenderChildren = function () {
+	        var props = this.props;
+	        var state = this.state;
+	        var selectedDate = this.getSelectedDate();
+	        var childrenNodes = [];
+	        switch (state.view) {
+	            case View.year:
+	                childrenNodes.push(React.createElement(YearView, { key: 'year', selectedDate: selectedDate, viewingDate: state.viewingDate, doTitleShift: this.doYearShift.bind(this), doSelect: this.doYearSelect.bind(this) }));
+	                break;
+	            case View.month:
+	                childrenNodes.push(React.createElement(MonthView, { key: 'month', selectedDate: selectedDate, viewingDate: state.viewingDate, doTitleShift: this.doMonthShift.bind(this), doTitleClick: this.doYearView.bind(this), doSelect: this.doMonthSelect.bind(this) }));
+	                break;
+	            case View.date:
+	                childrenNodes.push(React.createElement(DateView, { key: 'date', selectedDate: selectedDate, viewingDate: state.viewingDate, firstDayOfWeek: props.firstDayOfWeek, doTitleShift: this.doDateShift.bind(this), doTitleClick: this.doMonthView.bind(this), doSelect: this.doDateSelect.bind(this) }));
+	                break;
+	            case View.time:
+	        }
+	        childrenNodes.push(React.createElement(layout_1.Hgroup, { className: this.getWidgetSubSclass('bottombar'), hflex: 1, align: 'center' }, React.createElement(widget_1.Button, { className: 'wk-aux', onClick: this.doToday.bind(this) }, exports.i18n.today), React.createElement(widget_1.Button, { className: 'wk-aux', onClick: this.doClean.bind(this) }, exports.i18n.clean), React.createElement(widget_1.Button, { className: 'wk-aux', onClick: this.doReset.bind(this) }, exports.i18n.reset)));
+	        return Widget.createReactElement(layout_1.Box, { hflex: 1, vflex: 1 }, childrenNodes);
+	    };
+	    Calendar.prototype.getRenderStyle = function () {
+	        var props = this.props;
+	        var css = _super.prototype.getRenderStyle.call(this);
+	        if (!props.hflex && !css.width) {
+	            css.width = 260;
+	        }
+	        if (!props.vflex && !css.height) {
+	            css.height = 302;
+	        }
+	        return css;
+	    };
+	    Calendar.defaultProps = Util.supplyProps({}, Widget.Widget.defaultProps);
+	    return Calendar;
+	}(Widget.Widget);
+	exports.Calendar = Calendar;
+	var YearView = function (_super) {
+	    __extends(YearView, _super);
+	    function YearView(props) {
+	        _super.call(this, props);
+	    }
+	    YearView.prototype.doSelect = function (year) {
+	        this.props.doSelect(year);
+	    };
+	    YearView.prototype.render = function () {
+	        var props = this.props;
+	        var now = new Date();
+	        var todayYear = now.getFullYear();
+	        var viewingYear = props.viewingDate.getFullYear();
+	        var yearStart = viewingYear - (viewingYear - minComputerYear) % yearGridNumber;
+	        var selectedYear = props.selectedDate ? props.selectedDate.getFullYear() : undefined;
+	        var title = Util.formatString("{} - {}", yearStart, yearStart + yearGridNumber - 1);
+	        var tableChildren = [];
+	        var count = 0;
+	        var onActive = function onActive(evt) {
+	            Jq(evt.currentTarget).addClass('wk-active');
+	        };
+	        var onUnactive = function onUnactive(evt) {
+	            Jq(evt.currentTarget).removeClass('wk-active');
+	        };
+	        for (var r = 0;; r++) {
+	            var rowChildren = [];
+	            for (var c = 0; c < yearGridBase; c++) {
+	                var year = yearStart + r * yearGridBase + c;
+	                var clz = [];
+	                if (year == selectedYear) {
+	                    clz.push('wk-selected');
+	                }
+	                if (year == todayYear) {
+	                    clz.push('wk-today');
+	                }
+	                rowChildren.push(React.createElement("td", { className: clz.join(' '), onMouseDown: onActive, onMouseUp: onUnactive, onMouseLeave: onUnactive, onClick: this.doSelect.bind(this, year) }, year));
+	                count++;
+	                if (count >= yearGridNumber) {
+	                    break;
+	                }
+	            }
+	            if (rowChildren.length > 0) {
+	                tableChildren.push(Widget.createReactElement('tr', {}, rowChildren));
+	            }
+	            if (count >= yearGridNumber) {
+	                break;
+	            }
+	        }
+	        var tbody = Widget.createReactElement('tbody', {}, tableChildren);
+	        return React.createElement(layout_1.Box, { className: 'wkw-calendar-yearview', hflex: 1, vflex: 1 }, React.createElement(Titlebar, { title: title, doTitleShift: props.doTitleShift }), React.createElement(layout_1.Box, { hflex: 1, vflex: 1 }, React.createElement("table", { className: 'wkw-calendar-table' }, tbody)));
+	    };
+	    return YearView;
+	}(Widget.Component);
+	var MonthView = function (_super) {
+	    __extends(MonthView, _super);
+	    function MonthView(props) {
+	        _super.call(this, props);
+	    }
+	    MonthView.prototype.doSelect = function (month) {
+	        this.props.doSelect(month);
+	    };
+	    MonthView.prototype.render = function () {
+	        var props = this.props;
+	        var now = new Date();
+	        var todayMonth = now.getMonth();
+	        var todayYear = now.getFullYear();
+	        var viewingMonth = props.viewingDate.getMonth();
+	        var viewingYear = props.viewingDate.getFullYear();
+	        var selectedMonth = props.selectedDate ? props.selectedDate.getMonth() : undefined;
+	        var selectedYear = props.selectedDate ? props.selectedDate.getFullYear() : undefined;
+	        var title = Util.formatString("{}", viewingYear);
+	        var tableChildren = [];
+	        var count = 0;
+	        var onActive = function onActive(evt) {
+	            Jq(evt.currentTarget).addClass('wk-active');
+	        };
+	        var onUnactive = function onUnactive(evt) {
+	            Jq(evt.currentTarget).removeClass('wk-active');
+	        };
+	        for (var r = 0;; r++) {
+	            var rowChildren = [];
+	            for (var c = 0; c < monthGridBase; c++) {
+	                var month = r * monthGridBase + c;
+	                var clz = [];
+	                if (viewingYear == selectedYear && month == selectedMonth) {
+	                    clz.push('wk-selected');
+	                }
+	                if (viewingYear == todayYear && month == todayMonth) {
+	                    clz.push('wk-today');
+	                }
+	                rowChildren.push(React.createElement("td", { className: clz.join(' '), onMouseDown: onActive, onMouseUp: onUnactive, onMouseLeave: onUnactive, onClick: this.doSelect.bind(this, month) }, exports.i18n.monthNames[month]));
+	                count++;
+	                if (count >= 12) {
+	                    break;
+	                }
+	            }
+	            if (rowChildren.length > 0) {
+	                tableChildren.push(Widget.createReactElement('tr', {}, rowChildren));
+	            }
+	            if (count >= 12) {
+	                break;
+	            }
+	        }
+	        var tbody = Widget.createReactElement('tbody', {}, tableChildren);
+	        return React.createElement(layout_1.Box, { className: 'wkw-calendar-monthview', hflex: 1, vflex: 1 }, React.createElement(Titlebar, { title: title, doTitleClick: props.doTitleClick, doTitleShift: props.doTitleShift }), React.createElement(layout_1.Box, { hflex: 1, vflex: 1 }, React.createElement("table", { className: 'wkw-calendar-table' }, tbody)));
+	    };
+	    return MonthView;
+	}(Widget.Component);
+	function getDaysOfMonth(date) {
+	    return new Date(date.getFullYear(), date.getMonth() + 1, 0).getDate();
+	}
+	function getWeekDayOfMonth(date) {
+	    return new Date(date.getFullYear(), date.getMonth(), 1).getDay();
+	}
+	var DateView = function (_super) {
+	    __extends(DateView, _super);
+	    function DateView(props) {
+	        _super.call(this, props);
+	    }
+	    DateView.prototype.doSelect = function (date) {
+	        this.props.doSelect(date);
+	    };
+	    DateView.prototype.render = function () {
+	        var props = this.props;
+	        var now = new Date();
+	        var todayDate = now.getDate();
+	        var todayMonth = now.getMonth();
+	        var todayYear = now.getFullYear();
+	        var viewingDate = props.viewingDate.getDate();
+	        var viewingMonth = props.viewingDate.getMonth();
+	        var viewingYear = props.viewingDate.getFullYear();
+	        var selectedDate = props.selectedDate ? props.selectedDate.getDate() : undefined;
+	        var selectedYear = props.selectedDate ? props.selectedDate.getFullYear() : undefined;
+	        var selectedMonth = props.selectedDate ? props.selectedDate.getMonth() : undefined;
+	        var daysOfMonth = getDaysOfMonth(props.viewingDate);
+	        var weekDayOfMonth = getWeekDayOfMonth(props.viewingDate);
+	        var prevDaysOfMonth = getDaysOfMonth(Util.addDateField(new Date(props.viewingDate.getTime()), Util.DateField.month, -1));
+	        var onActive = function onActive(evt) {
+	            Jq(evt.currentTarget).addClass('wk-active');
+	        };
+	        var onUnactive = function onUnactive(evt) {
+	            Jq(evt.currentTarget).removeClass('wk-active');
+	        };
+	        var title = Util.formatString("{} {}", exports.i18n.longMonthNames[viewingMonth], viewingYear);
+	        var tableRows = [];
+	        var firstDayOfWeek = props.firstDayOfWeek ? props.firstDayOfWeek : 0;
+	        var sundayIdx = firstDayOfWeek == 0 ? 0 : 7 - firstDayOfWeek;
+	        var firstDayIdx = sundayIdx == 0 ? weekDayOfMonth : weekDayOfMonth - 1;
+	        if (firstDayIdx <= 0) {
+	            firstDayIdx += 7;
+	        }
+	        var headerChildren = [];
+	        for (var c = 0; c < 7; c++) {
+	            var idx = firstDayOfWeek + c;
+	            while (idx >= 7) {
+	                idx -= 7;
+	            }
+	            var clz = c == sundayIdx ? 'wk-sunday' : undefined;
+	            headerChildren.push(React.createElement("th", { className: clz }, exports.i18n.dayNames[idx]));
+	        }
+	        tableRows.push(Widget.createReactElement('tr', {}, headerChildren));
+	        for (var r = 0; r < 6; r++) {
+	            var rowChildren = [];
+	            for (var c = 0; c < 7; c++) {
+	                var date = r * 7 + c;
+	                date = date - firstDayIdx + 1;
+	                var clz = [];
+	                if (viewingYear == selectedYear && viewingMonth == selectedMonth && date == selectedDate) {
+	                    clz.push('wk-selected');
+	                }
+	                if (viewingYear == todayYear && viewingMonth == todayMonth && date == todayDate) {
+	                    clz.push('wk-today');
+	                }
+	                if (c == sundayIdx) {
+	                    clz.push('wk-sunday');
+	                }
+	                var label = void 0;
+	                if (date <= 0) {
+	                    label = prevDaysOfMonth + date;
+	                    clz.push('wk-date-prv-m');
+	                } else if (date > daysOfMonth) {
+	                    label = date - daysOfMonth;
+	                    clz.push('wk-date-next-m');
+	                } else {
+	                    clz.push('wk-date');
+	                    label = date;
+	                }
+	                rowChildren.push(React.createElement("td", { className: clz.join(' '), onMouseDown: onActive, onMouseUp: onUnactive, onMouseLeave: onUnactive, onClick: this.doSelect.bind(this, date) }, label));
+	            }
+	            if (rowChildren.length > 0) {
+	                tableRows.push(Widget.createReactElement('tr', {}, rowChildren));
+	            }
+	        }
+	        var tbody = Widget.createReactElement('tbody', {}, tableRows);
+	        return React.createElement(layout_1.Box, { className: 'wkw-calendar-dateview', hflex: 1, vflex: 1 }, React.createElement(Titlebar, { title: title, doTitleClick: props.doTitleClick, doTitleShift: props.doTitleShift }), React.createElement(layout_1.Box, { hflex: 1, vflex: 1 }, React.createElement("table", { className: 'wkw-calendar-table' }, tbody)));
+	    };
+	    return DateView;
+	}(Widget.Component);
+	var TimeView = function (_super) {
+	    __extends(TimeView, _super);
+	    function TimeView(props) {
+	        _super.call(this, props);
+	    }
+	    TimeView.prototype.render = function () {
+	        return React.createElement("div", { className: 'wkw-calendar-time' });
+	    };
+	    return TimeView;
+	}(Widget.Component);
+	var Titlebar = function (_super) {
+	    __extends(Titlebar, _super);
+	    function Titlebar(props) {
+	        _super.call(this, props);
+	    }
+	    Titlebar.prototype.render = function () {
+	        var props = this.props;
+	        var childrenNodes = [];
+	        if (props.doTitleShift) {
+	            childrenNodes.push(React.createElement("button", { className: 'wk-aux', onClick: function onClick() {
+	                    props.doTitleShift(false);
+	                } }, " < "));
+	        }
+	        childrenNodes.push(React.createElement(layout_1.Box, { hflex: 1, align: 'center' }, React.createElement("div", { className: props.doTitleClick ? 'wk-clickable' : undefined, onClick: props.doTitleClick }, " ", this.props.title)));
+	        if (props.doTitleShift) {
+	            childrenNodes.push(React.createElement("button", { className: 'wk-aux', onClick: function onClick() {
+	                    props.doTitleShift(true);
+	                } }, " > "));
+	        }
+	        return Widget.createReactElement(layout_1.Hlayout, { className: 'wkw-calendar-titlebar', hflex: 1, align: 'middle' }, childrenNodes);
+	    };
+	    return Titlebar;
+	}(Widget.Component);
+	var defaultDateboxPopupOption = {
+	    autoDismiss: true,
+	    targetHPos: widget_1.HPos.left,
+	    targetVPos: widget_1.VPos.bottom,
+	    selfHPos: widget_1.HPos.left,
+	    selfVPos: widget_1.VPos.top,
+	    adjust: popup_1.AdjustMethod.flip
+	};
+	function onNothing() {}
+	var Datebox = function (_super) {
+	    __extends(Datebox, _super);
+	    function Datebox() {
+	        _super.apply(this, arguments);
+	    }
+	    Datebox.prototype.getId = function () {
+	        var id = _super.prototype.getId.call(this);
+	        return undefined != id ? id : this.getPseudoId();
+	    };
+	    Datebox.prototype.getWidgetSclass = function () {
+	        return 'wkw-datebox';
+	    };
+	    Datebox.prototype.isUncontrolled = function () {
+	        return undefined == this.props.value;
+	    };
+	    Datebox.prototype.doCalendarToggle = function () {
+	        var props = this.props;
+	        var popup = this.refs['popup'];
+	        if (popup.state.invisible) {
+	            var opt = {
+	                adjustViewport: props.calendarViewport,
+	                autoDismissHolders: ['#' + this.getId()]
+	            };
+	            popup.show(this.getDOM(), Jq.extend(opt, defaultDateboxPopupOption));
+	        } else {
+	            popup.hide();
+	        }
+	    };
+	    Datebox.prototype.doCalendarSelect = function (date) {
+	        var props = this.props;
+	        if (props.doChange && !Util.isDateEquals(props.value, date, Util.DateField.date) && props.doChange(date)) {
+	            this.refs['popup'].hide();
+	        }
+	        if (this.isUncontrolled()) {
+	            this.setState({ uncontrolled: date });
+	            this.refs['popup'].hide();
+	        }
+	    };
+	    Datebox.prototype.onTextboxKeyUp = function (evt) {
+	        var popup = this.refs['popup'];
+	        var invisible = popup.state.invisible;
+	        if (invisible && evt.keyCode != 27) {
+	            var opt = {
+	                autoDismissHolders: ['#' + this.getId()]
+	            };
+	            popup.show(this.getDOM(), Jq.extend(opt, defaultDateboxPopupOption));
+	        } else if (!invisible && evt.keyCode == 27) {
+	            popup.hide();
+	        }
+	    };
+	    Datebox.prototype.getRenderChildren = function () {
+	        var props = this.props;
+	        var id = this.getId();
+	        var icon = props.icon ? props.icon : exports.defaultDateboxIcon;
+	        var value = this.isUncontrolled() ? this.state.uncontrolled : props.value;
+	        var display = value ? moment(value).format(props.format ? props.format : 'LL') : '';
+	        var childrenNodes = [];
+	        childrenNodes.push(React.createElement(layout_1.Hgroup, { hflex: props.hflex, vflex: props.vflex, ref: 'inpgroup' }, React.createElement(input_1.Textbox, { hflex: props.hflex, vflex: props.vflex, value: display, disabled: props.disabled, placeholder: props.placeholder, name: props.name, onChange: onNothing, onKeyUp: this.onTextboxKeyUp.bind(this) }), React.createElement(widget_1.Button, { vflex: 1, disabled: props.disabled, onClick: this.doCalendarToggle.bind(this) }, React.createElement(widget_1.Fonticon, { className: icon }))));
+	        childrenNodes.push(React.createElement(popup_1.Popup, { ref: 'popup', animation: { effect: 'fade', eager: true, duration: 50 } }, React.createElement(Calendar, { className: 'wk-borderless', selected: value, firstDayOfWeek: props.firstDayOfWeek, doSelect: this.doCalendarSelect.bind(this) })));
+	        return childrenNodes;
+	    };
+	    Datebox.defaultProps = Util.supplyProps({}, Widget.Widget.defaultProps);
+	    return Datebox;
+	}(Widget.Widget);
+	exports.Datebox = Datebox;
+
+	//# sourceMappingURL=srcmap/calendar.js.map
+
+/***/ },
+/* 14 */
+/***/ function(module, exports) {
+
+	module.exports = __WEBPACK_EXTERNAL_MODULE_14__;
 
 /***/ }
 /******/ ])

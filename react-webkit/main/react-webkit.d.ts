@@ -14,17 +14,21 @@ declare module "@atticcat/react-webkit" {
      */
     import Widget = require('widget');
     import Layout = require('layout');
-    import Datetime = require('datetime');
-    import Input = require('input');
+    
     import Popup = require('popup');
     import Modal = require('modal');
+
     import List = require('list');
+    import Input = require('input');
+    
+    import Calendar = require('calendar');
     export{
         Widget,
         Layout,
-        Datetime,
-        Input,
         Popup,
-        List
+        Modal,
+        List,
+        Input,
+        Calendar
     };
 }

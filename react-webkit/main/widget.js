@@ -282,6 +282,10 @@ var __extends = (this && this.__extends) || function (d, b) {
         Component.prototype.componentWillUnmount = function () {
             this.clearSafeTimeout();
             this.clearPseudoId();
+            this.unmounted = true;
+        };
+        Component.prototype.isUnmounted = function () {
+            return this.unmounted;
         };
         return Component;
     }(React.Component));
@@ -343,7 +347,7 @@ var __extends = (this && this.__extends) || function (d, b) {
         function Widget(props) {
             _super.call(this, props);
             this.state = {
-                visible: props.visible
+                invisible: props.invisible
             };
         }
         Widget.prototype.getId = function () {
@@ -363,9 +367,9 @@ var __extends = (this && this.__extends) || function (d, b) {
         };
         Widget.prototype.componentWillMount = function () {
             var props = this.props;
-            if (props.animation && props.animation.eager && (undefined == props.visible || props.visible)) {
+            if (props.animation && props.animation.eager && !props.invisible) {
                 this._willAnimate = true;
-                this._willAnimateVisible = false;
+                this._willAnimateInvisible = true;
             }
         };
         Widget.prototype.componentDidMount = function () {
@@ -394,14 +398,14 @@ var __extends = (this && this.__extends) || function (d, b) {
             }
         };
         Widget.prototype.componentWillReceiveProps = function (nextProps) {
-            if (this.props.visible !== nextProps.visible) {
-                this.setState({ visible: nextProps.visible });
+            if (this.props.invisible !== nextProps.invisible) {
+                this.setState({ invisible: nextProps.invisible });
             }
         };
         Widget.prototype.componentWillUpdate = function (nextProps, nextState) {
-            if (nextProps.animation && this.state.visible != nextState.visible) {
+            if (nextProps.animation && this.state.invisible != nextState.invisible) {
                 this._willAnimate = true;
-                this._willAnimateVisible = this.state.visible;
+                this._willAnimateInvisible = this.state.invisible;
             }
         };
         Widget.prototype.componentDidUpdate = function (prevProps, prevState) {
@@ -440,17 +444,17 @@ var __extends = (this && this.__extends) || function (d, b) {
             var _this = this;
             var props = this.props;
             var dom = this.getDOM();
-            var visible = this.state.visible;
-            if (undefined == visible) {
-                visible = true;
-            }
+            var invisible = this.state.invisible;
             delete this._willAnimate;
-            delete this._willAnimateVisible;
+            delete this._willAnimateInvisible;
             var ani = props.animation;
             var jqd = Jq(dom);
             var dur = ani.duration ? ani.duration : exports.DEFAULT_ANIMATION_DURATION;
             var done = function () {
-                _this.afterAnimation(visible);
+                if (_this.isUnmounted()) {
+                    return;
+                }
+                _this.afterAnimation();
                 sendWidgetResize();
             };
             var step = function () {
@@ -459,26 +463,26 @@ var __extends = (this && this.__extends) || function (d, b) {
             switch (ani.effect) {
                 case 'slide':
                 case AniEffect.slide:
-                    jqd.animate({ height: visible ? 'show' : 'hide' }, { duration: dur, step: step, done: done });
+                    jqd.animate({ height: invisible ? 'hide' : 'show' }, { duration: dur, step: step, done: done });
                     break;
                 case 'slideWidth':
                 case AniEffect.slideWidth:
-                    jqd.animate({ width: visible ? 'show' : 'hide' }, { duration: dur, step: step, done: done });
+                    jqd.animate({ width: invisible ? 'hide' : 'show' }, { duration: dur, step: step, done: done });
                     break;
                 default:
                 case 'fade':
                 case AniEffect.fade:
-                    jqd.animate({ opacity: visible ? 'show' : 'hide' }, { duration: dur, done: done });
+                    jqd.animate({ opacity: invisible ? 'hide' : 'show' }, { duration: dur, done: done });
                     break;
             }
-            return visible;
+            return !invisible;
         };
-        Widget.prototype.afterAnimation = function (finalVisible) { };
+        Widget.prototype.afterAnimation = function () { };
         Widget.prototype.show = function () {
-            this.setState({ visible: true });
+            this.setState({ invisible: false });
         };
         Widget.prototype.hide = function () {
-            this.setState({ visible: false });
+            this.setState({ invisible: true });
         };
         Widget.prototype.onQueueEvent = function (evt) { };
         Widget.prototype.sendQueueEvent = function (name, data) {
@@ -501,7 +505,7 @@ var __extends = (this && this.__extends) || function (d, b) {
         Widget.prototype.getDOM = function () {
             return ReactDOM.findDOMNode(this);
         };
-        Widget.prototype.getRenderTag = function () {
+        Widget.prototype.getRenderType = function () {
             return 'div';
         };
         Widget.prototype.getRenderSclass = function () {
@@ -518,18 +522,18 @@ var __extends = (this && this.__extends) || function (d, b) {
             }
             return str.join(" ");
         };
-        Widget.prototype.getRenderVisible = function () {
+        Widget.prototype.getRenderInvisible = function () {
             if (this._willAnimate) {
-                return this._willAnimateVisible;
+                return this._willAnimateInvisible;
             }
-            return undefined == this.state.visible ? true : this.state.visible;
+            return this.state.invisible;
         };
         Widget.prototype.getRenderStyle = function () {
             var css = {};
             if (this.props.style) {
                 Util.supplyProps(css, this.props.style);
             }
-            if (!this.getRenderVisible()) {
+            if (this.getRenderInvisible()) {
                 css.display = 'none';
             }
             return css;
@@ -537,7 +541,7 @@ var __extends = (this && this.__extends) || function (d, b) {
         Widget.prototype.getRenderChildren = function () {
             return this.props.children;
         };
-        Widget.prototype.renderElementProps = function () {
+        Widget.prototype.getRenderProps = function () {
             var props = this.props;
             return {
                 id: this.getId(),
@@ -550,8 +554,8 @@ var __extends = (this && this.__extends) || function (d, b) {
             };
         };
         Widget.prototype.render = function () {
-            var t = this.getRenderTag();
-            var p = this.renderElementProps();
+            var t = this.getRenderType();
+            var p = this.getRenderProps();
             var c = this.getRenderChildren();
             return createReactElement(t, p, c);
         };
@@ -574,7 +578,7 @@ var __extends = (this && this.__extends) || function (d, b) {
         Fonticon.prototype.getRenderChildren = function () {
             return null;
         };
-        Fonticon.prototype.getRenderTag = function () {
+        Fonticon.prototype.getRenderType = function () {
             return 'i';
         };
         Fonticon.defaultProps = Util.supplyProps({}, Widget.defaultProps);
@@ -602,9 +606,9 @@ var __extends = (this && this.__extends) || function (d, b) {
             }
             return children;
         };
-        Button.prototype.renderElementProps = function () {
+        Button.prototype.getRenderProps = function () {
             var props = this.props;
-            var p = _super.prototype.renderElementProps.call(this);
+            var p = _super.prototype.getRenderProps.call(this);
             Util.supplyProps(p, {
                 disabled: props.disabled,
                 type: props.type,
@@ -612,7 +616,7 @@ var __extends = (this && this.__extends) || function (d, b) {
             });
             return p;
         };
-        Button.prototype.getRenderTag = function () {
+        Button.prototype.getRenderType = function () {
             return 'button';
         };
         Button.defaultProps = Util.supplyProps({}, Widget.defaultProps);
@@ -640,16 +644,16 @@ var __extends = (this && this.__extends) || function (d, b) {
             }
             return children;
         };
-        Anchor.prototype.renderElementProps = function () {
+        Anchor.prototype.getRenderProps = function () {
             var props = this.props;
-            var p = _super.prototype.renderElementProps.call(this);
+            var p = _super.prototype.getRenderProps.call(this);
             Util.supplyProps(p, {
                 href: props.href ? props.href : '#',
                 target: props.target
             });
             return p;
         };
-        Anchor.prototype.getRenderTag = function () {
+        Anchor.prototype.getRenderType = function () {
             return 'a';
         };
         Anchor.defaultProps = Util.supplyProps({}, Widget.defaultProps);

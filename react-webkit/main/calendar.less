@@ -20,6 +20,9 @@
     border: 1px solid @generalBorderColor;
 	border-radius: 4px;
     background: @generalBgColor;
+    &.wk-borderless{
+		border: none;
+	}
 }
 
 .wkw-calendar-titlebar{
@@ -95,7 +98,7 @@
             }
             &.wk-active{
                 background: @calendarActiveBgColor;
-            }
+            }          
         }
     }
 }
@@ -107,6 +110,12 @@
             &.wk-sunday{
                 border: 1px solid darken(@calendarSundayBgColor,5%);
                 background: @calendarSundayBgColor;
+            }
+            &:first-child{
+                border-left-color: rgba(0,0,0,0);
+            }
+            &:last-child{
+                border-right-color: rgba(0,0,0,0);
             }
         }
         td{
@@ -123,4 +132,12 @@
             }
         }
     }
+}
+
+.wkw-datebox {
+	position:relative;
+	display: inline-block;
+	button {
+		padding: 4px 8px;
+	}
 }

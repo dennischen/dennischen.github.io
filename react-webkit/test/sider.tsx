@@ -3,9 +3,9 @@
 import React = require('react');
 import ReactDOM = require('react-dom');
 
-import w = require('../main/widget');
-import l = require('../main/layout');
-import ls = require('../main/list');
+import {Orient} from '../main/widget';
+import {Box, Hlayout,Vlayout,Sider} from '../main/layout';
+import {List} from '../main/List'
 
 
 export class App extends React.Component<any, any>{
@@ -26,12 +26,12 @@ export class App extends React.Component<any, any>{
     }
     render() {
         return (
-            <l.Hlayout vflex={1} hflex={1} style={{ background: 'lightgreen', padding: 10 }}>
-                <l.Sider vflex={1} size={200} minSize={100} maxSize={400} style={{ background: 'lightpink' }}>
+            <Hlayout vflex={1} hflex={1} style={{ background: 'lightgreen', padding: 10 }}>
+                <Sider vflex={1} size={200} minSize={100} maxSize={400} style={{ background: 'lightpink' }}>
                     The sider 1
-                </l.Sider>
-                <l.Sider vflex={1} size={200} style={{ background: 'lightgray' }}>
-                    <ls.List vflex={1} hflex={1}>
+                </Sider>
+                <Sider vflex={1} size={200} style={{ background: 'lightgray' }}>
+                    <List vflex={1} hflex={1}>
                         <span>ABC</span>
                         <span>DEF</span>
                         <span>IJK</span>
@@ -47,16 +47,16 @@ export class App extends React.Component<any, any>{
                         <span>IJK</span>
                         <span>LMN</span>
                         <span>XYZ</span>
-                    </ls.List>
-                </l.Sider>
-                <l.Vlayout hflex={1} vflex={1} style={{ background: 'lightblue', padding:10 }}>
-                    <l.Sider hflex={1} orient={w.Orient.vertical} size={150} minSize={100} maxSize={200} style={{ background: 'lightpink' }}>
+                    </List>
+                </Sider>
+                <Vlayout hflex={1} vflex={1} style={{ background: 'lightblue', padding:10 }}>
+                    <Sider hflex={1} orient={Orient.vertical} size={150} minSize={100} maxSize={200} style={{ background: 'lightpink' }}>
                         The sider 2
-                    </l.Sider>
-                    <l.Sider hflex={1} orient={w.Orient.vertical} size={200} style={{ background: 'lightgray' }}>
+                    </Sider>
+                    <Sider hflex={1} orient={Orient.vertical} size={200} style={{ background: 'lightgray' }}>
                         The sider 3
-                    </l.Sider>
-                    <ls.List vflex={1} hflex={1}>
+                    </Sider>
+                    <List vflex={1} hflex={1}>
                         <span>ABC</span>
                         <span>DEF</span>
                         <span>IJK</span>
@@ -72,9 +72,9 @@ export class App extends React.Component<any, any>{
                         <span>IJK</span>
                         <span>LMN</span>
                         <span>XYZ</span>
-                    </ls.List>
-                </l.Vlayout>
-            </l.Hlayout>
+                    </List>
+                </Vlayout>
+            </Hlayout>
         )
     }
 }

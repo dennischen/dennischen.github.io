@@ -3,44 +3,43 @@
 import React = require('react');
 import ReactDOM = require('react-dom');
 
-import w = require('../main/widget');
-import i = require('../main/input');
-import l = require('../main/layout');
-import p = require('../main/popup');
-import Util = require('../main/util');
+import {AniEffect,HPos,VPos,Animation} from '../main/widget';
+import {Box, Hlayout,Vlayout} from '../main/layout';
+import {Popup,AdjustMethod,ShowOption} from '../main/popup';
+import {Radiobox,Checkbox} from '../main/input';
 
 //override zIndexStart of popup
-p.zIndexStart = 3000;
+// zIndexStart = 3000;
 
 let dismissTimeout = 1500;
-let animation =  {effect: w.AniEffect.fade };
+let animation =  {effect: AniEffect.fade };
 
 export interface State {
     autoDismiss?: boolean
-    targetHPos?: w.HPos
-    targetVPos?: w.VPos
-    selfHPos?: w.HPos
-    selfVPos?: w.VPos
+    targetHPos?: HPos
+    targetVPos?: VPos
+    selfHPos?: HPos
+    selfVPos?: VPos
     dismissTimeout?: number
-    animation?: w.Animation
+    animation?: Animation
     adjustXY?:boolean
-    adjust?:p.AdjustMethod
+    adjust?:AdjustMethod
 }
 export class App extends React.Component<any, State>{
     constructor(props: any) {
         super(props);
         this.state = {
             autoDismiss:false, dismissTimeout: dismissTimeout,
-            targetHPos: w.HPos.right, targetVPos: w.VPos.bottom,
-            selfHPos: w.HPos.left, selfVPos: w.VPos.top,
-            animation: animation,adjust:p.AdjustMethod.shift
+            targetHPos: HPos.right, targetVPos: VPos.bottom,
+            selfHPos: HPos.left, selfVPos: VPos.top,
+            animation: animation,adjust:AdjustMethod.shift
         };
     }
     componentDidMount(): void {
     }
     
-    getShowOpt():p.ShowOption{
-        let opt:p.ShowOption = {
+    getShowOpt():ShowOption{
+        let opt:ShowOption = {
             autoDismiss: this.state.autoDismiss,
             targetHPos: this.state.targetHPos,
             targetVPos: this.state.targetVPos,
@@ -53,42 +52,43 @@ export class App extends React.Component<any, State>{
             opt.adjustX=5;
             opt.adjustY=30;
         }
+        opt.adjustViewport = '#viewport';
         return opt;
     }
     
     handleShow(event: Event) {
         event.stopPropagation();
-        let pop = this.refs['popup'] as p.Popup;
+        let pop = this.refs['popup'] as Popup;
         pop.show(event.target as any, this.getShowOpt());
     }
     handleShowMousePos(event: MouseEvent) {
-        let pop = this.refs['popup'] as p.Popup;
+        let pop = this.refs['popup'] as Popup;
         pop.show(event as any, this.getShowOpt());
     }
     handleShowNested(event: MouseEvent) {
-        let pop = this.refs['popupNested'] as p.Popup;
+        let pop = this.refs['popupNested'] as Popup;
         pop.show(event as any, this.getShowOpt());
     }
     handleHide(event: MouseEvent) {
         event.stopPropagation();
-        let pop = this.refs['popup'] as p.Popup;
+        let pop = this.refs['popup'] as Popup;
         pop.hide();
-        pop = this.refs['popupNested'] as p.Popup;
+        pop = this.refs['popupNested'] as Popup;
         pop.hide();
     }
-    handleTargetHPos(pos: w.HPos) {
+    handleTargetHPos(pos: HPos) {
         this.setState({ targetHPos: pos });
     }
-    handleTargetVPos(pos: w.VPos) {
+    handleTargetVPos(pos: VPos) {
         this.setState({ targetVPos: pos });
     }
-    handleSelfHPos(pos: w.HPos) {
+    handleSelfHPos(pos: HPos) {
         this.setState({ selfHPos: pos });
     }
-    handleSelfVPos(pos: w.VPos) {
+    handleSelfVPos(pos: VPos) {
         this.setState({ selfVPos: pos });
     }
-    handleAdjust(adjust: p.AdjustMethod) {
+    handleAdjust(adjust: AdjustMethod) {
         this.setState({ adjust: adjust });
     }
     handleAutoDismiss(checked: boolean) {
@@ -104,94 +104,94 @@ export class App extends React.Component<any, State>{
         this.setState({ adjustXY: checked ? true : undefined });
     }
     componentDidUpdate(prevProps: any, prevState: any) {
-        let pop = this.refs['popup'] as p.Popup;
-        if(pop.state.visible){
+        let pop = this.refs['popup'] as Popup;
+        if(!pop.state.invisible){
             pop.reposition('#btn1',this.getShowOpt());
         }
     }
     render() {
         return (
-            <l.Box hflex={1}  vflex={1} style={{ background: 'lightgreen', padding: 30 }} >
-                <l.Vlayout  space={10}>
-                    <l.Hlayout align='middle' space={10}>
+            <Box hflex={1}  vflex={1} style={{ background: 'lightgreen', padding: 30 }} >
+                <Vlayout  space={10}>
+                    <Hlayout align='middle' space={10}>
                         Target HPos:
-                        <i.Radiobox name='targetHPos' checked={this.state.targetHPos == w.HPos.left}
-                            onChange={this.handleTargetHPos.bind(this, w.HPos.left) } label='Left'/>
-                        <i.Radiobox name='targetHPos' checked={this.state.targetHPos == w.HPos.center}
-                            onChange={this.handleTargetHPos.bind(this, w.HPos.center) } label='Center'/>
-                        <i.Radiobox name='targetHPos' checked={this.state.targetHPos == w.HPos.right}
-                            onChange={this.handleTargetHPos.bind(this, w.HPos.right) } label='Right'/>
-                    </l.Hlayout>
-                    <l.Hlayout align='middle' space={10}>
+                        <Radiobox name='targetHPos' checked={this.state.targetHPos == HPos.left}
+                            onChange={this.handleTargetHPos.bind(this, HPos.left) } label='Left'/>
+                        <Radiobox name='targetHPos' checked={this.state.targetHPos == HPos.center}
+                            onChange={this.handleTargetHPos.bind(this, HPos.center) } label='Center'/>
+                        <Radiobox name='targetHPos' checked={this.state.targetHPos == HPos.right}
+                            onChange={this.handleTargetHPos.bind(this, HPos.right) } label='Right'/>
+                    </Hlayout>
+                    <Hlayout align='middle' space={10}>
                         Target VPos:
-                        <i.Radiobox name='targetVPos' checked={this.state.targetVPos == w.VPos.top}
-                            onChange={this.handleTargetVPos.bind(this, w.VPos.top) } label='Top'/>
-                        <i.Radiobox name='targetVPos' checked={this.state.targetVPos == w.VPos.middle}
-                            onChange={this.handleTargetVPos.bind(this, w.VPos.middle) } label='Middle'/>
-                        <i.Radiobox name='targetVPos' checked={this.state.targetVPos == w.VPos.bottom}
-                            onChange={this.handleTargetVPos.bind(this, w.VPos.bottom) } label='Bottom'/>
-                    </l.Hlayout>
-                    <l.Hlayout align='middle' space={10}>
+                        <Radiobox name='targetVPos' checked={this.state.targetVPos == VPos.top}
+                            onChange={this.handleTargetVPos.bind(this, VPos.top) } label='Top'/>
+                        <Radiobox name='targetVPos' checked={this.state.targetVPos == VPos.middle}
+                            onChange={this.handleTargetVPos.bind(this, VPos.middle) } label='Middle'/>
+                        <Radiobox name='targetVPos' checked={this.state.targetVPos == VPos.bottom}
+                            onChange={this.handleTargetVPos.bind(this, VPos.bottom) } label='Bottom'/>
+                    </Hlayout>
+                    <Hlayout align='middle' space={10}>
                         Self HPos:
-                        <i.Radiobox name='selfHPos' checked={this.state.selfHPos == w.HPos.left}
-                            onChange={this.handleSelfHPos.bind(this, w.HPos.left) } label='Left'/>
-                        <i.Radiobox name='selfHPos' checked={this.state.selfHPos == w.HPos.center}
-                            onChange={this.handleSelfHPos.bind(this, w.HPos.center) } label='Center'/>
-                        <i.Radiobox name='selfHPos' checked={this.state.selfHPos == w.HPos.right}
-                            onChange={this.handleSelfHPos.bind(this, w.HPos.right) } label='Right'/>
-                    </l.Hlayout>
-                    <l.Hlayout align='middle' space={10}>
+                        <Radiobox name='selfHPos' checked={this.state.selfHPos == HPos.left}
+                            onChange={this.handleSelfHPos.bind(this, HPos.left) } label='Left'/>
+                        <Radiobox name='selfHPos' checked={this.state.selfHPos == HPos.center}
+                            onChange={this.handleSelfHPos.bind(this, HPos.center) } label='Center'/>
+                        <Radiobox name='selfHPos' checked={this.state.selfHPos == HPos.right}
+                            onChange={this.handleSelfHPos.bind(this, HPos.right) } label='Right'/>
+                    </Hlayout>
+                    <Hlayout align='middle' space={10}>
                         Self VPos:
-                        <i.Radiobox name='selfVPos' checked={this.state.selfVPos == w.VPos.top}
-                            onChange={this.handleSelfVPos.bind(this, w.VPos.top) } label='Top'/>
-                        <i.Radiobox name='selfVPos' checked={this.state.selfVPos == w.VPos.middle}
-                            onChange={this.handleSelfVPos.bind(this, w.VPos.middle) } label='Middle'/>
-                        <i.Radiobox name='selfVPos' checked={this.state.selfVPos == w.VPos.bottom}
-                            onChange={this.handleSelfVPos.bind(this, w.VPos.bottom) } label='Bottom'/>
-                    </l.Hlayout>
-                    <l.Hlayout align='middle' space={10}>
+                        <Radiobox name='selfVPos' checked={this.state.selfVPos == VPos.top}
+                            onChange={this.handleSelfVPos.bind(this, VPos.top) } label='Top'/>
+                        <Radiobox name='selfVPos' checked={this.state.selfVPos == VPos.middle}
+                            onChange={this.handleSelfVPos.bind(this, VPos.middle) } label='Middle'/>
+                        <Radiobox name='selfVPos' checked={this.state.selfVPos == VPos.bottom}
+                            onChange={this.handleSelfVPos.bind(this, VPos.bottom) } label='Bottom'/>
+                    </Hlayout>
+                    <Hlayout align='middle' space={10}>
                         Adjust:
-                        <i.Radiobox name='adjust' checked={!this.state.adjust}
+                        <Radiobox name='adjust' checked={!this.state.adjust}
                             onChange={this.handleAdjust.bind(this, undefined) } label='None'/>
-                        <i.Radiobox name='adjust' checked={this.state.adjust==p.AdjustMethod.shift}
-                            onChange={this.handleAdjust.bind(this, p.AdjustMethod.shift) } label='Shift'/>
-                        <i.Radiobox name='adjust' checked={this.state.adjust==p.AdjustMethod.flip}
-                            onChange={this.handleAdjust.bind(this, p.AdjustMethod.flip) } label='Flip'/>
-                    </l.Hlayout>
-                    <l.Hlayout align='middle' space={10}>
-                        <i.Checkbox checked={this.state.autoDismiss}
+                        <Radiobox name='adjust' checked={this.state.adjust==AdjustMethod.shift}
+                            onChange={this.handleAdjust.bind(this, AdjustMethod.shift) } label='Shift'/>
+                        <Radiobox name='adjust' checked={this.state.adjust==AdjustMethod.flip}
+                            onChange={this.handleAdjust.bind(this, AdjustMethod.flip) } label='Flip'/>
+                    </Hlayout>
+                    <Hlayout align='middle' space={10}>
+                        <Checkbox checked={this.state.autoDismiss}
                             doCheck={this.handleAutoDismiss.bind(this) } label='Auto Dismiss'/>
-                        <i.Checkbox checked={this.state.dismissTimeout > 0}
+                        <Checkbox checked={this.state.dismissTimeout > 0}
                             doCheck={this.handleDismissTimeout.bind(this) } label='Dismiss Timeout'/>
-                        <i.Checkbox checked={this.state.animation ? true : false}
+                        <Checkbox checked={this.state.animation ? true : false}
                             doCheck={this.handleAnimation.bind(this) } label='Animation'/>
-                        <i.Checkbox checked={this.state.adjustXY?true:false}
+                        <Checkbox checked={this.state.adjustXY?true:false}
                             doCheck={this.handleAdjustXY.bind(this) } label='AdjustXY'/>
-                    </l.Hlayout>
-                </l.Vlayout>
+                    </Hlayout>
+                </Vlayout>
                 
-                <l.Box hflex={1}  vflex={1} align='middle center'>
-                    <l.Box style={{ height: 400, width: 600, background: 'lightblue', overflow: 'auto' }}>
-                        <l.Vlayout align='center' onClick={this.handleShowMousePos.bind(this) }>
+                <Box hflex={1}  vflex={1} align='middle center'>
+                    <Box id='viewport' style={{ height: 400, width: 600, background: 'lightblue', overflow: 'auto' }}>
+                        <Vlayout align='center' onClick={this.handleShowMousePos.bind(this) }>
                             Click other place to show popup follow the click position
                             <div style={{ height: 200, width: 800, background: 'lightpink' }} />
-                            <l.Hlayout space={30}>
+                            <Hlayout space={30}>
                                 <button id='btn1' onClick={this.handleShow.bind(this) }>Show Popup by my corner</button>
                                 <button onClick={this.handleHide.bind(this) }>Hide Popup</button>
-                            </l.Hlayout>
+                            </Hlayout>
                             <div style={{ height: 200, width: 800, background: 'lightpink' }}/>
-                        </l.Vlayout>                        
-                        <p.Popup ref='popupNested' style={{ width: 300, padding: 4 }}>
+                        </Vlayout>                        
+                        <Popup ref='popupNested' style={{ width: 300, padding: 4 }}>
                             This is nested popup <br/>
-                        </p.Popup>
-                        <p.Popup ref='popup' style={{ width: 300, padding: 4 }} onClick={this.handleShowNested.bind(this) }
+                        </Popup>
+                        <Popup ref='popup' style={{ width: 300, padding: 4 }} onClick={this.handleShowNested.bind(this) }
                             animation={this.state.animation}>
                             Pop-up ads or pop-ups are often forms of online advertising on the World Wide Web
                             intended to attract web traffic or capture email addresses.
-                        </p.Popup>
-                    </l.Box>
-                </l.Box>
-            </l.Box>
+                        </Popup>
+                    </Box>
+                </Box>
+            </Box>
         )
     }
 }

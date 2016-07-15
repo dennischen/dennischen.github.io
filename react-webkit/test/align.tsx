@@ -3,8 +3,8 @@
 import React = require('react');
 import ReactDOM = require('react-dom');
 
-import w = require('../main/widget');
-import l = require('../main/layout');
+import {VPos} from '../main/widget';
+import {Box, Hlayout,Vlayout} from '../main/layout';
 
 
 export class App extends React.Component<any, any>{
@@ -24,77 +24,77 @@ export class App extends React.Component<any, any>{
     }
     render() {
         return (
-            <l.Vlayout vflex={1} hflex={1} style={{ background: 'green', padding: '2px' }} space={5}>
+            <Vlayout vflex={1} hflex={1} style={{ background: 'green', padding: '2px' }} space={5}>
                 <button onClick={() => { this.handleClick() } } >Click to enlarge Content {this.state.clickCount}</button>
-                <l.Hlayout style={{ background: 'lightpink', padding: '2px' }} >
-                    <l.Hlayout hflex={1} style={{ border: '1px solid', height: 80 }} align='top left'>
+                <Hlayout style={{ background: 'lightpink', padding: '2px' }} >
+                    <Hlayout hflex={1} style={{ border: '1px solid', height: 80 }} align='top left'>
                         <button style={{ height: 40 }}>btn1</button>
-                        <l.Box style={{ border: '1px solid' }} >A</l.Box >
-                    </l.Hlayout>
-                    <l.Hlayout hflex={1} style={{ border: '1px solid', height: 80 }} align='top center'>
-                        <l.Box style={{ border: '1px solid' }}>B</l.Box>
+                        <Box style={{ border: '1px solid' }} >A</Box >
+                    </Hlayout>
+                    <Hlayout hflex={1} style={{ border: '1px solid', height: 80 }} align='top center'>
+                        <Box style={{ border: '1px solid' }}>B</Box>
                         <button style={{ height: 40 }}>btn2</button>
-                    </l.Hlayout>
-                    <l.Hlayout hflex={1} style={{ border: '1px solid', height: 80 }} align='top right'>
-                        <l.Box style={{ border: '1px solid' }}>C</l.Box>
+                    </Hlayout>
+                    <Hlayout hflex={1} style={{ border: '1px solid', height: 80 }} align='top right'>
+                        <Box style={{ border: '1px solid' }}>C</Box>
                         <button style={{ height: 40 }}>btn3</button>
-                    </l.Hlayout>
-                </l.Hlayout>
-                <l.Hlayout style={{ background: 'lightpink', padding: '2px' }} >
-                    <l.Hlayout hflex={1} style={{ border: '1px solid', height: 80 }} align='middle left'>
+                    </Hlayout>
+                </Hlayout>
+                <Hlayout style={{ background: 'lightpink', padding: '2px' }} >
+                    <Hlayout hflex={1} style={{ border: '1px solid', height: 80 }} align='middle left'>
                         <button style={{ height: 40 }}>btn1</button>
-                        <l.Box style={{ border: '1px solid' }} >A</l.Box >
-                    </l.Hlayout>
-                    <l.Hlayout hflex={1} style={{ border: '1px solid', height: 80 }} align='middle center'>
-                        <l.Box style={{ border: '1px solid' }}>B</l.Box>
+                        <Box style={{ border: '1px solid' }} >A</Box >
+                    </Hlayout>
+                    <Hlayout hflex={1} style={{ border: '1px solid', height: 80 }} align='middle center'>
+                        <Box style={{ border: '1px solid' }}>B</Box>
                         <button style={{ height: 40 }}>btn2</button>
-                    </l.Hlayout>
-                    <l.Hlayout hflex={1} style={{ border: '1px solid', height: 80 }} align='middle right'>
-                        <l.Box style={{ border: '1px solid' }}>C</l.Box>
+                    </Hlayout>
+                    <Hlayout hflex={1} style={{ border: '1px solid', height: 80 }} align='middle right'>
+                        <Box style={{ border: '1px solid' }}>C</Box>
                         <button style={{ height: 40 }}>btn3</button>
-                    </l.Hlayout>
-                </l.Hlayout>
-                <l.Hlayout style={{ background: 'lightpink', padding: '2px' }} >
-                    <l.Hlayout hflex={1} style={{ border: '1px solid', height: 80 }} align='bottom left'>
+                    </Hlayout>
+                </Hlayout>
+                <Hlayout style={{ background: 'lightpink', padding: '2px' }} >
+                    <Hlayout hflex={1} style={{ border: '1px solid', height: 80 }} align='bottom left'>
                         <button style={{ height: 40 }}>btn1</button>
-                        <l.Box style={{ border: '1px solid' }} >A</l.Box >
-                    </l.Hlayout>
-                    <l.Hlayout hflex={1} style={{ border: '1px solid', height: 80 }} align='bottom center'>
-                        <l.Box style={{ border: '1px solid' }}>B</l.Box>
+                        <Box style={{ border: '1px solid' }} >A</Box >
+                    </Hlayout>
+                    <Hlayout hflex={1} style={{ border: '1px solid', height: 80 }} align='bottom center'>
+                        <Box style={{ border: '1px solid' }}>B</Box>
                         <button style={{ height: 40 }}>btn2</button>
-                    </l.Hlayout>
-                    <l.Hlayout hflex={1} style={{ border: '1px solid', height: 80 }} align='bottom right'>
-                        <l.Box style={{ border: '1px solid' }}>C</l.Box>
+                    </Hlayout>
+                    <Hlayout hflex={1} style={{ border: '1px solid', height: 80 }} align='bottom right'>
+                        <Box style={{ border: '1px solid' }}>C</Box>
                         <button style={{ height: 40 }}>btn3</button>
-                    </l.Hlayout>
-                </l.Hlayout>
-                <l.Hlayout hflex={1} vflex={1}>
-                    <l.Vlayout vflex={1} hflex={1}>
-                        <l.Hlayout vflex={1} style={{ background: 'lightgreen', overflowY: 'auto' }} valign={w.VPos.top}>
-                            <l.Box hflex={1} style={{ border: '1px solid' }} >A</l.Box>
-                            <l.Box style={{ border: '1px solid' }} ><div><div><span>B1</span></div><div><span>B2</span></div></div></l.Box>
-                            <l.Box hflex={1} style={{ border: '1px solid' }} >C</l.Box>
-                        </l.Hlayout>
-                        <l.Hlayout vflex={1} style={{ background: 'lightblue', overflowY: 'auto' }} valign={w.VPos.middle}>
-                            <l.Box hflex={1} style={{ border: '1px solid' }}>A</l.Box>
-                            <l.Box hflex={1} style={{ border: '1px solid' }} ><div><div>B1</div><div>B2</div></div></l.Box>
+                    </Hlayout>
+                </Hlayout>
+                <Hlayout hflex={1} vflex={1}>
+                    <Vlayout vflex={1} hflex={1}>
+                        <Hlayout vflex={1} style={{ background: 'lightgreen', overflowY: 'auto' }} valign={VPos.top}>
+                            <Box hflex={1} style={{ border: '1px solid' }} >A</Box>
+                            <Box style={{ border: '1px solid' }} ><div><div><span>B1</span></div><div><span>B2</span></div></div></Box>
+                            <Box hflex={1} style={{ border: '1px solid' }} >C</Box>
+                        </Hlayout>
+                        <Hlayout vflex={1} style={{ background: 'lightblue', overflowY: 'auto' }} valign={VPos.middle}>
+                            <Box hflex={1} style={{ border: '1px solid' }}>A</Box>
+                            <Box hflex={1} style={{ border: '1px solid' }} ><div><div>B1</div><div>B2</div></div></Box>
                             <span>C</span>
-                        </l.Hlayout>
-                        <l.Hlayout vflex={1} style={{ background: 'lightyellow', overflowY: 'auto' }} valign={w.VPos.bottom}>
+                        </Hlayout>
+                        <Hlayout vflex={1} style={{ background: 'lightyellow', overflowY: 'auto' }} valign={VPos.bottom}>
                             A
-                            <l.Box hflex={1} style={{ border: '1px solid' }} ><div><div>B1</div><div>B2</div></div></l.Box>
-                            <l.Box hflex={1} style={{ border: '1px solid' }}>C</l.Box>
-                        </l.Hlayout>
+                            <Box hflex={1} style={{ border: '1px solid' }} ><div><div>B1</div><div>B2</div></div></Box>
+                            <Box hflex={1} style={{ border: '1px solid' }}>C</Box>
+                        </Hlayout>
                         <button >Do nothing button {this.state.clickCount}</button>
-                    </l.Vlayout>
-                    <l.Hlayout vflex={1} hflex={1} align='middle center'  style={{ background: 'lightsalmon', overflowY: 'auto' }} >
+                    </Vlayout>
+                    <Hlayout vflex={1} hflex={1} align='middle center'  style={{ background: 'lightsalmon', overflowY: 'auto' }} >
                         <div  style={{ background: 'lightgreen', padding: 10 }} >
                             {this.state.longContent}
                         </div>
-                    </l.Hlayout>
-                </l.Hlayout>
+                    </Hlayout>
+                </Hlayout>
 
-            </l.Vlayout>
+            </Vlayout>
         )
     }
 }

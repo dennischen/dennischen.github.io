@@ -1,11 +1,3 @@
-/**
- * React WebKit - v0.0.5
- * The react web widget kit base on typescript
- * 
- * Copyright 2016 - present, Dennis Chen, All rights reserved.
- * 
- * Released under MIT license
- */
 //! moment.js
 //! version : 2.14.1
 //! authors : Tim Wood, Iskren Chernev, Moment.js contributors

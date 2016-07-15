@@ -103,22 +103,22 @@
 	}	
 }
 
-.wkw-buttongroup {
+.wkw-hgroup {
 	> :first-child {
-		> button {
+		button, input {
 			border-top-right-radius: 0;
 			border-bottom-right-radius : 0;
 			border-right: 0;
 		}
 	}
 	> :last-child {
-		> button {
+		button, input {
 			border-top-left-radius: 0;
 			border-bottom-left-radius : 0;
 		}
 	}
 	> :not(:first-child):not(:last-child){
-		> button {
+		button, input {
 			border-right: 0;
 			border-radius: 0;
 			border-left-color: rgba(0, 0, 0, 0.2);
@@ -129,7 +129,7 @@
 
 .wkw-sider{
 	position: relative;
-	.wkw-sider-bar {
+	> .wkw-sider-bar {
 		position:absolute;
 		&:hover{
 			background: @siderHoverBgColor;
