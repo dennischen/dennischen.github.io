@@ -11,6 +11,7 @@ import {Anchor,Button,Fonticon,AniEffect,ItemRenderer,VPos,HPos} from '../main/w
 import {Box, Hlayout,Vlayout, Sider} from '../main/layout';
 import {Popup} from '../main/popup';
 import {List} from '../main/list';
+import {MenuItem,MenuSeparator} from '../main/menu';
 let ga = (window as any).ga;
 
 interface TestCase {
@@ -26,7 +27,8 @@ let testcaseurl = function(testcase:string) {
 
 let testCases: TestCase[] = [
     //Higlighted
-    { name: 'Datebox', module: 'datebox',priority:10},
+    { name: 'Menu', module: 'menu',priority:10},
+    { name: 'Datebox', module: 'datebox',priority:9},
     { name: 'Calender', module: 'calendar',priority:9},
     { name: 'Modal', module: 'modal', priority:9},
     { name: 'Align', module: 'align'},
@@ -37,7 +39,6 @@ let testCases: TestCase[] = [
     { name: 'Checkbox', module: 'checkbox'},
     { name: 'Layout', module: 'layout'},
     { name: 'List', module: 'list'},
-    { name: 'Margin', module: 'margin'},
     { name: 'Vlayout', module: 'vlayout'},
     { name: 'Sider', module: 'sider'},
     { name: 'Popup', module: 'popup'},
@@ -50,9 +51,11 @@ let testCases: TestCase[] = [
     { name: '*Time', module: 'time'},
     { name: '*Combobox', module: 'combobox'},
     { name: '*Markdown', module: 'markdown'},
-    { name: '*Switch', module: 'switch'},
+    { name: '*Switchbox', module: 'switchbox'},
+    { name: '*Avatar', module: 'avatar'},
     */
     //Misc
+    { name: 'Margin', module: 'margin',priority:-99},
     { name: 'Lifecycle', module: 'lifecycle', priority:-99},
     { name: 'Commentbox', module: 'test-commentbox', html: 'test-commentbox.html', priority:-99 }
 ]
@@ -141,9 +144,6 @@ class App extends React.Component<any, State>{
             ga('send', 'event', 'TestPage', 'toggleMenu');
         }
     }
-    doMenuSelect(select: boolean, idx: number, item: any){
-        this.toggleMenu();
-    }
     toggleSidebar() {
         this.setState({ showSidebar: !this.state.showSidebar });
         if(ga){
@@ -181,16 +181,13 @@ class App extends React.Component<any, State>{
                             User XYZ
                         </Hlayout>
                     </div>
-                    <Vlayout hflex={1} vflex={1} space={10}>
-                        <List hflex={1} doSelect={this.doMenuSelect.bind(this)}>
-                            <Anchor className='menuItem'>Menu 1</Anchor>
-                            <Anchor className='menuItem'>Menu 2</Anchor>
-                            <Anchor className='menuItem'>Menu 3</Anchor>
-                            <Anchor className='menuItem'>Menu 4</Anchor>
-                            <Anchor className='menuItem'>Menu 5</Anchor>
-                            <Anchor className='menuItem'>Menu 6</Anchor>
-                            <Anchor className='menuItem'>Menu 7</Anchor> 
-                        </List>    
+                    <Vlayout hflex={1}>
+                        <MenuItem className='menuItem' fonticon='fa fa-fw fa-home' label='Home'/>
+                        <MenuItem className='menuItem' fonticon='fa fa-fw' label='Function 1'/>
+                        <MenuItem className='menuItem' fonticon='fa fa-fw' label='Function 2'/>
+                        <MenuItem className='menuItem' fonticon='fa fa-fw fa-cog' label='Preferences'/>
+                        <MenuSeparator/>
+                        <MenuItem className='menuItem' fonticon='fa fa-fw fa-sign-out' label='Logout'/>
                     </Vlayout>
                 </Popup>                
                 <Hlayout vflex={1} hflex={1}>

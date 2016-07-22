@@ -12,7 +12,7 @@
 import React = require('react');
 import Widget = require('./widget');
 export interface InputProps extends Widget.WidgetProps {
-    onChange?: (evt: Event) => void;
+    onChange?: (evt: React.FormEvent) => void;
     onKeyPress?: (evt: React.KeyboardEvent) => void;
     onKeyDown?: (evt: React.KeyboardEvent) => void;
     onKeyUp?: (evt: React.KeyboardEvent) => void;
@@ -22,7 +22,7 @@ export interface InputProps extends Widget.WidgetProps {
 }
 export declare abstract class Input<P extends InputProps, S> extends Widget.Widget<P, S> {
     static defaultProps: InputProps;
-    protected onChange(evt: Event): void;
+    protected onChange(evt: React.FormEvent): void;
     protected getRenderSclass(): string;
 }
 export declare enum TextboxType {
@@ -41,7 +41,7 @@ export interface TextboxProps extends InputProps {
 export declare class Textbox extends Input<TextboxProps, any> {
     static defaultProps: TextboxProps;
     getWidgetSclass(): string;
-    protected onChange(evt: Event): void;
+    protected onChange(evt: React.FormEvent): void;
     protected getRenderChildren(): React.ReactNode;
 }
 export interface CheckboxProps extends InputProps {
@@ -54,7 +54,7 @@ export interface CheckboxProps extends InputProps {
 export declare class Checkbox extends Input<CheckboxProps, any> {
     static defaultProps: CheckboxProps;
     getWidgetSclass(): string;
-    protected onChange(evt: Event): void;
+    protected onChange(evt: React.FormEvent): void;
     protected getInputType(): string;
     protected getRenderChildren(): React.ReactNode;
 }

@@ -10,6 +10,7 @@ let i = wk.Input;
 let l = wk.Layout;
 let ls = wk.List;
 let c = wk.Calendar;
+let m = wk.Menu;
 
 export class App extends React.Component<any, any>{
     constructor(props: any) {
@@ -39,13 +40,23 @@ export class App extends React.Component<any, any>{
                 </l.Hlayout>
                 <l.Hlayout style={{ background: 'gray', padding: '2px' }} vflex={1} space={10}>
                     <span>123  {this.state.clickCount} </span>
-                    <l.Vlayout style={{ background: 'lightpink', padding: '2px', overflowY: 'auto' }} hflex={1} vflex={1}>
+                    <l.Vlayout style={{ background: 'lightpink', padding: '2px'}} hflex={1} vflex={1}>
                         <span>xyz1 {this.state.clickCount} </span>
+                        <c.Datebox/>
                         <c.Calendar hflex={1} vflex={1}/>
                     </l.Vlayout>
                     <l.Vlayout invisible={this.state.invisible} style={{ background: 'lightseagreen', padding: '2px' }} hflex={2} animation={{ effect: w.AniEffect.slide }}>
                         <span>xyz2 {this.state.clickCount} </span>
-                        <span>ijk2 {this.state.clickCount} </span>
+                        <m.MenuItem label='Copy'  value='copy' />
+                        <m.MenuItem label='Paste' />
+                        <m.MenuItem label='Preferences'  popupSide='right'>
+                            <l.Vlayout>
+                                <m.MenuItem label='Font' />
+                                <m.MenuItem label='Color' />
+                                <m.MenuItem label='Format' />
+                            </l.Vlayout>
+                        </m.MenuItem>
+                        <m.MenuItem label='Disabled' disabled={true}  />
                     </l.Vlayout>
                     <l.Vlayout style={{ background: 'lightskyblue', padding: '2px' }} hflex={1}>
                         <span>xyz3 {this.state.clickCount} </span>

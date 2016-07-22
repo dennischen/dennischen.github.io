@@ -15,7 +15,7 @@
 		exports["ReactWebKit"] = factory(require("react"), require("react-dom"), require("jquery"), require("moment"));
 	else
 		root["ReactWebKit"] = factory(root["React"], root["ReactDOM"], root["jQuery"], root["moment"]);
-})(this, function(__WEBPACK_EXTERNAL_MODULE_2__, __WEBPACK_EXTERNAL_MODULE_3__, __WEBPACK_EXTERNAL_MODULE_4__, __WEBPACK_EXTERNAL_MODULE_14__) {
+})(this, function(__WEBPACK_EXTERNAL_MODULE_2__, __WEBPACK_EXTERNAL_MODULE_3__, __WEBPACK_EXTERNAL_MODULE_4__, __WEBPACK_EXTERNAL_MODULE_15__) {
 return /******/ (function(modules) { // webpackBootstrap
 /******/ 	// The module cache
 /******/ 	var installedModules = {};
@@ -76,18 +76,20 @@ return /******/ (function(modules) { // webpackBootstrap
 	var Popup = __webpack_require__(9);
 	var Modal = __webpack_require__(10);
 
-	var Input = __webpack_require__(11);
+	var Menu = __webpack_require__(11);
 	var List = __webpack_require__(12);
+	var Input = __webpack_require__(13);
 
-	var Calendar = __webpack_require__(13);
+	var Calendar = __webpack_require__(14);
 
 	module.exports = {
 	    Widget: Widget,
 	    Layout: Layout,
-	    Input: Input,
 	    Popup: Popup,
 	    Modal: Modal,
+	    Menu: Menu,
 	    List: List,
+	    Input: Input,
 	    Calendar: Calendar
 	};
 
@@ -135,6 +137,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	        queue = window[queueName];
 	    }
 	}
+	(function (Position) {
+	    Position[Position["top"] = 1] = "top";
+	    Position[Position["right"] = 2] = "right";
+	    Position[Position["bottom"] = 3] = "bottom";
+	    Position[Position["left"] = 4] = "left";
+	})(exports.Position || (exports.Position = {}));
+	var Position = exports.Position;
 	(function (VPos) {
 	    VPos[VPos["top"] = 1] = "top";
 	    VPos[VPos["middle"] = 2] = "middle";
@@ -506,7 +515,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        if (this._willAnimate) {
 	            fireResize = this.doAnimate();
 	        }
-	        if (fireResize || props.hflex !== prevProps.hflex || props.vflex !== prevProps.vflex) {
+	        if (fireResize || props.hflex !== prevProps.hflex || props.vflex !== prevProps.vflex || this.state.invisible !== prevState.invisible) {
 	            sendWidgetResize();
 	        }
 	        if (props.tooltip !== prevProps.tooltip) {
@@ -528,6 +537,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	                Qtip.setTip(Jq(dom), props.alert, tipOpt);
 	            }
 	        }
+	    };
+	    Widget.prototype.addSclass = function (sclass) {
+	        Jq(this.getDOM()).addClass(sclass);
+	    };
+	    Widget.prototype.removeSclass = function (sclass) {
+	        Jq(this.getDOM()).removeClass(sclass);
 	    };
 	    Widget.prototype.doAnimate = function () {
 	        var _this = this;
@@ -638,7 +653,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	        var props = this.props;
 	        return {
 	            id: this.getId(),
-	            ref: 'DOM',
 	            className: this.getRenderSclass(),
 	            style: this.getRenderStyle(),
 	            onClick: props.onClick,
@@ -650,6 +664,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	        var t = this.getRenderType();
 	        var p = this.getRenderProps();
 	        var c = this.getRenderChildren();
+	        if (p.style && Jq.isEmptyObject(p.style)) {
+	            p.style = undefined;
+	        }
 	        return createReactElement(t, p, c);
 	    };
 	    Widget.prototype.stating = function () {
@@ -702,11 +719,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	    Button.prototype.getRenderProps = function () {
 	        var props = this.props;
 	        var p = _super.prototype.getRenderProps.call(this);
-	        Util.supplyProps(p, {
+	        p = Util.supplyProps({
 	            disabled: props.disabled,
 	            type: props.type,
 	            form: props.form
-	        });
+	        }, p);
 	        return p;
 	    };
 	    Button.prototype.getRenderType = function () {
@@ -740,10 +757,14 @@ return /******/ (function(modules) { // webpackBootstrap
 	    Anchor.prototype.getRenderProps = function () {
 	        var props = this.props;
 	        var p = _super.prototype.getRenderProps.call(this);
-	        Util.supplyProps(p, {
-	            href: props.href ? props.href : '#',
-	            target: props.target
-	        });
+	        var onClick = props.onClick ? props.onClick : props.href ? undefined : function (evt) {
+	            evt.preventDefault();
+	        };
+	        p = Util.supplyProps({
+	            href: props.href ? props.href : '',
+	            target: props.target,
+	            onClick: onClick
+	        }, p);
 	        return p;
 	    };
 	    Anchor.prototype.getRenderType = function () {
@@ -1154,10 +1175,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	};
 	function setTip(target, tip, tipOption) {
 	    var opt;
-	    if ('string' == typeof target) {
-	        target = Jq(target);
-	    } else if (!(target instanceof Jq)) {
-	        target = Jq(target);
+	    var jq;
+	    if (!(target instanceof Jq)) {
+	        jq = Jq(target);
+	    } else {
+	        jq = target;
 	    }
 	    if ('string' == typeof tip || 'function' == typeof tip) {
 	        opt = Jq.extend(true, {
@@ -1171,16 +1193,17 @@ return /******/ (function(modules) { // webpackBootstrap
 	    if (tipOption) {
 	        opt = Jq.extend(true, opt, tipOption);
 	    }
-	    target.qtip(opt);
+	    jq.qtip(opt);
 	}
 	exports.setTip = setTip;
 	function removeTip(target) {
-	    if ('string' == typeof target) {
-	        target = Jq(target);
-	    } else if (!(target instanceof Jq)) {
-	        target = Jq(target);
+	    var jq;
+	    if (!(target instanceof Jq)) {
+	        jq = Jq(target);
+	    } else {
+	        jq = target;
 	    }
-	    target.qtip('destroy', true);
+	    jq.qtip('destroy', true);
 	}
 	exports.removeTip = removeTip;
 
@@ -4842,6 +4865,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	        _super.prototype.afterAnimation.call(this);
 	        if (this.state.invisible) {
 	            this.setState({ zIndex: undefined });
+	        } else {
+	            Widget.sendWidgetResize();
 	        }
 	    };
 	    Popup.prototype.getWidgetSclass = function () {
@@ -4987,6 +5012,23 @@ return /******/ (function(modules) { // webpackBootstrap
 	    }
 	    return pos;
 	}
+	function hideAutoDismiss(holder) {
+	    if (holder === void 0) {
+	        holder = undefined;
+	    }
+	    var jq;
+	    if (holder) {
+	        if (!(holder instanceof Jq)) {
+	            jq = Jq(holder);
+	        } else {
+	            jq = holder;
+	        }
+	    } else {
+	        jq = Jq(document.body);
+	    }
+	    jq.click();
+	}
+	exports.hideAutoDismiss = hideAutoDismiss;
 
 	//# sourceMappingURL=srcmap/popup.js.map
 
@@ -5248,6 +5290,332 @@ return /******/ (function(modules) { // webpackBootstrap
 	    }
 	    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 	};
+	var React = __webpack_require__(2);
+	var Widget = __webpack_require__(1);
+	var widget_1 = __webpack_require__(1);
+	var Util = __webpack_require__(5);
+	var popup_1 = __webpack_require__(9);
+	var MenuItem = function (_super) {
+	    __extends(MenuItem, _super);
+	    function MenuItem() {
+	        _super.apply(this, arguments);
+	    }
+	    MenuItem.prototype.getId = function () {
+	        var id = _super.prototype.getId.call(this);
+	        return undefined != id ? id : this.getPseudoId();
+	    };
+	    MenuItem.prototype.getWidgetSclass = function () {
+	        return 'wkw-menuitem';
+	    };
+	    MenuItem.prototype.togglePopup = function () {
+	        var props = this.props;
+	        var popup = this.refs['popup'];
+	        if (!popup.state.invisible) {
+	            popup.hide();
+	            return;
+	        }
+	        var opt = {
+	            autoDismiss: true,
+	            autoDismissHolders: ['#' + this.getId()],
+	            adjust: popup_1.AdjustMethod.flip
+	        };
+	        switch (props.popupSide) {
+	            case 'top':
+	            case widget_1.Position.top:
+	                opt.targetHPos = widget_1.HPos.left;
+	                opt.targetVPos = widget_1.VPos.top;
+	                opt.selfHPos = widget_1.HPos.left;
+	                opt.selfVPos = widget_1.VPos.bottom;
+	                break;
+	            case 'right':
+	            case widget_1.Position.right:
+	                opt.targetHPos = widget_1.HPos.right;
+	                opt.targetVPos = widget_1.VPos.top;
+	                opt.selfHPos = widget_1.HPos.left;
+	                opt.selfVPos = widget_1.VPos.top;
+	                break;
+	            case 'left':
+	            case widget_1.Position.left:
+	                opt.targetHPos = widget_1.HPos.left;
+	                opt.targetVPos = widget_1.VPos.top;
+	                opt.selfHPos = widget_1.HPos.right;
+	                opt.selfVPos = widget_1.VPos.top;
+	                break;
+	            default:
+	                opt.targetHPos = widget_1.HPos.left;
+	                opt.targetVPos = widget_1.VPos.bottom;
+	                opt.selfHPos = widget_1.HPos.left;
+	                opt.selfVPos = widget_1.VPos.top;
+	                break;
+	        }
+	        var target = props.target;
+	        if (!target) {
+	            target = this.getDOM();
+	        }
+	        popup.show(target, opt);
+	    };
+	    MenuItem.prototype.getRenderSclass = function () {
+	        var str = [_super.prototype.getRenderSclass.call(this)];
+	        var props = this.props;
+	        if (props.disabled) {
+	            str.push('wk-disabled');
+	        }
+	        return str.join(' ');
+	    };
+	    MenuItem.prototype.getRenderChildren = function () {
+	        var _this = this;
+	        var children = [];
+	        var props = this.props;
+	        var onAClick = props.disabled ? undefined : function (evt) {
+	            var props = _this.props;
+	            if (!props.href) {
+	                evt.preventDefault();
+	            }
+	            if (props.children) {
+	                _this.togglePopup();
+	            }
+	            if (props.doClick) {
+	                if (!props.doClick(props.value)) {
+	                    hideMenu();
+	                }
+	            } else if (!props.children) {
+	                hideMenu();
+	            }
+	        };
+	        var aChildren = [];
+	        if (props.fonticon) {
+	            aChildren.push(React.createElement(widget_1.Fonticon, { className: props.fonticon + ' wk-icon' }));
+	        }
+	        if (props.label) {
+	            aChildren.push(React.createElement("span", null, props.label));
+	        }
+	        if (props.children) {
+	            var fonticon = props.popupFonticon;
+	            var ext = void 0;
+	            var reverse = void 0;
+	            switch (props.popupSide) {
+	                case 'top':
+	                case widget_1.Position.top:
+	                    fonticon = fonticon ? fonticon : 'fa fa-caret-up fa-fw';
+	                    ext = 'wk-popup-top';
+	                    break;
+	                case 'right':
+	                case widget_1.Position.right:
+	                    fonticon = fonticon ? fonticon : 'fa fa-caret-right fa-fw';
+	                    ext = 'wk-popup-right';
+	                    break;
+	                case 'left':
+	                case widget_1.Position.left:
+	                    fonticon = fonticon ? fonticon : 'fa fa-caret-left fa-fw';
+	                    ext = 'wk-popup-left';
+	                    reverse = true;
+	                    break;
+	                default:
+	                    fonticon = fonticon ? fonticon : 'fa fa-caret-down fa-fw';
+	                    ext = 'wk-popup-bottom';
+	                    break;
+	            }
+	            var popupicon = React.createElement(widget_1.Fonticon, { className: fonticon + ' ' + ext });
+	            if (reverse) {
+	                aChildren.unshift(popupicon);
+	            } else {
+	                aChildren.push(popupicon);
+	            }
+	        }
+	        var aProps = {
+	            href: props.disabled ? undefined : props.href ? props.href : '',
+	            target: props.target,
+	            onClick: onAClick,
+	            onFocus: function onFocus() {
+	                _this.addSclass('wk-focus');
+	            },
+	            onBlur: function onBlur() {
+	                _this.removeSclass('wk-focus');
+	            },
+	            onMouseDown: function onMouseDown() {
+	                _this.addSclass('wk-active');
+	            },
+	            onMouseUp: function onMouseUp() {
+	                _this.removeSclass('wk-active');
+	            },
+	            onMouseOut: function onMouseOut() {
+	                _this.removeSclass('wk-active');
+	            }
+	        };
+	        children.push(Widget.createReactElement('a', aProps, Widget.createReactElement('div', {}, aChildren)));
+	        if (props.children) {
+	            children.push(React.createElement(popup_1.Popup, { ref: 'popup' }, props.children));
+	        }
+	        return children;
+	    };
+	    MenuItem.defaultProps = Util.supplyProps({
+	        hflex: 1
+	    }, Widget.Widget.defaultProps);
+	    return MenuItem;
+	}(Widget.Widget);
+	exports.MenuItem = MenuItem;
+	var MenuSeparator = function (_super) {
+	    __extends(MenuSeparator, _super);
+	    function MenuSeparator() {
+	        _super.apply(this, arguments);
+	    }
+	    MenuSeparator.prototype.getWidgetSclass = function () {
+	        return 'wkw-menuseparator';
+	    };
+	    MenuSeparator.prototype.getRenderSclass = function () {
+	        var str = [];
+	        str.push(_super.prototype.getRenderSclass.call(this));
+	        switch (this.props.orient) {
+	            case 'vertical':
+	            case widget_1.Orient.vertical:
+	                str.push('wk-vertical');
+	                break;
+	            default:
+	                str.push('wk-horizontal');
+	                break;
+	        }
+	        return str.join(' ');
+	    };
+	    MenuSeparator.defaultProps = Util.supplyProps({}, Widget.Widget.defaultProps);
+	    return MenuSeparator;
+	}(Widget.Widget);
+	exports.MenuSeparator = MenuSeparator;
+	function hideMenu(holder) {
+	    if (holder === void 0) {
+	        holder = undefined;
+	    }
+	    popup_1.hideAutoDismiss(holder);
+	}
+	exports.hideMenu = hideMenu;
+
+	//# sourceMappingURL=srcmap/menu.js.map
+
+/***/ },
+/* 12 */
+/***/ function(module, exports, __webpack_require__) {
+
+	/**
+	 * React WebKit - v0.0.5
+	 * The react web widget kit base on typescript
+	 * 
+	 * Copyright 2016 - present, Dennis Chen, All rights reserved.
+	 * 
+	 * Released under MIT license
+	 */
+	"use strict";
+
+	var __extends = undefined && undefined.__extends || function (d, b) {
+	    for (var p in b) {
+	        if (b.hasOwnProperty(p)) d[p] = b[p];
+	    }function __() {
+	        this.constructor = d;
+	    }
+	    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+	};
+	var React = __webpack_require__(2);
+	var Widget = __webpack_require__(1);
+	var Util = __webpack_require__(5);
+	var List = function (_super) {
+	    __extends(List, _super);
+	    function List() {
+	        _super.apply(this, arguments);
+	    }
+	    List.prototype.getWidgetSclass = function () {
+	        return 'wkw-list';
+	    };
+	    List.prototype.getRenderSclass = function () {
+	        var str = [_super.prototype.getRenderSclass.call(this)];
+	        if (this.props.disabled) {
+	            str.push('wk-disabled');
+	        }
+	        return str.join(' ');
+	    };
+	    List.prototype.getRenderChildren = function () {
+	        var props = this.props;
+	        var selection = props.selection;
+	        if (props.model) {
+	            var renderer_1 = props.itemRenderer;
+	            if (!renderer_1) {
+	                var msg = 'Need itemRenderer to render model of List';
+	                throw msg;
+	            }
+	            var childrenNodes = props.model.map(function (each, idx) {
+	                var key = renderer_1.key(idx, each);
+	                if (key == undefined || key == null) {
+	                    key = idx;
+	                }
+	                var templateNode = renderer_1.render(idx, each);
+	                var selected = selection ? selection.isSelected(idx, each) : false;
+	                var onItemClick = props.onItemClick || props.doSelect ? function (evt) {
+	                    if (props.onItemClick) {
+	                        props.onItemClick(evt, idx, each);
+	                    }
+	                    if (props.doSelect) {
+	                        props.doSelect(!selected, idx, each);
+	                    }
+	                } : undefined;
+	                var onItemDoubleClick = props.onItemDoubleClick ? function (evt) {
+	                    props.onItemDoubleClick(evt, idx, each);
+	                } : undefined;
+	                var onItemContextMenu = props.onItemContextMenu ? function (evt) {
+	                    props.onItemContextMenu(evt, idx, each);
+	                } : undefined;
+	                return React.createElement("li", { key: key, className: selected ? 'wk-selected' : undefined, onClick: onItemClick, onDoubleClick: onItemDoubleClick, onContentMenu: onItemContextMenu }, templateNode);
+	            });
+	            return React.createElement("ul", null, childrenNodes);
+	        } else if (props.children) {
+	            var childrenNodes = React.Children.map(props.children, function (child, idx) {
+	                var selected = selection ? selection.isSelected(idx, null) : false;
+	                var onItemClick = props.onItemClick || props.doSelect ? function (evt) {
+	                    if (props.onItemClick) {
+	                        props.onItemClick(evt, idx, null);
+	                    }
+	                    if (props.doSelect) {
+	                        props.doSelect(!selected, idx, null);
+	                    }
+	                } : undefined;
+	                var onItemDoubleClick = props.onItemDoubleClick ? function (evt) {
+	                    props.onItemDoubleClick(evt, idx, null);
+	                } : undefined;
+	                var onItemContextMenu = props.onItemContextMenu ? function (evt) {
+	                    props.onItemContextMenu(evt, idx, null);
+	                } : undefined;
+	                return React.createElement("li", { className: selected ? 'wk-selected' : undefined, onClick: onItemClick, onDoubleClick: onItemDoubleClick, onContextMenu: onItemContextMenu }, child);
+	            });
+	            return React.createElement("ul", null, childrenNodes);
+	        } else {
+	            return React.createElement("ul", null);
+	        }
+	    };
+	    List.defaultProps = Util.supplyProps({}, Widget.Widget.defaultProps);
+	    return List;
+	}(Widget.Widget);
+	exports.List = List;
+
+	//# sourceMappingURL=srcmap/list.js.map
+
+/***/ },
+/* 13 */
+/***/ function(module, exports, __webpack_require__) {
+
+	/**
+	 * React WebKit - v0.0.5
+	 * The react web widget kit base on typescript
+	 * 
+	 * Copyright 2016 - present, Dennis Chen, All rights reserved.
+	 * 
+	 * Released under MIT license
+	 */
+	"use strict";
+
+	var __extends = undefined && undefined.__extends || function (d, b) {
+	    for (var p in b) {
+	        if (b.hasOwnProperty(p)) d[p] = b[p];
+	    }function __() {
+	        this.constructor = d;
+	    }
+	    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+	};
 	var __assign = undefined && undefined.__assign || Object.assign || function (t) {
 	    for (var s, i = 1, n = arguments.length; i < n; i++) {
 	        s = arguments[i];
@@ -5404,111 +5772,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	//# sourceMappingURL=srcmap/input.js.map
 
 /***/ },
-/* 12 */
-/***/ function(module, exports, __webpack_require__) {
-
-	/**
-	 * React WebKit - v0.0.5
-	 * The react web widget kit base on typescript
-	 * 
-	 * Copyright 2016 - present, Dennis Chen, All rights reserved.
-	 * 
-	 * Released under MIT license
-	 */
-	"use strict";
-
-	var __extends = undefined && undefined.__extends || function (d, b) {
-	    for (var p in b) {
-	        if (b.hasOwnProperty(p)) d[p] = b[p];
-	    }function __() {
-	        this.constructor = d;
-	    }
-	    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-	};
-	var React = __webpack_require__(2);
-	var Widget = __webpack_require__(1);
-	var Util = __webpack_require__(5);
-	var List = function (_super) {
-	    __extends(List, _super);
-	    function List() {
-	        _super.apply(this, arguments);
-	    }
-	    List.prototype.getWidgetSclass = function () {
-	        return 'wkw-list';
-	    };
-	    List.prototype.getRenderSclass = function () {
-	        var str = [_super.prototype.getRenderSclass.call(this)];
-	        if (this.props.disabled) {
-	            str.push('wk-disabled');
-	        }
-	        return str.join(' ');
-	    };
-	    List.prototype.getRenderChildren = function () {
-	        var props = this.props;
-	        var selection = props.selection;
-	        if (props.model) {
-	            var renderer_1 = props.itemRenderer;
-	            if (!renderer_1) {
-	                var msg = 'Need itemRenderer to render model of List';
-	                throw msg;
-	            }
-	            var childrenNodes = props.model.map(function (each, idx) {
-	                var key = renderer_1.key(idx, each);
-	                if (key == undefined || key == null) {
-	                    key = idx;
-	                }
-	                var templateNode = renderer_1.render(idx, each);
-	                var selected = selection ? selection.isSelected(idx, each) : false;
-	                var onItemClick = props.onItemClick || props.doSelect ? function (evt) {
-	                    if (props.onItemClick) {
-	                        props.onItemClick(evt, idx, each);
-	                    }
-	                    if (props.doSelect) {
-	                        props.doSelect(!selected, idx, each);
-	                    }
-	                } : undefined;
-	                var onItemDoubleClick = props.onItemDoubleClick ? function (evt) {
-	                    props.onItemDoubleClick(evt, idx, each);
-	                } : undefined;
-	                var onItemContextMenu = props.onItemContextMenu ? function (evt) {
-	                    props.onItemContextMenu(evt, idx, each);
-	                } : undefined;
-	                return React.createElement("li", { key: key, className: selected ? 'wk-selected' : undefined, onClick: onItemClick, onDoubleClick: onItemDoubleClick, onContentMenu: onItemContextMenu }, templateNode);
-	            });
-	            return React.createElement("ul", null, childrenNodes);
-	        } else if (props.children) {
-	            var childrenNodes = React.Children.map(props.children, function (child, idx) {
-	                var selected = selection ? selection.isSelected(idx, null) : false;
-	                var onItemClick = props.onItemClick || props.doSelect ? function (evt) {
-	                    if (props.onItemClick) {
-	                        props.onItemClick(evt, idx, null);
-	                    }
-	                    if (props.doSelect) {
-	                        props.doSelect(!selected, idx, null);
-	                    }
-	                } : undefined;
-	                var onItemDoubleClick = props.onItemDoubleClick ? function (evt) {
-	                    props.onItemDoubleClick(evt, idx, null);
-	                } : undefined;
-	                var onItemContextMenu = props.onItemContextMenu ? function (evt) {
-	                    props.onItemContextMenu(evt, idx, null);
-	                } : undefined;
-	                return React.createElement("li", { className: selected ? 'wk-selected' : undefined, onClick: onItemClick, onDoubleClick: onItemDoubleClick, onContextMenu: onItemContextMenu }, child);
-	            });
-	            return React.createElement("ul", null, childrenNodes);
-	        } else {
-	            return React.createElement("ul", null);
-	        }
-	    };
-	    List.defaultProps = Util.supplyProps({}, Widget.Widget.defaultProps);
-	    return List;
-	}(Widget.Widget);
-	exports.List = List;
-
-	//# sourceMappingURL=srcmap/list.js.map
-
-/***/ },
-/* 13 */
+/* 14 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -5531,12 +5795,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	};
 	var React = __webpack_require__(2);
 	var Jq = __webpack_require__(4);
-	var moment = __webpack_require__(14);
+	var moment = __webpack_require__(15);
 	var Widget = __webpack_require__(1);
 	var Util = __webpack_require__(5);
 	var widget_1 = __webpack_require__(1);
 	var layout_1 = __webpack_require__(8);
-	var input_1 = __webpack_require__(11);
+	var input_1 = __webpack_require__(13);
 	var popup_1 = __webpack_require__(9);
 	exports.defaultDateboxIcon = 'fa fa-calendar';
 	exports.i18n = {
@@ -6018,10 +6282,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	        }
 	    };
 	    Datebox.prototype.onTextboxKeyUp = function (evt) {
+	        var props = this.props;
 	        var popup = this.refs['popup'];
 	        var invisible = popup.state.invisible;
 	        if (invisible && evt.keyCode != 27) {
 	            var opt = {
+	                adjustViewport: props.calendarViewport,
 	                autoDismissHolders: ['#' + this.getId()]
 	            };
 	            popup.show(this.getDOM(), Jq.extend(opt, defaultDateboxPopupOption));
@@ -6048,10 +6314,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	//# sourceMappingURL=srcmap/calendar.js.map
 
 /***/ },
-/* 14 */
+/* 15 */
 /***/ function(module, exports) {
 
-	module.exports = __WEBPACK_EXTERNAL_MODULE_14__;
+	module.exports = __WEBPACK_EXTERNAL_MODULE_15__;
 
 /***/ }
 /******/ ])

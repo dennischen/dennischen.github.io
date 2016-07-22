@@ -111,7 +111,7 @@ export interface DateboxProps extends Widget.WidgetProps {
     doChange?: (value: Date) => boolean;
     icon?: string;
     firstDayOfWeek?: number;
-    calendarViewport?: JQuery | Element | string;
+    calendarViewport?: string | Element | JQuery;
 }
 export interface DateboxState {
     calendar?: boolean;

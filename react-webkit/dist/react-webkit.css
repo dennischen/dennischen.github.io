@@ -619,6 +619,7 @@ x:-o-prefocus,
   color: inherit;
   font-size: inherit;
   outline: 0;
+  cursor: pointer;
 }
 .wkw-anchor:hover {
   background: rgba(0, 0, 0, 0.03);
@@ -842,6 +843,61 @@ x:-o-prefocus,
 }
 .wkw-window-content .wkw-window-body:first-of-type {
   padding: 16px;
+}
+.wkw-menuitem {
+  position: relative;
+  padding: 8px;
+  display: inline-block;
+}
+.wkw-menuitem > a {
+  cursor: pointer;
+  text-decoration: none;
+  color: inherit;
+  font-size: inherit;
+  outline: 0;
+}
+.wkw-menuitem > a > div {
+  display: flex;
+  flex-direction: row;
+}
+.wkw-menuitem > a > div > * {
+  align-items: center;
+}
+.wkw-menuitem > a > div .wkw-fonticon:not(:last-child) {
+  margin-right: 4px;
+}
+.wkw-menuitem > a > div > span {
+  flex: 1;
+  white-space: nowrap;
+}
+.wkw-menuitem > a > div > .wk-popup-top,
+.wkw-menuitem > a > div > .wk-popup-right,
+.wkw-menuitem > a > div > .wk-popup-bottom {
+  margin-right: -4px;
+}
+.wkw-menuitem:hover:not(.wk-disabled) {
+  background: rgba(0, 0, 0, 0.03);
+}
+.wkw-menuitem.wk-focus:not(.wk-disabled) {
+  background: rgba(0, 0, 0, 0.15);
+}
+.wkw-menuitem.wk-active:not(.wk-disabled) {
+  background: rgba(0, 0, 0, 0.2);
+}
+.wkw-menuitem.wk-disabled > * {
+  cursor: not-allowed;
+  color: #777777;
+  background: none;
+}
+.wkw-menuseparator {
+  position: relative;
+  border: inset 1px #f6f6f6;
+}
+.wkw-menuseparator.wk-horizontal {
+  margin: 8px 0;
+}
+.wkw-menuseparator.wk-vertical {
+  margin: 0 8px;
 }
 .wkw-list {
   position: relative;

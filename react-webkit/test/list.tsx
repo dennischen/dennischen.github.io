@@ -62,11 +62,11 @@ export class App extends React.Component<any, State>{
     onItemClick(evt: any, item: Color) {
         console.log('Click on item ' + item.code + "," + item.name);
     }
-    onItemDoubleClick(evt: Event, item: Color) {
+    onItemDoubleClick(evt: React.MouseEvent, item: Color) {
         console.log('Item DbClick', item);
         evt.stopPropagation();
     }
-    onListDoubleClick(evt: Event) {
+    onListDoubleClick(evt: React.MouseEvent) {
         console.log('List DbClick', evt.target);
     }
     render() {
@@ -148,9 +148,9 @@ export class App extends React.Component<any, State>{
                         <span>XYZ</span>
                     </List>
                     <List  vflex={1} hflex={1} style={{ background: 'lightpink' }}
-                        onItemClick={(evt: Event, idx: number) => { this.setState({ msg: 'Item Clicked' + idx }) } }
-                        onItemDoubleClick={(evt: Event, idx: number) => { this.setState({ msg: 'Item Dbclicked' + idx }) } }
-                        onItemContextMenu={(evt: Event, idx: number) => { this.setState({ msg: 'Item Contextmenu' + idx }), evt.preventDefault() } }>
+                        onItemClick={(evt: React.MouseEvent, idx: number) => { this.setState({ msg: 'Item Clicked' + idx }) } }
+                        onItemDoubleClick={(evt: React.MouseEvent, idx: number) => { this.setState({ msg: 'Item Dbclicked' + idx }) } }
+                        onItemContextMenu={(evt: React.MouseEvent, idx: number) => { this.setState({ msg: 'Item Contextmenu' + idx }), evt.preventDefault() } }>
                         <span>NO Selection List</span>
                         <span>DEF</span>
                         <span>IJK</span>

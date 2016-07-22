@@ -519,10 +519,12 @@ var __extends = (this && this.__extends) || function (d, b) {
             }
         };
         Datebox.prototype.onTextboxKeyUp = function (evt) {
+            var props = this.props;
             var popup = this.refs['popup'];
             var invisible = popup.state.invisible;
             if (invisible && evt.keyCode != 27) {
                 var opt = {
+                    adjustViewport: props.calendarViewport,
                     autoDismissHolders: ['#' + this.getId()]
                 };
                 popup.show(this.getDOM(), Jq.extend(opt, defaultDateboxPopupOption));

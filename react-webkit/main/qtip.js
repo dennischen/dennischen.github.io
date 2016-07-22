@@ -33,11 +33,12 @@
     };
     function setTip(target, tip, tipOption) {
         var opt;
-        if ('string' == typeof target) {
-            target = Jq(target);
+        var jq;
+        if (!(target instanceof Jq)) {
+            jq = Jq(target);
         }
-        else if (!(target instanceof Jq)) {
-            target = Jq(target);
+        else {
+            jq = target;
         }
         if ('string' == typeof tip || 'function' == typeof tip) {
             opt = Jq.extend(true, {
@@ -52,17 +53,18 @@
         if (tipOption) {
             opt = Jq.extend(true, opt, tipOption);
         }
-        target.qtip(opt);
+        jq.qtip(opt);
     }
     exports.setTip = setTip;
     function removeTip(target) {
-        if ('string' == typeof target) {
-            target = Jq(target);
+        var jq;
+        if (!(target instanceof Jq)) {
+            jq = Jq(target);
         }
-        else if (!(target instanceof Jq)) {
-            target = Jq(target);
+        else {
+            jq = target;
         }
-        target.qtip('destroy', true);
+        jq.qtip('destroy', true);
     }
     exports.removeTip = removeTip;
 });

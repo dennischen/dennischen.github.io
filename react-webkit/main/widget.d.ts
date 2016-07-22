@@ -17,6 +17,12 @@ export declare const QUEUE_EVENTS: {
 export declare function sendWidgetResize(): void;
 export interface WidgetQueueEvent extends Util.QueueEvent {
 }
+export declare enum Position {
+    top = 1,
+    right = 2,
+    bottom = 3,
+    left = 4,
+}
 export declare enum VPos {
     top = 1,
     middle = 2,
@@ -111,9 +117,9 @@ export interface WidgetProps extends ComponentProps {
     alert?: string | Function;
     alertType?: string | AlertType;
     alertOption?: any;
-    onClick?: (evt: Event) => void;
-    onDoubleClick?: (evt: Event) => void;
-    onContextMenu?: (evt: Event) => void;
+    onClick?: (evt: React.MouseEvent) => void;
+    onDoubleClick?: (evt: React.MouseEvent) => void;
+    onContextMenu?: (evt: React.MouseEvent) => void;
 }
 export interface WidgetState {
     invisible?: boolean;
@@ -132,8 +138,10 @@ export declare abstract class Widget<P extends WidgetProps, S extends WidgetStat
     componentDidMount(): void;
     componentWillUnmount(): void;
     componentWillReceiveProps(nextProps: P): void;
-    componentWillUpdate(nextProps: P, nextState: any): void;
-    componentDidUpdate(prevProps: P, prevState: any): void;
+    componentWillUpdate(nextProps: P, nextState: S): void;
+    componentDidUpdate(prevProps: P, prevState: S): void;
+    protected addSclass(sclass: string): void;
+    protected removeSclass(sclass: string): void;
     protected doAnimate(): boolean;
     protected afterAnimation(): void;
     protected show(): void;

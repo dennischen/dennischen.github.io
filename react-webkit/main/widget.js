@@ -43,6 +43,13 @@ var __extends = (this && this.__extends) || function (d, b) {
             queue = window[queueName];
         }
     }
+    (function (Position) {
+        Position[Position["top"] = 1] = "top";
+        Position[Position["right"] = 2] = "right";
+        Position[Position["bottom"] = 3] = "bottom";
+        Position[Position["left"] = 4] = "left";
+    })(exports.Position || (exports.Position = {}));
+    var Position = exports.Position;
     (function (VPos) {
         VPos[VPos["top"] = 1] = "top";
         VPos[VPos["middle"] = 2] = "middle";
@@ -416,7 +423,8 @@ var __extends = (this && this.__extends) || function (d, b) {
                 fireResize = this.doAnimate();
             }
             if (fireResize || props.hflex !== prevProps.hflex
-                || props.vflex !== prevProps.vflex) {
+                || props.vflex !== prevProps.vflex
+                || this.state.invisible !== prevState.invisible) {
                 sendWidgetResize();
             }
             if (props.tooltip !== prevProps.tooltip) {
@@ -439,6 +447,12 @@ var __extends = (this && this.__extends) || function (d, b) {
                     Qtip.setTip(Jq(dom), props.alert, tipOpt);
                 }
             }
+        };
+        Widget.prototype.addSclass = function (sclass) {
+            Jq(this.getDOM()).addClass(sclass);
+        };
+        Widget.prototype.removeSclass = function (sclass) {
+            Jq(this.getDOM()).removeClass(sclass);
         };
         Widget.prototype.doAnimate = function () {
             var _this = this;
@@ -545,7 +559,6 @@ var __extends = (this && this.__extends) || function (d, b) {
             var props = this.props;
             return {
                 id: this.getId(),
-                ref: 'DOM',
                 className: this.getRenderSclass(),
                 style: this.getRenderStyle(),
                 onClick: props.onClick,
@@ -557,6 +570,9 @@ var __extends = (this && this.__extends) || function (d, b) {
             var t = this.getRenderType();
             var p = this.getRenderProps();
             var c = this.getRenderChildren();
+            if (p.style && Jq.isEmptyObject(p.style)) {
+                p.style = undefined;
+            }
             return createReactElement(t, p, c);
         };
         Widget.prototype.stating = function () {
@@ -609,11 +625,11 @@ var __extends = (this && this.__extends) || function (d, b) {
         Button.prototype.getRenderProps = function () {
             var props = this.props;
             var p = _super.prototype.getRenderProps.call(this);
-            Util.supplyProps(p, {
+            p = Util.supplyProps({
                 disabled: props.disabled,
                 type: props.type,
                 form: props.form
-            });
+            }, p);
             return p;
         };
         Button.prototype.getRenderType = function () {
@@ -647,10 +663,14 @@ var __extends = (this && this.__extends) || function (d, b) {
         Anchor.prototype.getRenderProps = function () {
             var props = this.props;
             var p = _super.prototype.getRenderProps.call(this);
-            Util.supplyProps(p, {
-                href: props.href ? props.href : '#',
-                target: props.target
-            });
+            var onClick = props.onClick ? props.onClick : props.href ? undefined : function (evt) {
+                evt.preventDefault();
+            };
+            p = Util.supplyProps({
+                href: props.href ? props.href : '',
+                target: props.target,
+                onClick: onClick
+            }, p);
             return p;
         };
         Anchor.prototype.getRenderType = function () {

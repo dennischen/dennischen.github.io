@@ -3,11 +3,12 @@
 import React = require('react');
 import ReactDOM = require('react-dom');
 
-import {AniEffect,IndexSelection} from '../main/widget';
-import {Box, Hlayout,Vlayout} from '../main/layout';;
+import {AniEffect, IndexSelection} from '../main/widget';
+import {Box, Hlayout, Vlayout} from '../main/layout';;
 import {List} from'../main/list';
-import {Checkbox,Radiobox} from'../main/input';
-import {Calendar} from'../main/calendar';
+import {Checkbox, Radiobox} from'../main/input';
+import {Calendar, Datebox} from'../main/calendar';
+import {MenuItem} from'../main/menu';
 
 export class App extends React.Component<any, any>{
     constructor(props: any) {
@@ -37,13 +38,23 @@ export class App extends React.Component<any, any>{
                 </Hlayout>
                 <Hlayout style={{ background: 'gray', padding: '2px' }} vflex={1} space={10}>
                     <span>123  {this.state.clickCount} </span>
-                    <Vlayout style={{ background: 'lightpink', padding: '2px', overflowY: 'auto' }} hflex={1} vflex={1}>
+                    <Vlayout style={{ background: 'lightpink', padding: '2px' }} hflex={1} vflex={1}>
                         <span>xyz1 {this.state.clickCount} </span>
+                        <Datebox/>
                         <Calendar hflex={1} vflex={1}/>
                     </Vlayout>
                     <Vlayout invisible={this.state.invisible} style={{ background: 'lightseagreen', padding: '2px' }} hflex={2} animation={{ effect: AniEffect.slide }}>
                         <span>xyz2 {this.state.clickCount} </span>
-                        <span>ijk2 {this.state.clickCount} </span>
+                        <MenuItem label='Copy'  value='copy' />
+                        <MenuItem label='Paste' />
+                        <MenuItem label='Preferences'  popupSide='right'>
+                            <Vlayout>
+                                <MenuItem label='Font' />
+                                <MenuItem label='Color' />
+                                <MenuItem label='Format' />
+                            </Vlayout>
+                        </MenuItem>
+                        <MenuItem label='Disabled' disabled={true}  />
                     </Vlayout>
                     <Vlayout style={{ background: 'lightskyblue', padding: '2px' }} hflex={1}>
                         <span>xyz3 {this.state.clickCount} </span>
@@ -51,7 +62,7 @@ export class App extends React.Component<any, any>{
                     </Vlayout>
                     <span>456  {this.state.clickCount} </span>
                 </Hlayout>
-                <List style={{ background: 'lightblue', padding: '2px' }} 
+                <List style={{ background: 'lightblue', padding: '2px' }}
                     vflex={1} hflex={1} selection={this.state.selection}
                     doSelect={doSelect}>
                     <span>MULTIPLE Selection List</span>
@@ -60,7 +71,7 @@ export class App extends React.Component<any, any>{
                     <span>LMN</span>
                     <span>XYZ</span>
                 </List>
-               <Hlayout tooltip="A tool tip">
+                <Hlayout tooltip="A tool tip">
                     <Checkbox label='A Checkbox'/>
                     <Radiobox label='A Radio' tooltip='Another tool tip'/>
                 </Hlayout>

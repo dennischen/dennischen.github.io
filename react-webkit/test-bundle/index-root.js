@@ -6,6 +6,7 @@ var i = wk.Input;
 var l = wk.Layout;
 var ls = wk.List;
 var cal = wk.Calendar;
+var m = wk.Menu;
 
 var RootApp = React.createClass({
     getInitialState: function getInitialState() {
@@ -86,7 +87,7 @@ var RootApp = React.createClass({
                 ),
                 React.createElement(
                     l.Vlayout,
-                    { style: { background: 'lightpink', padding: '2px', overflowY: 'auto' }, hflex: 1, vflex: 1 },
+                    { style: { background: 'lightpink', padding: '2px' }, hflex: 1, vflex: 1 },
                     React.createElement(
                         'span',
                         null,
@@ -94,6 +95,7 @@ var RootApp = React.createClass({
                         this.state.clickCount,
                         ' '
                     ),
+                    React.createElement(cal.Datebox, null),
                     React.createElement(cal.Calendar, { hflex: 1, vflex: 1 })
                 ),
                 React.createElement(
@@ -106,13 +108,20 @@ var RootApp = React.createClass({
                         this.state.clickCount,
                         ' '
                     ),
+                    React.createElement(m.MenuItem, { label: 'Copy', value: 'copy' }),
+                    React.createElement(m.MenuItem, { label: 'Paste' }),
                     React.createElement(
-                        'span',
-                        null,
-                        'ijk2 ',
-                        this.state.clickCount,
-                        ' '
-                    )
+                        m.MenuItem,
+                        { label: 'Preferences', popupSide: 'right' },
+                        React.createElement(
+                            l.Vlayout,
+                            null,
+                            React.createElement(m.MenuItem, { label: 'Font' }),
+                            React.createElement(m.MenuItem, { label: 'Color' }),
+                            React.createElement(m.MenuItem, { label: 'Format' })
+                        )
+                    ),
+                    React.createElement(m.MenuItem, { label: 'Disabled', disabled: true })
                 ),
                 React.createElement(
                     l.Vlayout,

@@ -16,9 +16,9 @@ export interface ListProps extends Widget.WidgetProps {
     selection?: Widget.Selection<any>;
     itemRenderer?: Widget.ItemRenderer<any>;
     doSelect?: (select: boolean, idx: number, item: any) => void;
-    onItemClick?: (evt: Event, idx: number, item: any) => void;
-    onItemDoubleClick?: (evt: Event, idx: number, item: any) => void;
-    onItemContextMenu?: (evt: Event, idx: number, item: any) => void;
+    onItemClick?: (evt: React.MouseEvent, idx: number, item: any) => void;
+    onItemDoubleClick?: (evt: React.MouseEvent, idx: number, item: any) => void;
+    onItemContextMenu?: (evt: React.MouseEvent, idx: number, item: any) => void;
 }
 export declare class List extends Widget.Widget<ListProps, any> {
     static defaultProps: ListProps;

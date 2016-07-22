@@ -201,6 +201,9 @@ var __extends = (this && this.__extends) || function (d, b) {
             if (this.state.invisible) {
                 this.setState({ zIndex: undefined });
             }
+            else {
+                Widget.sendWidgetResize();
+            }
         };
         Popup.prototype.getWidgetSclass = function () {
             return 'wkw-popup';
@@ -341,6 +344,23 @@ var __extends = (this && this.__extends) || function (d, b) {
         }
         return pos;
     }
+    function hideAutoDismiss(holder) {
+        if (holder === void 0) { holder = undefined; }
+        var jq;
+        if (holder) {
+            if (!(holder instanceof Jq)) {
+                jq = Jq(holder);
+            }
+            else {
+                jq = holder;
+            }
+        }
+        else {
+            jq = Jq(document.body);
+        }
+        jq.click();
+    }
+    exports.hideAutoDismiss = hideAutoDismiss;
 });
 
 //# sourceMappingURL=srcmap/popup.js.map

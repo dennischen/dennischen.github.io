@@ -18,6 +18,8 @@ declare module "@atticcat/react-webkit" {
     import Popup = require('popup');
     import Modal = require('modal');
 
+    import Menu = require('menu');
+
     import List = require('list');
     import Input = require('input');
     
@@ -27,6 +29,7 @@ declare module "@atticcat/react-webkit" {
         Layout,
         Popup,
         Modal,
+        Menu,
         List,
         Input,
         Calendar

@@ -28,7 +28,7 @@ export interface ShowOption {
     adjustX?: number;
     adjustY?: number;
     adjust?: AdjustMethod | string;
-    adjustViewport?: JQuery | Element | string;
+    adjustViewport?: string | Element | JQuery;
 }
 export interface PopupProps extends Widget.WidgetProps {
     showOption?: ShowOption;
@@ -54,3 +54,4 @@ export declare class Popup extends Widget.Widget<PopupProps, PopupState> {
     getWidgetSclass(): string;
     protected getRenderStyle(): React.CSSProperties;
 }
+export declare function hideAutoDismiss(holder?: string | Element | JQuery): void;
