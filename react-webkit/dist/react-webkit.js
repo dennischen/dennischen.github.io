@@ -5442,15 +5442,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	                _this.removeSclass('wk-active');
 	            }
 	        };
-	        children.push(Widget.createReactElement('a', aProps, Widget.createReactElement('div', {}, aChildren)));
+	        children.push(Widget.createReactElement('a', aProps, aChildren));
 	        if (props.children) {
 	            children.push(React.createElement(popup_1.Popup, { ref: 'popup' }, props.children));
 	        }
 	        return children;
 	    };
-	    MenuItem.defaultProps = Util.supplyProps({
-	        hflex: 1
-	    }, Widget.Widget.defaultProps);
+	    MenuItem.defaultProps = Util.supplyProps({}, Widget.Widget.defaultProps);
 	    return MenuItem;
 	}(Widget.Widget);
 	exports.MenuItem = MenuItem;

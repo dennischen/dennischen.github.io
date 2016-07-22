@@ -18,29 +18,27 @@
 .wkw-menuitem{
 	position: relative;
 	padding: 8px;
-	display: inline-block;
 	> a {
 		cursor: pointer;	
 		text-decoration: none;
 		color: inherit;
 		font-size: inherit;
 		outline: 0;
-		> div{
-			display: flex;
-			flex-direction: row;
-			> *{
-				align-items: center;
-			}
-			.wkw-fonticon:not(:last-child){
-				margin-right: 4px;
-			} 
-			> span{
-				flex:1;
-				white-space:nowrap;
-			}
-			>.wk-popup-top,>.wk-popup-right,>.wk-popup-bottom{
-				margin-right: -4px;
-			}
+		display: flex;
+		flex-direction: row;
+		flex-wrap: nowrap;
+		align-items: center;
+		> span{
+			//in my IE 11 have to set to 1 0 auto, set 1 will get width 0
+			flex: 1 0 auto;
+			white-space: nowrap;
+			overflow: hidden;
+		}
+		>.wkw-fonticon:not(:last-child){
+			margin-right: 4px;
+		} 
+		>.wk-popup-top,>.wk-popup-right,>.wk-popup-bottom{
+			margin-right: -4px;
 		}
 	}
 	&:hover:not(.wk-disabled){

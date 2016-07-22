@@ -17,7 +17,7 @@ export class App extends React.Component<any, any>{
     }
     render() {
         return (
-            <Vlayout hflex={1} vflex={1}>
+            <Vlayout hflex={1} vflex={1}>            
                 <Hlayout hflex={1} style={{ background: '#eee' }}>
                     <Hlayout  align='middle'>
                         <MenuItem label='Home' href="http://dennischen.github.io/react-webkit/test/" target='_blank'/>
